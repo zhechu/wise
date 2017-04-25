@@ -1,9 +1,14 @@
 package com.wise.core.bean.manage;
 
-import java.io.Serializable;
+import com.wise.core.bean.BaseBean;
 
-public class SysResource implements Serializable {
+public class SysResource extends BaseBean<SysResource> {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8390851664374317272L;
+
+	/**
      * 主键（自增）
      */
     private Integer id;
@@ -52,8 +57,6 @@ public class SysResource implements Serializable {
      * 资源排列顺序
      */
     private Integer sort;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -151,7 +154,6 @@ public class SysResource implements Serializable {
         sb.append(", permission=").append(permission);
         sb.append(", parentId=").append(parentId);
         sb.append(", sort=").append(sort);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }

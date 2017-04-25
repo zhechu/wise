@@ -1,9 +1,14 @@
 package com.wise.core.bean.manage;
 
-import java.io.Serializable;
+import com.wise.core.bean.BaseBean;
 
-public class SysDict implements Serializable {
+public class SysDict extends BaseBean<SysDict> {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4803935162539000847L;
+
+	/**
      * 主键（自增）
      */
     private Integer id;
@@ -42,8 +47,6 @@ public class SysDict implements Serializable {
      * 父级字典项
      */
     private Integer parentId;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;

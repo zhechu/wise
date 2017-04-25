@@ -5,26 +5,26 @@ package com.wise.common.exception;
  * @author lingyuwang
  *
  */
-public class UException extends RuntimeException {
+public class WiseException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5732396005727646575L;
 
-	public UException() {
+	public WiseException() {
 		super();
 	}
 	
-	public UException(String message, Throwable cause) {
+	public WiseException(String message, Throwable cause) {
 		super(message, cause);
 	}
 	
-	public UException(String message) {
+	public WiseException(String message) {
 		super(message);
 	}
 	
-	public UException(Throwable cause) {
+	public WiseException(Throwable cause) {
 		super(cause);
 	}
 }

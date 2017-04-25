@@ -1,17 +1,10 @@
 package com.wise.core.dao.manage;
 
 import com.wise.core.bean.manage.SysResource;
+import com.wise.core.dao.BaseDao;
 
-public interface SysResourceDao {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(SysResource record);
-
-    int insertSelective(SysResource record);
-
-    SysResource selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(SysResource record);
-
-    int updateByPrimaryKey(SysResource record);
+public interface SysResourceDao extends BaseDao<SysResource> {
+    
+	
+	
 }

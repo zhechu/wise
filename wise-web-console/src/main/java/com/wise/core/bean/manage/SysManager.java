@@ -1,10 +1,16 @@
 package com.wise.core.bean.manage;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class SysManager implements Serializable {
+import com.wise.core.bean.BaseBean;
+
+public class SysManager extends BaseBean<SysManager> {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4003817900697556840L;
+
+	/**
      * 主键（自增）
      */
     private Integer id;
@@ -78,8 +84,6 @@ public class SysManager implements Serializable {
      * 修改时间
      */
     private Date modifiedAt;
-
-    private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
@@ -222,7 +226,6 @@ public class SysManager implements Serializable {
         sb.append(", createdAt=").append(createdAt);
         sb.append(", modifier=").append(modifier);
         sb.append(", modifiedAt=").append(modifiedAt);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }
