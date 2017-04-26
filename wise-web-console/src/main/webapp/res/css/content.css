@@ -1,0 +1,29 @@
+.ibox {
+	margin-bottom: 0;
+}
+
+.ibox-table {
+	clear: both;
+	background-color: #fff;
+	border-color: #e7eaec;
+	border-image: none;
+	border-style: solid solid none;
+	border-width: 1px 0;
+	color: inherit;
+	padding: 10px 20px 0;
+}
+
+.wrapper-content {
+	padding: 10px;
+}
+
+.btn-default {
+	padding: 5px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
+
+.ibox-content {
+	padding: 15px 20px;
+}

@@ -17,13 +17,13 @@ public class BootstrapTableResponse {
 	/**
 	 * 数据总条数
 	 */
-	private Integer total;
+	private long total;
 	
 	public BootstrapTableResponse() {
 		super();
 	}
 
-	public BootstrapTableResponse(List<?> rows, Integer total) {
+	public BootstrapTableResponse(List<?> rows, long total) {
 		super();
 		this.rows = rows;
 		this.total = total;
@@ -37,12 +37,12 @@ public class BootstrapTableResponse {
 		this.rows = rows;
 	}
 
-	public Integer getTotal() {
+	public long getTotal() {
 		return total;
 	}
 
-	public void setTotal(Integer total) {
+	public void setTotal(long total) {
 		this.total = total;
 	}
-	
+
 }

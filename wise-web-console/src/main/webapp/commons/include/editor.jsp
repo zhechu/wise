@@ -1,0 +1,1 @@
+<script src="${ctx}/res/js/plugins/ckeditor/ckeditor.js"></script>

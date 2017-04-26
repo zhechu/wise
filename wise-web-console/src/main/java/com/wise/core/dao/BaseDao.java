@@ -1,7 +1,5 @@
 package com.wise.core.dao;
 
-import com.wise.core.bean.manage.SysDict;
-
 /**
  * dao 基类
  * @author lingyuwang
@@ -15,7 +13,7 @@ public interface BaseDao<T> {
 
     int insertSelective(T t);
 
-    SysDict selectByPrimaryKey(Integer id);
+    T selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(T t);
 
