@@ -148,11 +148,41 @@
 		where type = #{type,jdbcType=VARCHAR} and label = #{label,jdbcType=VARCHAR}
 	</select>
 
+	<!-- 多条件查询，模糊查询 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
 		id,type,value,label,status,description,sort,parentId
 		from
 		t_sys_dict
+		<where>
+			<if test="type != null">
+				and type like CONCAT(CONCAT('%', #{type}), '%')
+			</if>
+			<if test="status != null">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<!-- 多条件查询，模糊查询（数据权限，行级与列级） -->
+	<select id="selectByAuth" resultMap="BaseResultMap">
+		select
+		<!-- 列级权限 -->
+		<include refid="Base_Column_List"/>
+		from
+		t_sys_dict
+		<where>
+			<!-- 行级权限 -->
+			<if test="filtrate != null">
+				and ${filtrate}
+			</if>
+			<if test="type != null">
+				and type like CONCAT(CONCAT('%', #{type}), '%')
+			</if>
+			<if test="status != null">
+				and status = #{status,jdbcType=VARCHAR}
+			</if>
+		</where>
 	</select>
 
 </mapper>

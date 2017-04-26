@@ -17,6 +17,22 @@ public interface SysDictDao extends BaseDao<SysDict> {
 	 */
 	List<SysDict> selectByTypeAndLabel(@Param("type") String type, @Param("label") String label);
 	
-	List<SysDict> select();
+	/**
+	 * 获取字典列表（模糊查询）
+	 * @param type 类型
+	 * @param status 状态
+	 * @return
+	 */
+	List<SysDict> select(@Param("type") String type, @Param("status") Integer status);
+	
+	/**
+	 * 获取字典列表（模糊查询，数据权限，行级与列级）
+	 * @param fields 允许查询的字段，通过逗号拼接，如：id, type, value, label
+	 * @param filtrate 过滤条件，where 过滤，如：type = 'status'
+	 * @param type 类型
+	 * @param status 状态
+	 * @return
+	 */
+	/*List<SysDict> selectByAuth(@Param("fields") String fields, @Param("filtrate") String filtrate, @Param("type") String type, @Param("status") Integer status);*/
 	
 }

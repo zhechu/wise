@@ -30,4 +30,10 @@ public class Global {
 	 */
 	public static final String DEFAULT_PWD = "123456";
 	
+	/**
+	 * 分页默认参数
+	 */
+	public static final int DEFAULT_PAGE_NUM = 1;
+	public static final int DEFAULT_PAGE_SIZE = 20;
+	
 }

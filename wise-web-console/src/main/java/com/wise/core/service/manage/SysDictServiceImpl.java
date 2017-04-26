@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysDict;
@@ -71,8 +74,24 @@ public class SysDictServiceImpl implements SysDictService{
 	}
 
 	@Override
-	public SysDict selectById(Integer id) {
+	public SysDict findById(Integer id) {
 		return sysDictDao.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public PageInfo<SysDict> findPage(PageParam pageParam, String type, Integer status) {
+		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize()).setOrderBy(pageParam.getOrderBy("type", "asc"));
+        List<SysDict> list = sysDictDao.select(type, status);
+		return new PageInfo<SysDict>(list);
+	}
+
+	/*@Override
+	public PageInfo<SysDict> findPageByAuth(PageParam pageParam, String type, Integer status) {
+		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize()).setOrderBy(pageParam.getOrderBy("type", "asc"));
+		String fields = "id, type, value, label";
+		String filtrate = "type = 'status'";
+        List<SysDict> list = sysDictDao.selectByAuth(fields, filtrate, type, status);
+		return new PageInfo<SysDict>(list);
+	}*/
 	
 }

@@ -1,26 +1,20 @@
 package com.wise.core.service.manage;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wise.BaseTest;
 import com.wise.common.config.Global;
+import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysDict;
-import com.wise.core.dao.manage.SysDictDao;
 
 public class TestSysDictService extends BaseTest {
 
 	@Autowired
 	private SysDictService sysDictService;
-	
-	@Autowired
-	private SysDictDao sysDictDao;
 	
 	@Test
 	public void create() {
@@ -78,20 +72,31 @@ public class TestSysDictService extends BaseTest {
 	}
 	
 	@Test
-	public void selectById() {
-		SysDict sysDict = sysDictService.selectById(1);
+	public void findById() {
+		SysDict sysDict = sysDictService.findById(1);
 		System.out.println(sysDict);
 	}
 	
 	@Test
-	public void test() {
-		PageHelper.startPage(2, 10);
-        List<SysDict> list = sysDictDao.select();
-        for (SysDict sysDict : list) {
+	public void findPage() {
+		PageParam pageParam = new PageParam();
+		PageInfo<SysDict> pageInfo = sysDictService.findPage(pageParam, null, null);
+		for (SysDict sysDict : pageInfo.getList()) {
 			System.out.println(sysDict);
 		}
-        System.out.println("size: "+list.size());
-        System.out.println("count: "+((Page) list).getTotal());
+		System.out.println("size: "+pageInfo.getList().size());
+		System.out.println("total: "+pageInfo.getTotal());
 	}
+	
+	/*@Test
+	public void findPageByAuth() {
+		PageParam pageParam = new PageParam();
+		PageInfo<SysDict> pageInfo = sysDictService.findPageByAuth(pageParam, null, null);
+		for (SysDict sysDict : pageInfo.getList()) {
+			System.out.println(sysDict);
+		}
+		System.out.println("size: "+pageInfo.getList().size());
+		System.out.println("total: "+pageInfo.getTotal());
+	}*/
 	
 }

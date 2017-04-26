@@ -45,6 +45,6 @@ public interface BaseService<T> {
 	 * @param id 主键
 	 * @return
 	 */
-	T selectById(Integer id);
+	T findById(Integer id);
 	
 }
