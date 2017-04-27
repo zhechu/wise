@@ -12,7 +12,7 @@
 	    font-size: 85px;
 	}
 	.logo-name {
-	    letter-spacing: -5px;
+	    letter-spacing: 5px;
 	}
 	.middle-box {
 	    padding-top: 90px;
@@ -27,8 +27,8 @@
             <div>
                 <h1 class="logo-name"><spring:message code="logo.name" /></h1>
             </div>
-            <h3>职业能力培养实训云</h3>
-            <form id="loginForm" class="m-t" action="${ctx }/login.do" method="post">
+            <h2><spring:message code="logo.sub.name" /></h2>
+            <form id="loginForm" class="m-t" action="${ctx }/login" method="post">
                 <div class="form-group">
                     <input id="userName" name="userName" type="text" class="form-control" placeholder="用户名">
                 </div>

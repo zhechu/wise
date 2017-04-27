@@ -19,6 +19,6 @@
 		
 		<!-- 只配置一个导入 -->
 		<import resource="classpath:config/*.xml"/>
-		
+		<import resource="spring-shiro.xml"/>
 		
 </beans>

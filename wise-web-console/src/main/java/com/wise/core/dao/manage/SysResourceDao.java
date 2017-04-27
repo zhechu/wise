@@ -14,8 +14,9 @@ public interface SysResourceDao extends BaseDao<SysResource> {
 	 * @param status 状态
 	 * @param type 类型
 	 * @param parentId 父资源主键
+	 * @param sysRoleIds 角色主键列表
 	 * @return
 	 */
-	List<SysResource> select(@Param("status") Integer status, @Param("type") Integer type, @Param("parentId") Integer parentId);
+	List<SysResource> select(@Param("status") Integer status, @Param("type") Integer type, @Param("parentId") Integer parentId, @Param("sysRoleIds") Integer[] sysRoleIds);
 	
 }

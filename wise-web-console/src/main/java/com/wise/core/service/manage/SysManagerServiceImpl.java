@@ -111,4 +111,24 @@ public class SysManagerServiceImpl implements SysManagerService{
 		return new PageInfo<SysManager>(list);
 	}
 
+	@Override
+	public SysManager findByUserName(String userName) {
+		return sysManagerDao.selectByUserName(userName);
+	}
+
+	@Override
+	public SysManager login(String userName, String pwd) throws DataNotExistedException, ValueConflictException {
+		SysManager sysManager = sysManagerDao.selectByUserName(userName);
+		if (sysManager == null) 
+			throw new DataNotExistedException("用户不存在");
+		// 密码加盐
+		String salt = sysManager.getSalt();
+		pwd = SecureUtil.encryptByMd5(pwd, salt);
+		// 判断密码是否有误
+		String sourcePwd = sysManager.getPwd();
+		if (!pwd.equals(sourcePwd)) 
+			throw new ValueConflictException("密码有误");
+		return sysManager;
+	}
+
 }

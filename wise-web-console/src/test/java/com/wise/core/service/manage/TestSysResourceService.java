@@ -88,7 +88,9 @@ public class TestSysResourceService extends BaseTest {
 	
 	@Test
 	public void findValidMenuTree() {
-		List<SysResource> sysResourceList = sysResourceService.findValidMenuTree();
+		//List<SysResource> sysResourceList = sysResourceService.findValidMenuTree();
+		Integer[] sysRoleIds = new Integer[]{1};
+		List<SysResource> sysResourceList = sysResourceService.findValidMenuTree(sysRoleIds);
 		for (SysResource sysResource : sysResourceList) {
 			System.out.println(sysResource);
 		}

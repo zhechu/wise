@@ -24,12 +24,12 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="J_menuItem" href="${ctx}/sysManager/pwd.do">修改密码</a>
+                                <li><a class="J_menuItem" href="${ctx}/sysManager/pwd">修改密码</a>
                                 </li>
-                                <li><a class="J_menuItem" href="${ctx}/sysManager/info.do">个人资料</a>
+                                <li><a class="J_menuItem" href="${ctx}/sysManager/info">个人资料</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="${ctx}/logout.do">安全退出</a>
+                                <li><a href="${ctx}/logout">安全退出</a>
                                 </li>
                             </ul>
                         </div>
@@ -37,7 +37,7 @@
                         </div>
                     </li>
                     <!-- 菜单 -->
-                    <%@include file="/commons/include/mainMenu.jsp"%>
+                    <%@include file="mainMenu.jsp"%>
                 </ul>
             </div>
         </nav>
@@ -114,10 +114,10 @@
                         </li>
                     </ul>
                 </div>
-                <a href="${ctx}/logout.do" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                <a href="${ctx}/logout" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${ctx}/console/index.do" data-id="index" frameborder="0" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${ctx}/console/index" data-id="index" frameborder="0" seamless></iframe>
             </div>
             <div class="footer">
                 <div class="pull-right">Powered by <a href='<spring:message code="company.url" />' target="_blank"><spring:message code="company.name" /></a> &copy;2017

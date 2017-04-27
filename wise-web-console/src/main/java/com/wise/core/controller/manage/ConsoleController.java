@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.wise.core.bean.manage.SysResource;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysResourceService;
+import com.wise.core.web.utils.UserUtils;
 
 /**
  * 后台管理
@@ -29,9 +30,11 @@ public class ConsoleController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/main.do", method = {RequestMethod.GET})
+	@RequestMapping(value = "/main", method = {RequestMethod.GET})
 	public String main(Model model){
-		List<SysResource> sysResourceList = sysResourceService.findValidMenuTree();
+		// 获取用户菜单树
+		Integer[] sysRoleIds = UserUtils.getLoginUserRoleIds();
+		List<SysResource> sysResourceList = sysResourceService.findValidMenuTree(sysRoleIds);
 		model.addAttribute("sysResourceList", sysResourceList);
 		return "/main";
 	}
@@ -40,7 +43,7 @@ public class ConsoleController extends BaseController {
 	 * 进入主页
 	 * @return
 	 */
-	@RequestMapping(value = "/index.do", method = {RequestMethod.GET})
+	@RequestMapping(value = "/index", method = {RequestMethod.GET})
 	public String index(){
 		return "/index";
 	}

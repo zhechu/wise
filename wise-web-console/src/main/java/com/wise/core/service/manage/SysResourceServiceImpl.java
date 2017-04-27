@@ -1,6 +1,9 @@
 package com.wise.core.service.manage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,16 +71,23 @@ public class SysResourceServiceImpl implements SysResourceService{
 
 	@Override
 	public List<SysResource> findByParentId(Integer parentId) {
-		return sysResourceDao.select(null, null, parentId);
+		return sysResourceDao.select(null, null, parentId, null);
 	}
 
 	@Override
 	public List<SysResource> findValidMenuTree() {
-		List<SysResource> sysResourceList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, Global.DEFAULT_PARENT_ID);
+		List<SysResource> sysResourceList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, Global.DEFAULT_PARENT_ID, null);
 		setValidMenuChildrenList(sysResourceList); // 递归查询及设置子菜单
 		return sysResourceList;
 	}
 
+	@Override
+	public List<SysResource> findValidMenuTree(Integer[] sysRoleIds) {
+		List<SysResource> sysResourceList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, Global.DEFAULT_PARENT_ID, sysRoleIds);
+		setValidMenuChildrenList(sysResourceList, sysRoleIds); // 递归查询及设置子菜单
+		return sysResourceList;
+	}
+	
 	/**
 	 * 设置菜单子节点（可用）
 	 * @param sysResourceList 需要设置节点的资源
@@ -85,7 +95,7 @@ public class SysResourceServiceImpl implements SysResourceService{
 	private void setValidMenuChildrenList(List<SysResource> sysResourceList) {
 		//获取子节点
 		for (SysResource sysResource : sysResourceList) {
-			List<SysResource> sysResourceChildrenList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, sysResource.getId());
+			List<SysResource> sysResourceChildrenList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, sysResource.getId(), null);
 			if (!sysResourceChildrenList.isEmpty()) {
 				sysResource.setChildrenList(sysResourceChildrenList);
 				setValidMenuChildrenList(sysResourceChildrenList);
@@ -93,4 +103,28 @@ public class SysResourceServiceImpl implements SysResourceService{
 		}
 	}
 	
+	/**
+	 * 设置菜单子节点（可用）
+	 * @param sysResourceList 需要设置节点的资源
+	 * @param sysRoleIds 角色主键列表
+	 */
+	private void setValidMenuChildrenList(List<SysResource> sysResourceList, Integer[] sysRoleIds) {
+		//获取子节点
+		for (SysResource sysResource : sysResourceList) {
+			List<SysResource> sysResourceChildrenList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, sysResource.getId(), sysRoleIds);
+			if (!sysResourceChildrenList.isEmpty()) {
+				sysResource.setChildrenList(sysResourceChildrenList);
+				setValidMenuChildrenList(sysResourceChildrenList);
+			}
+		}
+	}
+
+	@Override
+	public List<SysResource> findValidBySysRoleIds(Integer[] sysRoleIds) {
+		List<SysResource> sysResourceList = sysResourceDao.select(Global.NORMAL, null, null, sysRoleIds);
+		// 资源去重
+		Set<SysResource> sysResourceSet = new HashSet<SysResource>(sysResourceList);
+		return new ArrayList<SysResource>(sysResourceSet);
+	}
+
 }

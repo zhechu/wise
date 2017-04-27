@@ -24,7 +24,7 @@ $(document).ready(function() {
 				pwd: pwd
 			};
 			$.ajax({
-				url : '${ctx}/login.do',
+				url : '${ctx}/login',
 				dataType : 'json',
 				type : 'post',
 				data : data,
@@ -33,7 +33,7 @@ $(document).ready(function() {
 				},
 				success : function(data) {
 					if (data!=null && data.success) { // 登录成功，则跳转到主页
-						window.location.href = "${ctx}/console/main.do";
+						window.location.href = "${ctx}/console/main";
 					} else { // 登录失败，提示失败信息
 						$("#msg-box").addMsgBox('warning', data.msg);
 					}
