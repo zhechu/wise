@@ -16,7 +16,7 @@ public class Global {
 	/**
 	 * 树的默认父节点
 	 */
-	public static final Integer PARENT_ID = 0;
+	public static final Integer DEFAULT_PARENT_ID = 0;
 	
 	/**
 	 * 资源类型，菜单/页面/操作

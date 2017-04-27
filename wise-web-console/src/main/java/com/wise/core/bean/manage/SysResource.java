@@ -1,5 +1,8 @@
 package com.wise.core.bean.manage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.wise.core.bean.BaseBean;
 
 public class SysResource extends BaseBean<SysResource> {
@@ -57,6 +60,11 @@ public class SysResource extends BaseBean<SysResource> {
      * 资源排列顺序
      */
     private Integer sort;
+
+    /**
+     * 资源子节点（附加属性）
+     */
+    private List<SysResource> childrenList = new ArrayList<SysResource>(0);
 
     public Integer getId() {
         return id;
@@ -138,7 +146,15 @@ public class SysResource extends BaseBean<SysResource> {
         this.sort = sort;
     }
 
-    @Override
+    public List<SysResource> getChildrenList() {
+		return childrenList;
+	}
+
+	public void setChildrenList(List<SysResource> childrenList) {
+		this.childrenList = childrenList;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());

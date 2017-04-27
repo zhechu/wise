@@ -1,5 +1,6 @@
 package com.wise.core.service;
 
+import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 
@@ -37,8 +38,9 @@ public interface BaseService<T> {
 	 * @param t 实体对象
 	 * @throws DataNotExistedException
 	 * @throws ValueConflictException
+	 * @throws DataNotAllowUpdateException 
 	 */
-	void update(T t) throws DataNotExistedException, ValueConflictException;
+	void update(T t) throws DataNotExistedException, ValueConflictException, DataNotAllowUpdateException;
 
 	/**
 	 * 获取实体对象

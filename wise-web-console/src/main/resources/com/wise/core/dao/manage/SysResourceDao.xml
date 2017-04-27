@@ -160,4 +160,25 @@
 		sort = #{sort,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 多条件查询-->
+	<select id="select" resultMap="BaseResultMap">
+		select
+		id, name, url, icon, description, status, type, permission, parentId,sort
+		from
+		t_sys_resource
+		<where>
+			<if test="status != null">
+				and status = #{status,jdbcType=TINYINT}
+			</if>
+			<if test="type != null">
+				and type = #{type,jdbcType=TINYINT}
+			</if>
+			<if test="parentId != null">
+				and parentId = #{parentId,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by sort asc
+	</select>
+	
 </mapper>

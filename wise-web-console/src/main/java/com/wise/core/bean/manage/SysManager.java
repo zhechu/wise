@@ -1,6 +1,8 @@
 package com.wise.core.bean.manage;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.wise.core.bean.BaseBean;
 
@@ -85,6 +87,8 @@ public class SysManager extends BaseBean<SysManager> {
      */
     private Date modifiedAt;
 
+    private List<SysRole> sysRoleList = new ArrayList<SysRole>(0);
+    
     public Integer getId() {
         return id;
     }
@@ -205,7 +209,15 @@ public class SysManager extends BaseBean<SysManager> {
         this.modifiedAt = modifiedAt;
     }
 
-    @Override
+    public List<SysRole> getSysRoleList() {
+		return sysRoleList;
+	}
+
+	public void setSysRoleList(List<SysRole> sysRoleList) {
+		this.sysRoleList = sysRoleList;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());

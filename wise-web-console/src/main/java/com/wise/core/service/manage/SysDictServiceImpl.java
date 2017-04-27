@@ -31,7 +31,7 @@ public class SysDictServiceImpl implements SysDictService{
 	public void create(SysDict sysDict) throws ValueConflictException {
 		List<SysDict> sysDictList = sysDictDao.selectByTypeAndLabel(sysDict.getType(), sysDict.getLabel());
 		if (!sysDictList.isEmpty())
-			throw new ValueConflictException("字典已经存在，类型、标签唯一");
+			throw new ValueConflictException("字典已经存在，类型、标签不能重复");
 		sysDictDao.insertSelective(sysDict);
 	}
 
@@ -68,7 +68,7 @@ public class SysDictServiceImpl implements SysDictService{
 		if (!sysDictSource.getType().equals(sysDict.getType()) || !sysDictSource.getLabel().equals(sysDict.getLabel())) {
 			List<SysDict> sysDictList = sysDictDao.selectByTypeAndLabel(sysDict.getType(), sysDict.getLabel());
 			if (!sysDictList.isEmpty())
-				throw new ValueConflictException("字典已经存在，类型、标签唯一");
+				throw new ValueConflictException("字典已经存在，类型、标签不能重复");
 		}
 		sysDictDao.updateByPrimaryKeySelective(sysDict);
 	}

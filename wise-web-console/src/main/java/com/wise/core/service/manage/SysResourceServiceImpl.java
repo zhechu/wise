@@ -1,12 +1,14 @@
 package com.wise.core.service.manage;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.wise.common.config.Global;
 import com.wise.common.exception.service.DataNotExistedException;
-import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysResource;
 import com.wise.core.dao.manage.SysResourceDao;
 
@@ -23,7 +25,7 @@ public class SysResourceServiceImpl implements SysResourceService{
 
 	@Transactional
 	@Override
-	public void create(SysResource sysResource) throws ValueConflictException {
+	public void create(SysResource sysResource) {
 		sysResourceDao.insertSelective(sysResource);
 	}
 
@@ -64,4 +66,31 @@ public class SysResourceServiceImpl implements SysResourceService{
 		return sysResourceDao.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public List<SysResource> findByParentId(Integer parentId) {
+		return sysResourceDao.select(null, null, parentId);
+	}
+
+	@Override
+	public List<SysResource> findValidMenuTree() {
+		List<SysResource> sysResourceList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, Global.DEFAULT_PARENT_ID);
+		setValidMenuChildrenList(sysResourceList); // 递归查询及设置子菜单
+		return sysResourceList;
+	}
+
+	/**
+	 * 设置菜单子节点（可用）
+	 * @param sysResourceList 需要设置节点的资源
+	 */
+	private void setValidMenuChildrenList(List<SysResource> sysResourceList) {
+		//获取子节点
+		for (SysResource sysResource : sysResourceList) {
+			List<SysResource> sysResourceChildrenList = sysResourceDao.select(Global.NORMAL, Global.SYS_RESOURCE_TYPE_MENU, sysResource.getId());
+			if (!sysResourceChildrenList.isEmpty()) {
+				sysResource.setChildrenList(sysResourceChildrenList);
+				setValidMenuChildrenList(sysResourceChildrenList);
+			}
+		}
+	}
+	
 }

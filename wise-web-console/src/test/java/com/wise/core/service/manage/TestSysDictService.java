@@ -7,8 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.wise.BaseTest;
 import com.wise.common.config.Global;
 import com.wise.common.dto.PageParam;
-import com.wise.common.exception.service.DataNotExistedException;
-import com.wise.common.exception.service.ValueConflictException;
+import com.wise.common.exception.service.ServiceException;
 import com.wise.core.bean.manage.SysDict;
 
 public class TestSysDictService extends BaseTest {
@@ -25,10 +24,10 @@ public class TestSysDictService extends BaseTest {
 		sysDict.setStatus(Global.NORMAL);
 		sysDict.setDescription("管理员状态");
 		sysDict.setSort(10);
-		sysDict.setParentId(Global.PARENT_ID);
+		sysDict.setParentId(Global.DEFAULT_PARENT_ID);
 		try {
 			sysDictService.create(sysDict);
-		} catch (ValueConflictException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -37,7 +36,7 @@ public class TestSysDictService extends BaseTest {
 	public void deleteById() {
 		try {
 			sysDictService.deleteById(17);
-		} catch (DataNotExistedException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -46,7 +45,7 @@ public class TestSysDictService extends BaseTest {
 	public void delete() {
 		try {
 			sysDictService.delete(new Integer[]{18, 19});
-		} catch (DataNotExistedException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -61,12 +60,10 @@ public class TestSysDictService extends BaseTest {
 		sysDict.setStatus(Global.NORMAL);
 		sysDict.setDescription("管理员状态");
 		sysDict.setSort(10);
-		sysDict.setParentId(Global.PARENT_ID);
+		sysDict.setParentId(Global.DEFAULT_PARENT_ID);
 		try {
 			sysDictService.update(sysDict);
-		} catch (DataNotExistedException e) {
-			e.printStackTrace();
-		} catch (ValueConflictException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
