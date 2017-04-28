@@ -75,6 +75,10 @@
 		    <groupId>com.github.pagehelper</groupId>
 		    <artifactId>pagehelper</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>tk.mybatis</groupId>
+		    <artifactId>orderby-helper</artifactId>
+		</dependency>
 		<!-- jdbc driver -->
 		<dependency>
 			<groupId>mysql</groupId>

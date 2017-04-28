@@ -1,5 +1,7 @@
 package com.wise.core.controller.manage;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,70 +14,69 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-import com.wise.common.dto.PageParam;
+import com.wise.common.config.Global;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
-import com.wise.core.bean.manage.SysDict;
+import com.wise.core.bean.manage.SysResource;
 import com.wise.core.controller.BaseController;
-import com.wise.core.service.manage.SysDictService;
+import com.wise.core.service.manage.SysResourceService;
 
 /**
- * 字典管理
+ * 资源管理
  * @author lingyuwang
  *
  */
 @Controller
-@RequestMapping(value = "/sysDict")
-public class SysDictController extends BaseController {
+@RequestMapping(value = "/sysResource")
+public class SysResourceController extends BaseController {
 
 	@Autowired
-	private SysDictService sysDictService;
+	private SysResourceService sysResourceService;
 
 	/**
-	 * 进入字典列表页
+	 * 进入资源页
 	 * @return
 	 */
-	@RequiresPermissions({"sys:dict:view"})
-	@RequestMapping(value = "/list", method = {RequestMethod.GET})
+	@RequiresPermissions({"sys:resource:view"})
+	@RequestMapping(value = "/list")
 	public String list(){
-		return "/sysDict/sysDictList";
+		return "/sysResource/sysResourceList";
 	}
-	
+
 	/**
 	 * 进入编辑页
 	 * @return
 	 */
-	@RequiresPermissions({"sys:dict:add", "sys:dict:update"})
+	@RequiresPermissions({"sys:resource:add", "sys:resource:update"})
 	@RequestMapping(value = "/edit", method = {RequestMethod.GET})
 	public String edit(Integer id, Model model){
 		if (id != null) { // 编辑，反之添加
-			SysDict sysDict = sysDictService.findById(id);
-			model.addAttribute("sysDict", sysDict);
+			SysResource sysResource = sysResourceService.findById(id);
+			model.addAttribute("sysResource", sysResource);
 		}
-		return "/sysDict/sysDictEdit";
+		return "/sysResource/sysResourceEdit";
 	}
-	
+
 	/**
-	 * 保存字典（添加和编辑，用 id 是否存在区分）
+	 * 保存资源（添加和编辑，用 id 是否存在区分）
 	 * @return
 	 */
-	@RequiresPermissions({"sys:dict:add", "sys:dict:update"})
+	@RequiresPermissions({"sys:resource:add", "sys:resource:update"})
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@Valid SysDict sysDict, BindingResult br){
+	public @ResponseBody ResponseModel save(@Valid SysResource sysResource, BindingResult br){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
             return rm;
 		}
 		try {
-			if (sysDict.getId() != null) { // 编辑
-				sysDictService.update(sysDict);
-				rm.msgSuccess("编辑字典成功");
+			if (sysResource.getId() != null) { // 编辑
+				sysResourceService.update(sysResource);
+				rm.msgSuccess("编辑资源成功");
 			} else { // 添加
-				sysDictService.create(sysDict);
-				rm.msgSuccess("添加字典成功");
+				sysResourceService.create(sysResource);
+				rm.msgSuccess("添加资源成功");
 			}
 		} catch (ServiceException e) {
 			rm.msgFailed(e.getMessage());
@@ -86,20 +87,21 @@ public class SysDictController extends BaseController {
 		}
 		return rm;
 	}
-	
+
 	/**
-	 * 删除字典
-	 * @param ids 字典主键列表，多个则以逗号分割
+	 * 删除资源
+	 * @param ids 资源主键列表，多个则以逗号分割
 	 * @return
 	 */
-	@RequiresPermissions({"sys:dict:delete"})
+	@RequiresPermissions({"sys:resource:delete"})
 	@RequestMapping(value = "/delete", method = {RequestMethod.POST})
 	public @ResponseBody ResponseModel delete(@RequestParam String ids){
 		ResponseModel rm = new ResponseModel();
+		String[] idss = null;
 		try {
-			String[] idss = ids.split(",");
-			sysDictService.delete(convertToIntegerArray(idss));
-			rm.msgSuccess("删除字典成功");
+			idss = ids.split(",");
+			sysResourceService.delete(convertToIntegerArray(idss));
+			rm.msgSuccess("删除资源成功");
 		} catch (ServiceException e) {
 			rm.msgFailed(e.getMessage());
 			logger.debug(e.getMessage(), e);
@@ -111,17 +113,27 @@ public class SysDictController extends BaseController {
 	}
 	
 	/**
-	 * 返回字典列表数据
-	 * @param pageParam 排序参数
-	 * @param type 字典类型
-	 * @param status 状态
+	 * 返回资源所有列表
 	 * @return
 	 */
-	@RequiresPermissions({"sys:dict:view"})
+	@RequiresPermissions({"sys:resource:view"})
+	@RequestMapping(value = "/data", method = {RequestMethod.POST})
+	public @ResponseBody List<SysResource> data(){
+		return sysResourceService.find();
+	}
+
+	/**
+	 * 返回资源列表数据
+	 * @return
+	 */
+	@RequiresPermissions({"sys:resource:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.POST})
-	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String type, Integer status){
-		PageInfo<SysDict> pageInfo = sysDictService.findPage(pageParam, type, status);
-		return new BootstrapTableResponse(pageInfo.getList(), pageInfo.getTotal());
+	public @ResponseBody BootstrapTableResponse list(Integer parentId){
+		// 若父主键为空，则默认查询顶级资源
+		if (parentId == null) {
+			parentId = Global.DEFAULT_PARENT_ID;
+		}
+		return new BootstrapTableResponse(sysResourceService.findByParentId(parentId), 0);
 	}
 	
 }

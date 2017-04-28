@@ -15,6 +15,8 @@ import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysDict;
 import com.wise.core.dao.manage.SysDictDao;
 
+import tk.mybatis.orderbyhelper.OrderByHelper;
+
 /**
  * 数据字典
  * @author lingyuwang
@@ -77,10 +79,16 @@ public class SysDictServiceImpl implements SysDictService{
 	public SysDict findById(Integer id) {
 		return sysDictDao.selectByPrimaryKey(id);
 	}
+	
+	@Override
+	public List<SysDict> findByType(String type) {
+		return sysDictDao.selectByType(type);
+	}
 
 	@Override
 	public PageInfo<SysDict> findPage(PageParam pageParam, String type, Integer status) {
-		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize()).setOrderBy(pageParam.getOrderBy("type", "asc"));
+		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+		OrderByHelper.orderBy(pageParam.getOrderBy("type", "asc"));
         List<SysDict> list = sysDictDao.select(type, status);
 		return new PageInfo<SysDict>(list);
 	}

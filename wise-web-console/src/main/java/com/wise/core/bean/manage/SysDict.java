@@ -1,6 +1,10 @@
 package com.wise.core.bean.manage;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.web.utils.DictUtils;
 
 public class SysDict extends BaseBean<SysDict> {
     /**
@@ -16,16 +20,19 @@ public class SysDict extends BaseBean<SysDict> {
     /**
      * 类型
      */
+    @NotEmpty(message="{sys.dict.type.notempty}")
     private String type;
 
     /**
      * 字典项值
      */
+    @NotEmpty(message="{sys.dict.value.notempty}")
     private String value;
 
     /**
      * 字典项名称
      */
+    @NotEmpty(message="{sys.dict.label.notempty}")
     private String label;
 
     /**
@@ -110,6 +117,14 @@ public class SysDict extends BaseBean<SysDict> {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    /**
+     * 状态字符串（附加属性）
+     * @return
+     */
+    public String getStatusName() {
+        return DictUtils.getDictLabel(String.valueOf(status), "sys_dict_status", String.valueOf(Global.NORMAL));
     }
 
     @Override

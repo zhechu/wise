@@ -34,4 +34,10 @@ public interface SysResourceService extends BaseService<SysResource> {
 	 */
 	List<SysResource> findValidMenuTree(Integer[] sysRoleIds);
 	
+	/**
+	 * 获取资源列表
+	 * @return
+	 */
+	List<SysResource> find();
+	
 }

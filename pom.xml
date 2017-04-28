@@ -49,7 +49,8 @@
 		<mysql-connector-java-version>5.1.8</mysql-connector-java-version>
 		<org.mybatis-version>3.2.7</org.mybatis-version>
 		<org.mybatis-spring-version>1.2.2</org.mybatis-spring-version>
-		<pagehelper-version>4.2.0</pagehelper-version>
+		<pagehelper-version>5.0.0</pagehelper-version>
+		<orderby-helper-version>0.0.1</orderby-helper-version>
 		<opensymphony-version>2.4.2</opensymphony-version>
 		<freemarker-version>2.3.18</freemarker-version>
 		<druid.version>1.0.9</druid.version>
@@ -154,6 +155,11 @@
 			    <groupId>com.github.pagehelper</groupId>
 			    <artifactId>pagehelper</artifactId>
 			    <version>${pagehelper-version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>tk.mybatis</groupId>
+			    <artifactId>orderby-helper</artifactId>
+			    <version>${orderby-helper-version}</version>
 			</dependency>
 			<!-- jdbc driver -->
 			<dependency>

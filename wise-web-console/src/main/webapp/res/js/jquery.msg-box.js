@@ -15,7 +15,7 @@
 				time *= 1000;
 			}
 			var alert_box = '';
-			alert_box += '<div id="_msg_box_" class="alert alert-dismissible {{class}}" role="alert">'
+			alert_box += '<div id="_msg_box_" class="alert alert-dismissible {{class}} fade in" role="alert">'
 			alert_box += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><p>{{&content}}</p>'
 			alert_box += '</div>'
 			var msg_content = Mustache.render(alert_box, {

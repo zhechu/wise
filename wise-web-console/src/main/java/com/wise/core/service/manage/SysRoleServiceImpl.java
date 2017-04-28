@@ -1,5 +1,6 @@
 package com.wise.core.service.manage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,13 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
+import com.wise.core.bean.manage.SysResource;
 import com.wise.core.bean.manage.SysRole;
+import com.wise.core.bean.manage.SysRoleResource;
+import com.wise.core.dao.manage.SysResourceDao;
 import com.wise.core.dao.manage.SysRoleDao;
+import com.wise.core.dao.manage.SysRoleManagerDao;
+import com.wise.core.dao.manage.SysRoleResourceDao;
 
 /**
  * 角色
@@ -22,6 +28,15 @@ public class SysRoleServiceImpl implements SysRoleService{
 
 	@Autowired
 	private SysRoleDao sysRoleDao;
+	
+	@Autowired
+	private SysResourceDao sysResourceDao;
+
+	@Autowired
+	private SysRoleResourceDao sysRoleResourceDao;
+
+	@Autowired
+	private SysRoleManagerDao sysRoleManagerDao;
 
 	@Transactional
 	@Override
@@ -30,6 +45,15 @@ public class SysRoleServiceImpl implements SysRoleService{
 		if (!sysRoleList.isEmpty())
 			throw new ValueConflictException("角色已存在，名称不能重复");
 		sysRoleDao.insertSelective(sysRole);
+		
+		// 添加角色资源关系
+		List<Integer> sysResourceIdList = sysRole.getSysResourceIdList();
+		for (Integer sysResourceId : sysResourceIdList) {
+			SysRoleResource sysRoleResource = new SysRoleResource();
+			sysRoleResource.setRoleId(sysRole.getId());
+			sysRoleResource.setSysResourceId(sysResourceId);
+			sysRoleResourceDao.insertSelective(sysRoleResource);
+		}
 	}
 
 	@Transactional
@@ -39,6 +63,12 @@ public class SysRoleServiceImpl implements SysRoleService{
 		if (sysRole == null)
 			throw new DataNotExistedException("角色不存在");
 		sysRoleDao.deleteByPrimaryKey(id);
+		
+		// 删除角色资源关系
+		sysRoleResourceDao.deleteBySysRoleId(id);
+		
+		// 删除用户角色关系
+		sysRoleManagerDao.deleteBySysRoleId(id);
 	}
 
 	@Transactional
@@ -52,6 +82,12 @@ public class SysRoleServiceImpl implements SysRoleService{
 				throw new DataNotExistedException("角色不存在");
 			}
 			sysRoleDao.deleteByPrimaryKey(id);
+
+			// 删除角色资源关系
+			sysRoleResourceDao.deleteBySysRoleId(id);
+			
+			// 删除用户角色关系
+			sysRoleManagerDao.deleteBySysRoleId(id);
 		}
 	}
 
@@ -68,11 +104,38 @@ public class SysRoleServiceImpl implements SysRoleService{
 				throw new ValueConflictException("角色已存在，名称不能重复");
 		}
 		sysRoleDao.updateByPrimaryKeySelective(sysRole);
+		
+		// 删除角色资源关系
+		sysRoleResourceDao.deleteBySysRoleId(sysRole.getId());
+		
+		// 添加角色资源关系
+		List<Integer> sysResourceIdList = sysRole.getSysResourceIdList();
+		for (Integer sysResourceId : sysResourceIdList) {
+			SysRoleResource sysRoleResource = new SysRoleResource();
+			sysRoleResource.setRoleId(sysRole.getId());
+			sysRoleResource.setSysResourceId(sysResourceId);
+			sysRoleResourceDao.insertSelective(sysRoleResource);
+		}
 	}
 
 	@Override
 	public SysRole findById(Integer id) {
-		return sysRoleDao.selectByPrimaryKey(id);
+		SysRole sysRole = sysRoleDao.selectByPrimaryKey(id);
+		if (sysRole != null) {
+			// 查询并设置资源主键列表
+			List<Integer> sysResourceIdList = new ArrayList<Integer>();
+			List<SysResource> sysResourceList = sysResourceDao.select(null, null, null, new Integer[]{sysRole.getId()});
+			for (SysResource sysResource : sysResourceList) {
+				sysResourceIdList.add(sysResource.getId());
+			}
+			sysRole.setSysResourceIdList(sysResourceIdList);
+		}
+		return sysRole;
+	}
+
+	@Override
+	public List<SysRole> find() {
+		return sysRoleDao.select(null);
 	}
 
 }

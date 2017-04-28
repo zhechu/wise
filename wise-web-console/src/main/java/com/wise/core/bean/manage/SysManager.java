@@ -87,6 +87,9 @@ public class SysManager extends BaseBean<SysManager> {
      */
     private Date modifiedAt;
 
+    /**
+     * 角色列表（附加属性）
+     */
     private List<SysRole> sysRoleList = new ArrayList<SysRole>(0);
     
     public Integer getId() {

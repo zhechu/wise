@@ -1,5 +1,7 @@
 package com.wise.core.service.manage;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.wise.common.dto.PageParam;
 import com.wise.core.bean.manage.SysDict;
@@ -7,6 +9,13 @@ import com.wise.core.service.BaseService;
 
 public interface SysDictService extends BaseService<SysDict> {
 
+	/**
+	 * 获取字典
+	 * @param type 类型
+	 * @return
+	 */
+	List<SysDict> findByType(String type);
+	
 	/**
 	 * 分页查询（模糊查询）
 	 * @param pageParam 分页参数

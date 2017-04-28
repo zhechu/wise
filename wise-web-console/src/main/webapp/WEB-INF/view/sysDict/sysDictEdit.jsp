@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@include file="/commons/include/main.jsp"%>
+<%@include file="/commons/include/base.jsp"%>
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
 </head>
 <body class="gray-bg">
@@ -18,29 +18,29 @@
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
-				<form class="form-horizontal m-t" id="sysDictForm" action="/sysDict/save.do" method="post">
+				<form class="form-horizontal m-t" id="sysDictForm" action="/sysDict/save" method="post">
 					<input id="id" name="id" value="${sysDict.id }" type="hidden">
 					<div class="form-group">
 						<label for="type" class="col-sm-3 control-label">类型：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<input id="type" name="type" value="${sysDict.type }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="label" class="col-sm-3 control-label">标签：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<input id="label" name="label" value="${sysDict.label }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="value" class="col-sm-3 control-label">值：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<input id="value" name="value" value="${sysDict.value }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="status" class="col-sm-3 control-label">状态：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
@@ -58,14 +58,14 @@
 					</div>
 					<div class="form-group">
 						<label for="description" class="col-sm-3 control-label">描述：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<textarea id="description" name="description"
 								class="form-control" rows="3">${sysDict.description }</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="sort" class="col-sm-3 control-label">排序：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<div class="input-group spinner" data-trigger="spinner">
 								<input id="sort" name="sort" value="${sysDict.sort }" type="text"
 									class="form-control text-center" value="0" data-max="1000"
@@ -82,7 +82,7 @@
 							<button class="btn btn-primary btn-sm" type="submit">保存</button>
 						</div>
 						<div class="col-sm-2">
-							<a class="btn btn-white btn-sm" href="${ctx }/sysDict/list.do">返回</a>
+							<a class="btn btn-white btn-sm" href="${ctx }/sysDict/list">返回</a>
 						</div>
 					</div>
 				</form>

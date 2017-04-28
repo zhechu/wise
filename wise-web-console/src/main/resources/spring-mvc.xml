@@ -19,38 +19,42 @@
 
 	<!-- 扫描 -->
 	<context:component-scan base-package="com.wise">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
-	
+
 	<!-- 自定义转换器 -->
-    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"> 
-       	<property name="converters">
-       		<list>
-       		    <bean class="com.wise.web.converter.DateConverter"></bean>
-       		</list>
-       	</property>
-    </bean>
-    <!-- 注册转化器 -->
-    <mvc:annotation-driven conversion-service="conversionService" />
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.wise.web.converter.DateConverter"></bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 注册转化器 -->
+	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
 	<!-- 处理器映射器 、适配器 -->
 	<!-- <mvc:annotation-driven /> -->
-	
+
 	<!-- 视图解释器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
-	
+
 	<!-- 静态资源映射 -->
-    <mvc:resources mapping="/commons/**,/res/**" location="/commons/,/res/" cache-period="31536000"/>
-	
+	<mvc:resources mapping="/commons/**,/res/**" location="/commons/,/res/"
+		cache-period="31536000" />
+
 	<!-- 定义无Controller的path<->view直接映射 -->
-	<mvc:view-controller path="/" view-name="redirect:/"/>
+	<mvc:view-controller path="/" view-name="redirect:/" />
 
 	<!-- 上传图片 -->
 	<bean id="multipartResolver"
@@ -66,6 +70,14 @@
 		<!-- 默认字符编码 -->
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
+
+	<!-- 验证器 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
 	<!-- 基于Cookie的本地化解析器 -->
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -74,34 +86,37 @@
 		<property name="cookieName" value="Language"></property>
 	</bean>
 	<!-- 国际化请求拦截器处理 -->
-    <mvc:interceptors>  
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-        	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />  
-        </mvc:interceptor>
-    </mvc:interceptors>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 
 	<!-- shiro begin -->
-    <!-- AOP式方法级权限检查  -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor">
-    	<property name="proxyTargetClass" value="true" />
-    </bean>
+	<!-- AOP式方法级权限检查 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
 
-    <!-- 启用shrio授权注解拦截方式 -->
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-    
-    <!-- 未授权异常处理 -->
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!-- 启用shrio授权注解拦截方式 -->
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<!-- 未授权异常处理 -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<prop key="org.apache.shiro.authz.UnauthorizedException">/shiro/unauth</prop>
 			</props>
 		</property>
 	</bean>
-    <!-- shiro end -->
+	<!-- shiro end -->
 
 </beans>

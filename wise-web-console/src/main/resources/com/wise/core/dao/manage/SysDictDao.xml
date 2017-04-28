@@ -140,6 +140,14 @@
 		id = #{id,jdbcType=INTEGER}
 	</update>
 
+	<select id="selectByType" resultMap="BaseResultMap">
+		select
+		id,type,value,label,status,description,sort,parentId
+		from
+		t_sys_dict
+		where type = #{type,jdbcType=VARCHAR}
+	</select>
+
 	<select id="selectByTypeAndLabel" resultMap="BaseResultMap">
 		select
 		id,type,value,label,status,description,sort,parentId
@@ -155,8 +163,8 @@
 		from
 		t_sys_dict
 		<where>
-			<if test="type != null">
-				and type like CONCAT(CONCAT('%', #{type}), '%')
+			<if test="type != null and type != ''">
+				and type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
 				and status = #{status,jdbcType=TINYINT}
@@ -173,10 +181,10 @@
 		t_sys_dict
 		<where>
 			<!-- 行级权限 -->
-			<if test="filtrate != null">
+			<if test="filtrate != null and filtrate != ''">
 				and ${filtrate}
 			</if>
-			<if test="type != null">
+			<if test="type != null and type != ''">
 				and type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">

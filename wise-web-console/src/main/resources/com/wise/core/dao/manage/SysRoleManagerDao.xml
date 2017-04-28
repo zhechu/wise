@@ -80,4 +80,10 @@
 		delete from t_sys_role_manager
 		where managerId = #{managerId,jdbcType=INTEGER}
 	</delete>
+	
+	<!-- 根据角色主键删除 -->
+	<delete id="deleteBySysRoleId">
+		delete from t_sys_role_manager
+		where roleId = #{sysRoleId,jdbcType=INTEGER}
+	</delete>
 </mapper>

@@ -127,4 +127,9 @@ public class SysResourceServiceImpl implements SysResourceService{
 		return new ArrayList<SysResource>(sysResourceSet);
 	}
 
+	@Override
+	public List<SysResource> find() {
+		return sysResourceDao.select(null, null, null, null);
+	}
+
 }

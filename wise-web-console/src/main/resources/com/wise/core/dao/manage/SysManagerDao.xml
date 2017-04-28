@@ -241,16 +241,16 @@
 		from
 		t_sys_manager
 		<where>
-			<if test="userName != null">
+			<if test="userName != null and userName != ''">
 				and userName like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
 				and status = #{status,jdbcType=TINYINT}
 			</if>
-			<if test="email != null">
+			<if test="email != null and email != ''">
 				and email like CONCAT(CONCAT('%', #{email,jdbcType=VARCHAR}), '%')
 			</if>
-			<if test="name != null">
+			<if test="name != null and name != ''">
 				and name like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="createdAtStart != null">

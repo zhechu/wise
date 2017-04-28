@@ -7,6 +7,7 @@
 		<result column="description" property="description" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
 		<result column="createAt" property="createAt" jdbcType="TIMESTAMP" />
 		<result column="modifier" property="modifier" jdbcType="INTEGER" />
 		<result column="modifiedAt" property="modifiedAt" jdbcType="TIMESTAMP" />
@@ -140,22 +141,22 @@
 		select
 		a.id, a.name, a.description, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt
 		from
-		t_sys_role a inner join t_sys_role_manager b on a.id = b.roleId
+		t_sys_role a right join t_sys_role_manager b on a.id = b.roleId
 		where b.managerId = #{id,jdbcType=INTEGER}
 	</select>
 	
 	<!-- 查询-->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		id, name, description, status, creator, createAt, modifier, modifiedAt
+		a.id, a.name, a.description, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt, b.name creatorName
 		from
-		t_sys_role
+		t_sys_role a left join t_sys_manager b on a.creator = b.id
 		<where>
-			<if test="name != null">
-				and name = #{name,jdbcType=VARCHAR}
+			<if test="name != null and name != ''">
+				and a.name = #{name,jdbcType=VARCHAR}
 			</if>
 		</where>
-		order by createAt desc
+		order by a.createAt desc
 	</select>
 	
 </mapper>

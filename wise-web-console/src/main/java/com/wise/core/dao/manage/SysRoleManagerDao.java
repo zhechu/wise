@@ -12,5 +12,11 @@ public interface SysRoleManagerDao extends BaseDao<SysRoleManager> {
 	 * @param managerId 系统用户主键
 	 */
 	void deleteByManagerId(@Param("managerId") Integer managerId);
+
+	/**
+	 * 删除系统用户角色
+	 * @param sysRoleId 角色主键
+	 */
+	void deleteBySysRoleId(@Param("sysRoleId") Integer sysRoleId);
 	
 }

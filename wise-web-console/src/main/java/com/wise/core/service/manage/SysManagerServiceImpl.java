@@ -21,6 +21,8 @@ import com.wise.core.bean.manage.SysRoleManager;
 import com.wise.core.dao.manage.SysManagerDao;
 import com.wise.core.dao.manage.SysRoleManagerDao;
 
+import tk.mybatis.orderbyhelper.OrderByHelper;
+
 /**
  * 系统用户
  * @author lingyuwang
@@ -106,7 +108,8 @@ public class SysManagerServiceImpl implements SysManagerService{
 	@Override
 	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String name,
 			Date createdAtStart, Date createdAtEnd) {
-		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize()).setOrderBy(pageParam.getOrderBy("createdAt", "asc"));
+		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
         List<SysManager> list = sysManagerDao.select(userName, status, email, name, createdAtStart, createdAtEnd);
 		return new PageInfo<SysManager>(list);
 	}

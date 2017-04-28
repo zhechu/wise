@@ -1,8 +1,14 @@
 package com.wise.core.bean.manage;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.web.utils.DictUtils;
 
 public class SysRole extends BaseBean<SysRole> {
     /**
@@ -18,6 +24,7 @@ public class SysRole extends BaseBean<SysRole> {
     /**
      * 角色名称
      */
+    @NotEmpty(message="{sys.role.name.notempty}")
     private String name;
 
     /**
@@ -34,6 +41,11 @@ public class SysRole extends BaseBean<SysRole> {
      * 创建者
      */
     private Integer creator;
+    
+    /**
+     * 创建者名称（附加属性）
+     */
+    private String creatorName;
 
     /**
      * 创建时间
@@ -50,6 +62,11 @@ public class SysRole extends BaseBean<SysRole> {
      */
     private Date modifiedAt;
 
+    /**
+     * 资源主键列表（附加属性）
+     */
+    private List<Integer> sysResourceIdList = new ArrayList<Integer>(0);
+    
     public Integer getId() {
         return id;
     }
@@ -90,7 +107,15 @@ public class SysRole extends BaseBean<SysRole> {
         this.creator = creator;
     }
 
-    public Date getCreateAt() {
+    public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public Date getCreateAt() {
         return createAt;
     }
 
@@ -114,7 +139,23 @@ public class SysRole extends BaseBean<SysRole> {
         this.modifiedAt = modifiedAt;
     }
 
-    @Override
+    public List<Integer> getSysResourceIdList() {
+		return sysResourceIdList;
+	}
+
+	public void setSysResourceIdList(List<Integer> sysResourceIdList) {
+		this.sysResourceIdList = sysResourceIdList;
+	}
+
+    /**
+     * 状态字符串（附加属性）
+     * @return
+     */
+    public String getStatusName() {
+        return DictUtils.getDictLabel(String.valueOf(status), "sys_role_status", String.valueOf(Global.NORMAL));
+    }
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());

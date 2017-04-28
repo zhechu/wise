@@ -164,24 +164,27 @@
 	<!-- 多条件查询-->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		a.id, a.name, a.url, a.icon, a.description, a.status, a.type, a.permission, a.parentId,a.sort
+		id, name, url, icon, description, status, type, permission, parentId, sort
 		from
-		t_sys_resource a inner join t_sys_role_resource b on a.id = b.sysResourceId
+		t_sys_resource
 		<where>
 			<if test="status != null">
-				and a.status = #{status,jdbcType=TINYINT}
+				and status = #{status,jdbcType=TINYINT}
 			</if>
 			<if test="type != null">
-				and a.type = #{type,jdbcType=TINYINT}
+				and type = #{type,jdbcType=TINYINT}
 			</if>
 			<if test="parentId != null">
-				and a.parentId = #{parentId,jdbcType=INTEGER}
+				and parentId = #{parentId,jdbcType=INTEGER}
 			</if>
 			<if test="sysRoleIds != null">
-				and b.roleId in
-				<foreach item="item" index="index" collection="sysRoleIds" open="(" separator="," close=")">  
-					#{item}  
-				</foreach>
+				and id in
+				(
+					select distinct sysResourceId from t_sys_role_resource where roleId in
+					<foreach item="item" index="index" collection="sysRoleIds" open="(" separator="," close=")">  
+						#{item}  
+					</foreach>
+				)
 			</if>
 		</where>
 		order by sort asc

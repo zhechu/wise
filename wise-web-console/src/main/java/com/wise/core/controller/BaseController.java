@@ -1,5 +1,6 @@
 package com.wise.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,19 @@ public abstract class BaseController {
 			idsTarget[i] = Integer.parseInt(ids[i]);
 		}
 		return idsTarget;
+	}
+
+	/**
+	 * 转换数组
+	 * @param ids 字符串数组
+	 * @return 整型列表
+	 */
+	protected List<Integer> convertToIntegerList(String[] ids) {
+		List<Integer> idList = new ArrayList<Integer>();
+		for (String id : ids) {
+			idList.add(Integer.parseInt(id));
+		}
+		return idList;
 	}
 	
 	/**

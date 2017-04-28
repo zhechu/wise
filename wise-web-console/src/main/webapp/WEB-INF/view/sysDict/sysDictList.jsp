@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@include file="/commons/include/main.jsp"%>
+<%@include file="/commons/include/base.jsp"%>
 <link href="${ctx }/res/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
 <style type="text/css">
@@ -64,7 +64,7 @@
 				<div id="msg-box"></div>
 				<div id="toolbar">
 			        <shiro:hasPermission name="sys:dict:add">
-			        	<a href="/sysDict/edit.do" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;添加</a>
+			        	<a href="${ctx }/sysDict/edit" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;添加</a>
 			        </shiro:hasPermission>
 			        <shiro:hasPermission name="sys:dict:delete">
 			        	<a id="delBtn" href="javascript:;" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</a>
@@ -81,6 +81,6 @@
 <script src="${ctx }/res/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="${ctx }/res/js/content.min.js?v=1.0.0"></script>
 
-<%@include file="/scripts/console/sysDict/sysDictListJS.jsp"%>
+<%@include file="sysDictListJS.jsp"%>
 </body>
 </html>

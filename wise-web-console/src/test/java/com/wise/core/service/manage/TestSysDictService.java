@@ -77,7 +77,16 @@ public class TestSysDictService extends BaseTest {
 	@Test
 	public void findPage() {
 		PageParam pageParam = new PageParam();
+		pageParam.setPageNum(2);
 		PageInfo<SysDict> pageInfo = sysDictService.findPage(pageParam, null, null);
+		for (SysDict sysDict : pageInfo.getList()) {
+			System.out.println(sysDict);
+		}
+		System.out.println("size: "+pageInfo.getList().size());
+		System.out.println("total: "+pageInfo.getTotal());
+		
+		pageParam = new PageParam();
+		pageInfo = sysDictService.findPage(pageParam, null, null);
 		for (SysDict sysDict : pageInfo.getList()) {
 			System.out.println(sysDict);
 		}

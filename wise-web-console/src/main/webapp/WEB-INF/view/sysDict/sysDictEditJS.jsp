@@ -11,23 +11,17 @@ $(document).ready(function() {
 			"type" : "required",
 			"label" : "required",
 			"value" : "required",
-			"status" : {
-				required : true,
-				min : 0
-			}
+			"status" : "required"
 		},
 		messages : {
 			"type" : e + "请输入类型",
 			"label" : e + "请输入标签",
 			"value" : e + "请输入值",
-			"status" : {
-				required : e + "请选择状态",
-				min : e + "请选择状态"
-			}
+			"status" : e + "请选择状态"
 		},
 		submitHandler : function(form) {
 			$.ajax({
-				url : '/sysDict/save.do',
+				url : '${ctx}/sysDict/save',
 				dataType : 'json',
 				type : 'post',
 				data : $("#sysDictForm").serialize(),

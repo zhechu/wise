@@ -13,10 +13,10 @@ public class Login implements Serializable {
 
 	private static final long serialVersionUID = -444838980689999171L;
 
-	@NotEmpty(message="用户名不能为空")
+	@NotEmpty(message="{login.userName.notempty}")
 	private String userName;
 	
-	@NotEmpty(message="密码不能为空")
+	@NotEmpty(message="{login.pwd.notempty}")
 	private String pwd;
 
 	public String getUserName() {
