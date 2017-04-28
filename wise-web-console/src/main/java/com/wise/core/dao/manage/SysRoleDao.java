@@ -11,9 +11,10 @@ public interface SysRoleDao extends BaseDao<SysRole> {
     
 	/**
 	 * 获取角色列表
+	 * @param status 状态
 	 * @param name 名称
 	 * @return
 	 */
-	List<SysRole> select(@Param("name") String name);
+	List<SysRole> select(@Param("status") Integer status, @Param("name") String name);
 	
 }

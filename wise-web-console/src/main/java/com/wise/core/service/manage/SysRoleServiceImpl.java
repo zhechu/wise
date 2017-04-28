@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.wise.common.config.Global;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysResource;
@@ -41,7 +42,7 @@ public class SysRoleServiceImpl implements SysRoleService{
 	@Transactional
 	@Override
 	public void create(SysRole sysRole) throws ValueConflictException {
-		List<SysRole> sysRoleList = sysRoleDao.select(sysRole.getName());
+		List<SysRole> sysRoleList = sysRoleDao.select(null, sysRole.getName());
 		if (!sysRoleList.isEmpty())
 			throw new ValueConflictException("角色已存在，名称不能重复");
 		sysRoleDao.insertSelective(sysRole);
@@ -99,7 +100,7 @@ public class SysRoleServiceImpl implements SysRoleService{
 			throw new DataNotExistedException("角色不存在");
 		// 判断角色的名称是否有更新，有则检查是否已存在
 		if (sysRole.getName() != null && !sysRole.getName().equals(sysRoleSource.getName())) {
-			List<SysRole> sysRoleList = sysRoleDao.select(sysRole.getName());
+			List<SysRole> sysRoleList = sysRoleDao.select(null, sysRole.getName());
 			if (!sysRoleList.isEmpty())
 				throw new ValueConflictException("角色已存在，名称不能重复");
 		}
@@ -135,7 +136,12 @@ public class SysRoleServiceImpl implements SysRoleService{
 
 	@Override
 	public List<SysRole> find() {
-		return sysRoleDao.select(null);
+		return sysRoleDao.select(null, null);
+	}
+
+	@Override
+	public List<SysRole> findValid() {
+		return sysRoleDao.select(Global.NORMAL, null);
 	}
 
 }

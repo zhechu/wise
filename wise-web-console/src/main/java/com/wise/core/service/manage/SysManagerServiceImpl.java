@@ -98,6 +98,18 @@ public class SysManagerServiceImpl implements SysManagerService{
 		if (sysManager.getUserName() != null && !sysManager.getUserName().equals(sysManagerSource.getUserName()))
 			throw new DataNotAllowUpdateException("不能修改用户名");
 		sysManagerDao.updateByPrimaryKeySelective(sysManager);
+
+		// 更新用户角色
+		// 先删除用户角色
+		sysRoleManagerDao.deleteByManagerId(sysManager.getId());
+		// 再添加用户角色
+		List<SysRole> sysRoleList = sysManager.getSysRoleList();
+		for (SysRole sysRole : sysRoleList) {
+			SysRoleManager sysRoleManager = new SysRoleManager();
+			sysRoleManager.setManagerId(sysManager.getId());
+			sysRoleManager.setRoleId(sysRole.getId());
+			sysRoleManagerDao.insertSelective(sysRoleManager);
+		}
 	}
 
 	@Override
@@ -106,11 +118,11 @@ public class SysManagerServiceImpl implements SysManagerService{
 	}
 
 	@Override
-	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String name,
+	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String roleName, String name,
 			Date createdAtStart, Date createdAtEnd) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
-        List<SysManager> list = sysManagerDao.select(userName, status, email, name, createdAtStart, createdAtEnd);
+        List<SysManager> list = sysManagerDao.select(userName, status, email, roleName, name, createdAtStart, createdAtEnd);
 		return new PageInfo<SysManager>(list);
 	}
 
@@ -132,6 +144,25 @@ public class SysManagerServiceImpl implements SysManagerService{
 		if (!pwd.equals(sourcePwd)) 
 			throw new ValueConflictException("密码有误");
 		return sysManager;
+	}
+
+	@Override
+	public void updatePwd(String loginName, String oldPwd, String newPwd) throws DataNotExistedException, ValueConflictException {
+		SysManager sysManager = sysManagerDao.selectByUserName(loginName);
+		if (sysManager == null) 
+			throw new DataNotExistedException("用户不存在");
+		// 密码加盐
+		String salt = sysManager.getSalt();
+		oldPwd = SecureUtil.encryptByMd5(oldPwd, salt);
+		// 判断密码是否有误
+		String sourcePwd = sysManager.getPwd();
+		if (!oldPwd.equals(sourcePwd)) 
+			throw new ValueConflictException("旧密码有误");
+		// 更新密码
+		newPwd = SecureUtil.encryptByMd5(newPwd, salt);
+		sysManager.setPwd(newPwd);
+		// 更新用户
+		sysManagerDao.updateByPrimaryKeySelective(sysManager);
 	}
 
 }

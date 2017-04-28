@@ -95,11 +95,12 @@ public class TestSysManagerService extends BaseTest {
 		String userName = null;
 		Integer status = null;
 		String email = null;
+		String roleName = null;
 		String name = null;
 		Date createdAtStart = null;
 		Date createdAtEnd = null;
 		PageParam pageParam = new PageParam();
-		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, name, createdAtStart, createdAtEnd);
+		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, roleName, name, createdAtStart, createdAtEnd);
 		for (SysManager sysManager : pageInfo.getList()) {
 			System.out.println(sysManager);
 		}

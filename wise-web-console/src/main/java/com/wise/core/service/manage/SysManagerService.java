@@ -24,12 +24,13 @@ public interface SysManagerService extends BaseService<SysManager> {
 	 * @param userName 用户名
 	 * @param status 状态
 	 * @param email 邮箱
+	 * @param roleName 角色名称
 	 * @param name 名称
 	 * @param createdAtStart 创建开始时间
 	 * @param createdAtEnd 创建结束时间
 	 * @return
 	 */
-	PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String name, Date createdAtStart, Date createdAtEnd);
+	PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String roleName, String name, Date createdAtStart, Date createdAtEnd);
 
 	/**
 	 * 用户登录
@@ -40,5 +41,15 @@ public interface SysManagerService extends BaseService<SysManager> {
 	 * @throws ValueConflictException 
 	 */
 	SysManager login(String userName, String pwd) throws DataNotExistedException, ValueConflictException;
+
+	/**
+	 * 更新密码
+	 * @param userName 用户名
+	 * @param oldPwd 旧密码
+	 * @param newPwd 新密码
+	 * @throws DataNotExistedException 
+	 * @throws ValueConflictException 
+	 */
+	void updatePwd(String loginName, String oldPwd, String newPwd) throws DataNotExistedException, ValueConflictException;
 	
 }

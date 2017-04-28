@@ -112,7 +112,7 @@ public class SysDictController extends BaseController {
 	
 	/**
 	 * 返回字典列表数据
-	 * @param pageParam 排序参数
+	 * @param pageParam 分页参数
 	 * @param type 字典类型
 	 * @param status 状态
 	 * @return

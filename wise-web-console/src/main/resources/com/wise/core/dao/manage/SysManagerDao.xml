@@ -14,6 +14,7 @@
 		<result column="registIp" property="registIp" jdbcType="VARCHAR" />
 		<result column="portraitPic" property="portraitPic" jdbcType="VARCHAR" />
 		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
 		<result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="modifier" property="modifier" jdbcType="INTEGER" />
 		<result column="modifiedAt" property="modifiedAt" jdbcType="TIMESTAMP" />
@@ -235,29 +236,29 @@
 	<!-- 多条件查询，模糊查询 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-			id, userName, name, sex, phone, salt, pwd, status, email, registIp,
-			portraitPic,
-			creator, createdAt, modifier, modifiedAt
+			a.id, a.userName, a.name, a.sex, a.phone, a.salt, a.pwd, a.status, a.email, a.registIp,
+			a.portraitPic,
+			a.creator, a.createdAt, a.modifier, a.modifiedAt, b.name creatorName
 		from
-		t_sys_manager
+		t_sys_manager a left join t_sys_manager b on a.creator = b.id
 		<where>
 			<if test="userName != null and userName != ''">
-				and userName like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
+				and a.userName like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
-				and status = #{status,jdbcType=TINYINT}
+				and a.status = #{status,jdbcType=TINYINT}
 			</if>
 			<if test="email != null and email != ''">
-				and email like CONCAT(CONCAT('%', #{email,jdbcType=VARCHAR}), '%')
+				and a.email like CONCAT(CONCAT('%', #{email,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="name != null and name != ''">
-				and name like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}), '%')
+				and a.name like CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="createdAtStart != null">
-				and createdAt >= #{createdAtStart,jdbcType=TIMESTAMP}
+				and a.createdAt >= #{createdAtStart,jdbcType=TIMESTAMP}
 			</if>
 			<if test="createdAtEnd != null">
-				and createdAt >= #{createdAtEnd,jdbcType=TIMESTAMP}
+				and a.createdAt >= #{createdAtEnd,jdbcType=TIMESTAMP}
 			</if>
 		</where>
 	</select>

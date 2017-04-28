@@ -152,6 +152,9 @@
 		from
 		t_sys_role a left join t_sys_manager b on a.creator = b.id
 		<where>
+			<if test="status != null">
+				and a.status = #{status,jdbcType=TINYINT}
+			</if>
 			<if test="name != null and name != ''">
 				and a.name = #{name,jdbcType=VARCHAR}
 			</if>

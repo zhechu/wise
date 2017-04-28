@@ -13,4 +13,10 @@ public interface SysRoleService extends BaseService<SysRole> {
 	 */
 	List<SysRole> find();
 	
+	/**
+	 * 获取角色列表（可用）
+	 * @return
+	 */
+	List<SysRole> findValid();
+	
 }

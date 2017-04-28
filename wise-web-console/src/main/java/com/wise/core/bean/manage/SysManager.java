@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.web.utils.DictUtils;
 
 public class SysManager extends BaseBean<SysManager> {
     /**
@@ -20,11 +28,15 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 用户名
      */
+    @NotEmpty(message="{sys.manager.userName.notempty}")
+    @Length(min=2, message="{sys.manager.userName.length}")
     private String userName;
 
     /**
      * 姓名
      */
+    @NotEmpty(message="{sys.manager.name.notempty}")
+    @Length(min=2, message="{sys.manager.name.length}")
     private String name;
 
     /**
@@ -35,6 +47,7 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 电话
      */
+    @Pattern(regexp="^((\\+\\d+)?1[3458]\\d{9})|((\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8})$", message="{sys.manager.phone.pattern}")
     private String phone;
 
     /**
@@ -55,6 +68,8 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 账号邮箱
      */
+    @NotEmpty(message="{sys.manager.email.notempty}")
+    @Email(message="{sys.manager.email.email}")
     private String email;
 
     /**
@@ -71,6 +86,11 @@ public class SysManager extends BaseBean<SysManager> {
      * 创建者
      */
     private Integer creator;
+
+    /**
+     * 创建者名称（附加属性）
+     */
+    private String creatorName;
 
     /**
      * 创建时间
@@ -188,7 +208,15 @@ public class SysManager extends BaseBean<SysManager> {
         this.creator = creator;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public Date getCreatedAt() {
         return createdAt;
     }
 
@@ -219,6 +247,22 @@ public class SysManager extends BaseBean<SysManager> {
 	public void setSysRoleList(List<SysRole> sysRoleList) {
 		this.sysRoleList = sysRoleList;
 	}
+
+    /**
+     * 性别字符串（附加属性）
+     * @return
+     */
+    public String getSexName() {
+        return DictUtils.getDictLabel(String.valueOf(sex), "sex", String.valueOf(Global.NORMAL));
+    }
+    
+    /**
+     * 状态字符串（附加属性）
+     * @return
+     */
+    public String getStatusName() {
+    	return DictUtils.getDictLabel(String.valueOf(status), "sys_manager_status", String.valueOf(Global.NORMAL));
+    }
 
 	@Override
     public String toString() {

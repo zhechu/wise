@@ -22,11 +22,12 @@ public interface SysManagerDao extends BaseDao<SysManager> {
 	 * @param userName 用户名
 	 * @param status 状态
 	 * @param email 邮箱
+	 * @param roleName 角色名称
 	 * @param name 名称
 	 * @param createdAtStart 创建开始时间
 	 * @param createdAtEnd 创建结束时间
 	 * @return
 	 */
-	List<SysManager> select(@Param("userName") String userName, @Param("status") Integer status, @Param("email") String email, @Param("name") String name, @Param("createdAtStart") Date createdAtStart, @Param("createdAtEnd") Date createdAtEnd);
+	List<SysManager> select(@Param("userName") String userName, @Param("status") Integer status, @Param("email") String email, @Param("roleName") String roleName, @Param("name") String name, @Param("createdAtStart") Date createdAtStart, @Param("createdAtEnd") Date createdAtEnd);
 	
 }
