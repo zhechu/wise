@@ -8,6 +8,11 @@ package com.wise.common.config;
 public class Global {
 
 	/**
+	 * 图片服务地址
+	 */
+	public static final String IMG_URL = "http://192.168.163.44:8888/";
+	
+	/**
 	 * 禁用/启用
 	 */
 	public static final Integer FORBIDDEN = 0;

@@ -27,7 +27,7 @@
 						<div class="col-sm-6">
 							<input id="parentName" name="parentName" value="${sysResource.parentName }" class="form-control" type="text" readonly="readonly">
 							<input id="parentId" name="parentId" value="${sysResource.parentId }" type="hidden">
-							<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <c:choose><c:when test="${empty sysResource }"><spring:message code="sys.resource.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.resource.update.parent.hint" /></c:otherwise></c:choose></span>
+							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysResource }"><spring:message code="sys.resource.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.resource.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -94,7 +94,7 @@
 									hintLabel="请选择状态"
 									defaultValue="${status }"
 								/>
-								<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <spring:message code="sys.resource.status.hint" /></span>
+								<span class="help-block m-b-none"><spring:message code="sys.resource.status.hint" /></span>
 							</div>
 						</div>
 					</div>

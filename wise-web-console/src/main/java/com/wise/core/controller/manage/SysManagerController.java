@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.wise.common.config.Global;
@@ -27,6 +28,7 @@ import com.wise.common.utils.SecureUtil;
 import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.controller.BaseController;
+import com.wise.core.service.UploadService;
 import com.wise.core.service.manage.SysManagerService;
 import com.wise.core.service.manage.SysRoleService;
 import com.wise.core.web.dto.Pwd;
@@ -48,6 +50,9 @@ public class SysManagerController extends BaseController {
 
 	@Autowired
 	private SysRoleService sysRoleService;
+	
+	@Autowired
+	private UploadService uploadService;
 
 	/**
 	 * 进入用户列表页
@@ -93,13 +98,21 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:add", "sys:manager:update"})
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@Valid SysManager sysManager, BindingResult br, Integer[] roleIds){
+	public @ResponseBody ResponseModel save(@RequestParam(value="pic", required=false) MultipartFile pic, @Valid SysManager sysManager, BindingResult br, Integer[] roleIds){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
             return rm;
 		}
 		try {
+			// 头像地址
+			String portraitPic = "";
+			if (pic != null) {
+				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
+				portraitPic = Global.IMG_URL + path;
+			}
+			sysManager.setPortraitPic(portraitPic);
+			
 			// 角色
 			List<SysRole> sysRoleList = new ArrayList<SysRole>();
 			if (roleIds != null) {
@@ -256,15 +269,24 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/info", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@Valid UserInfo userInfo, BindingResult br){
+	public @ResponseBody ResponseModel save(@RequestParam(value="pic", required=false) MultipartFile pic, @Valid UserInfo userInfo, BindingResult br){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
             return rm;
 		}
 		try {
-			LoginUser loginUser = UserUtils.getLoginUser();
 			SysManager sysManager = new SysManager();
+			
+			// 头像地址
+			String portraitPic = "";
+			if (pic != null) {
+				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
+				portraitPic = Global.IMG_URL + path;
+			}
+			sysManager.setPortraitPic(portraitPic);
+						
+			LoginUser loginUser = UserUtils.getLoginUser();
 			sysManager.setId(loginUser.getId());
 			sysManager.setName(userInfo.getName());
 			sysManager.setSex(userInfo.getSex());

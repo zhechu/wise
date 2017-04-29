@@ -4,6 +4,11 @@
 
 <script>
 $(document).ready(function() {
+	// 头像清除事件
+	$("#picClear").on("click", function(){
+		$("#picImg").attr("src", "${ctx }/res/img/default_user_image.png");
+	});
+	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#sysManagerForm").validate({
 		//debug : true, // 调试模式
@@ -63,11 +68,15 @@ $(document).ready(function() {
 			if (pwd && pwd!='') {
 				$("#pwd").val($.base64.encode(pwd));
 			}
+			var form = new FormData($("#sysManagerForm")[0]);
 			$.ajax({
 				url : '${ctx }/sysManager/save',
 				dataType : 'json',
 				type : 'post',
-				data : $("#sysManagerForm").serialize(),
+				data:form,  
+			    cache: false,
+			    processData: false,  
+			    contentType: false,
 				error : function() {
 					$("#msg-box").addMsgBox('danger', '请求出错，请重试');
 					// 重置密码

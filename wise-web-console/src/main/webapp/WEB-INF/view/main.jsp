@@ -16,10 +16,11 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <span><img alt="image" class="img-circle" src="${ctx}/res/img/profile_small.jpg" /></span>
+                        	<c:if test="${empty portraitPic }"><c:set var="portraitPic" value="${ctx }/res/img/default_user_image.png"/></c:if>
+                            <span><img style="width:64px;" alt="image" class="img-circle" src="${portraitPic }" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold"><shiro:principal/></strong></span>
+                               <span class="block m-t-xs"><strong class="font-bold"><shiro:principal property="name"/></strong></span>
                                 <span class="text-muted text-xs block"><shiro:principal property="roleName"/><b class="caret"></b></span>
                                 </span>
                             </a>
@@ -33,7 +34,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element"><img alt='<spring:message code="app.name" />' src="/commons/image/logo.png"/>
+                        <div class="logo-element"><img alt='<spring:message code="app.name" />' src="${ctx }/res/img/logo.png"/>
                         </div>
                     </li>
                     <!-- 菜单 -->

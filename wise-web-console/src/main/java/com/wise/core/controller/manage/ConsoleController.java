@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.wise.core.bean.manage.SysResource;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysResourceService;
+import com.wise.core.web.shiro.LoginUser;
 import com.wise.core.web.utils.UserUtils;
 
 /**
@@ -36,6 +37,9 @@ public class ConsoleController extends BaseController {
 		Integer[] sysRoleIds = UserUtils.getLoginUserRoleIds();
 		List<SysResource> sysResourceList = sysResourceService.findValidMenuTree(sysRoleIds);
 		model.addAttribute("sysResourceList", sysResourceList);
+		// 用户头像
+		LoginUser loginUser = UserUtils.getLoginUser();
+		model.addAttribute("portraitPic", loginUser.getPortraitPic());
 		return "/main";
 	}
 	

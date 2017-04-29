@@ -8,6 +8,15 @@
 <title>Insert title here</title>
 <%@include file="/commons/include/base.jsp"%>
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
+<link href="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet">
+<style type="text/css">
+	.fileinput {
+	    margin-bottom: 0;
+	}
+	.fileinput-preview.fileinput-exists img {
+	    border-radius: 50%;
+	}
+</style>
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -16,12 +25,31 @@
 				<c:set var="status" value="1"/>
 				<c:set var="sex" value="1"/>
 				<c:set var="readonly" value=""/>
-				<h5><c:choose><c:when test="${empty sysManager }">添加</c:when><c:otherwise><c:set var="status" value="${sysManager.status }"/><c:set var="sex" value="${sysManager.sex }"/><c:set var="readonly" value="readonly"/>编辑</c:otherwise></c:choose>用户</h5>
+				<c:set var="portraitPic" value="${ctx }/res/img/default_user_image.png"/>
+				<h5><c:choose><c:when test="${empty sysManager }">添加</c:when><c:otherwise><c:set var="status" value="${sysManager.status }"/><c:set var="sex" value="${sysManager.sex }"/><c:set var="readonly" value="readonly"/><c:if test="${ ! empty sysManager.portraitPic }"><c:set var="portraitPic" value="${sysManager.portraitPic }"/></c:if>编辑</c:otherwise></c:choose>用户</h5>
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
-				<form class="form-horizontal m-t" id="sysManagerForm" action="${ctx }/sysManager/save" method="post">
+				<form class="form-horizontal m-t" id="sysManagerForm" action="${ctx }/sysManager/save" method="post" enctype="multipart/form-data">
 					<input id="id" name="id" value="${sysManager.id }" type="hidden">
+					<div class="form-group">
+						<label for="portraitPic" class="col-sm-3 control-label">头像：</label>
+						<div class="col-sm-6">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+							    <div class="fileinput-new thumbnail" style="width: 100px; height: 64px; border:none;">
+                                    <img id="picImg" class="img-circle" src="${portraitPic }" alt="" /> </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="width: 100px; height: 64px; max-width: 100px; max-height: 64px; border:none;"> </div>
+                               <div>
+                                   <span class="btn-file">
+                                       <span class="btn btn-default btn-sm fileinput-new"> 选择 </span>
+                                       <span class="btn btn-default btn-sm fileinput-exists"> 选择 </span>
+                                       <input type="file" name="pic" id="pic"></span>
+                                   <a id="picClear" style="float:right;" href="javascript:;" class="btn btn-default btn-sm fileinput-exists" data-dismiss="fileinput"> 清空 </a>
+                               </div>
+                           </div>
+                           <span class="help-block m-b-none"><spring:message code="sys.manager.portraitPic.hint" /></span>
+						</div>
+					</div>
 					<div class="form-group">
 						<label for="userName" class="col-sm-3 control-label">用户名：</label>
 						<div class="col-sm-6">
@@ -32,7 +60,7 @@
 						<label for="pwd" class="col-sm-3 control-label">密码：</label>
 						<div class="col-sm-6">
 							<input id="pwd" name="pwd" class="form-control" type="password">
-							<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <c:choose><c:when test="${empty sysManager }"><spring:message code="pwd.add.hint" /></c:when><c:otherwise><spring:message code="pwd.update.hint" /></c:otherwise></c:choose></span>
+							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysManager }"><spring:message code="pwd.add.hint" /></c:when><c:otherwise><spring:message code="pwd.update.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -115,7 +143,7 @@
 			</div>
 		</div>
 	</div>
-
+<script type="text/javascript" src="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
 <%@include file="sysManagerEditJS.jsp"%>
 </body>
 </html>

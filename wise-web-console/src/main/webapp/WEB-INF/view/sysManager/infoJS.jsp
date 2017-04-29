@@ -4,6 +4,11 @@
 
 <script>
 $(document).ready(function() {
+	// 头像清除事件
+	$("#picClear").on("click", function(){
+		$("#picImg").attr("src", "${ctx }/res/img/default_user_image.png");
+	});
+	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#infoForm").validate({
 		//debug : true, // 调试模式
@@ -36,11 +41,15 @@ $(document).ready(function() {
             }
 		},
 		submitHandler : function(form) {
+			var form = new FormData($("#infoForm")[0]);
 			$.ajax({
 				url : '${ctx }/sysManager/info',
 				dataType : 'json',
 				type : 'post',
-				data : $("#infoForm").serialize(),
+				data:form,  
+			    cache: false,
+			    processData: false,  
+			    contentType: false,
 				error : function() {
 					$("#msg-box").addMsgBox('danger', '请求出错，请重试');
 				},
