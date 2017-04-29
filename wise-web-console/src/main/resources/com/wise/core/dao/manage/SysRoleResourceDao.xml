@@ -87,4 +87,11 @@
 		where roleId = #{sysRoleId,jdbcType=INTEGER}
 	</delete>
 	
+	<!-- 根据资源主键删除 -->
+	<delete id="deleteBySysResourceId">
+		delete from
+		t_sys_role_resource
+		where sysResourceId = #{sysResourceId,jdbcType=INTEGER}
+	</delete>
+	
 </mapper>

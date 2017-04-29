@@ -121,6 +121,16 @@ public class SysResourceController extends BaseController {
 	public @ResponseBody List<SysResource> data(){
 		return sysResourceService.find();
 	}
+	
+	/**
+	 * 返回资源所有列表（可用）
+	 * @return
+	 */
+	@RequiresPermissions({"sys:resource:view"})
+	@RequestMapping(value = "/validData", method = {RequestMethod.POST})
+	public @ResponseBody List<SysResource> validData(){
+		return sysResourceService.findValid();
+	}
 
 	/**
 	 * 返回资源列表数据

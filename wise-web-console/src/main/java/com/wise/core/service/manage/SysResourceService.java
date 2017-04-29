@@ -40,4 +40,10 @@ public interface SysResourceService extends BaseService<SysResource> {
 	 */
 	List<SysResource> find();
 	
+	/**
+	 * 获取资源列表（可用）
+	 * @return
+	 */
+	List<SysResource> findValid();
+	
 }

@@ -24,20 +24,20 @@
 					<input id="resourceIds" name="resourceIds" type="hidden">
 					<div class="form-group">
 						<label for="type" class="col-sm-3 control-label">名称：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<input id="name" name="name" value="${sysRole.name }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="description" class="col-sm-3 control-label">描述：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<textarea id="description" name="description"
 								class="form-control" rows="3">${sysRole.description }</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="status" class="col-sm-3 control-label">状态：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
@@ -55,7 +55,7 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">权限：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<ul id="tree" class="ztree" style="overflow:auto;"></ul>
 						</div>
 					</div>

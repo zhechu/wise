@@ -12,5 +12,11 @@ public interface SysRoleResourceDao extends BaseDao<SysRoleResource> {
 	 * @param sysRoleId
 	 */
 	void deleteBySysRoleId(@Param("sysRoleId") Integer sysRoleId);
-    
+	
+	/**
+	 * 删除角色资源
+	 * @param sysResourceId
+	 */
+	void deleteBySysResourceId(@Param("sysResourceId") Integer sysResourceId);
+	
 }

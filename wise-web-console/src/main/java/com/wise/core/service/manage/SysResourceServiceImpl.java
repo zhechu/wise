@@ -14,6 +14,7 @@ import com.wise.common.config.Global;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.core.bean.manage.SysResource;
 import com.wise.core.dao.manage.SysResourceDao;
+import com.wise.core.dao.manage.SysRoleResourceDao;
 
 /**
  * 系统资源
@@ -23,6 +24,9 @@ import com.wise.core.dao.manage.SysResourceDao;
 @Service("sysResourceService")
 public class SysResourceServiceImpl implements SysResourceService{
 
+	@Autowired
+	private SysRoleResourceDao sysRoleResourceDao;
+	
 	@Autowired
 	private SysResourceDao sysResourceDao;
 
@@ -38,7 +42,34 @@ public class SysResourceServiceImpl implements SysResourceService{
 		SysResource sysResource = sysResourceDao.selectByPrimaryKey(id);
 		if (sysResource == null)
 			throw new DataNotExistedException("资源不存在");
+		
+		// 级联删除子资源
+		deleteChildren(id);
+		
+		// 删除角色资源关系
+		sysRoleResourceDao.deleteBySysResourceId(id);
+		
+		// 删除资源
 		sysResourceDao.deleteByPrimaryKey(id);
+	}
+	
+	/**
+	 * 级联删除子资源
+	 * @param parentId 父资源主键
+	 */
+	private void deleteChildren(Integer parentId) {
+		// 判断是否存在子资源，若存在，则删除子资源
+		List<SysResource> sysResourceChildrenList = sysResourceDao.select(null, null, parentId, null);
+		if (!sysResourceChildrenList.isEmpty()) {
+			for (SysResource sysResource : sysResourceChildrenList) {
+				Integer id = sysResource.getId();
+				deleteChildren(id);
+				// 删除角色资源关系
+				sysRoleResourceDao.deleteBySysResourceId(id);
+				// 删除资源
+				sysResourceDao.deleteByPrimaryKey(id);
+			}
+		}
 	}
 
 	@Transactional
@@ -51,6 +82,14 @@ public class SysResourceServiceImpl implements SysResourceService{
 				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 				throw new DataNotExistedException("资源不存在");
 			}
+
+			// 级联删除子资源
+			deleteChildren(id);
+			
+			// 删除角色资源关系
+			sysRoleResourceDao.deleteBySysResourceId(id);
+			
+			// 删除资源
 			sysResourceDao.deleteByPrimaryKey(id);
 		}
 	}
@@ -61,7 +100,27 @@ public class SysResourceServiceImpl implements SysResourceService{
 		SysResource sysResourceSource = sysResourceDao.selectByPrimaryKey(sysResource.getId());
 		if (sysResourceSource == null)
 			throw new DataNotExistedException("资源不存在");
+		// 若资源的状态有更新，则级联更改子资源的状态
+		if (!sysResourceSource.getStatus().equals(sysResource.getStatus()))
+			updateChildrenStatus(sysResource);
 		sysResourceDao.updateByPrimaryKeySelective(sysResource);
+	}
+	
+	/**
+	 * 级联更新子资源状态
+	 * @param parentSysResource 父资源
+	 */
+	private void updateChildrenStatus(SysResource parentSysResource) {
+		// 判断是否存在子资源，若存在，则更新子资源状态
+		List<SysResource> sysResourceChildrenList = sysResourceDao.select(null, null, parentSysResource.getId(), null);
+		if (!sysResourceChildrenList.isEmpty()) {
+			Integer status = parentSysResource.getStatus();
+			for (SysResource sysResource : sysResourceChildrenList) {
+				updateChildrenStatus(sysResource);
+				sysResource.setStatus(status);
+				sysResourceDao.updateByPrimaryKeySelective(sysResource);
+			}
+		}
 	}
 
 	@Override
@@ -130,6 +189,11 @@ public class SysResourceServiceImpl implements SysResourceService{
 	@Override
 	public List<SysResource> find() {
 		return sysResourceDao.select(null, null, null, null);
+	}
+	
+	@Override
+	public List<SysResource> findValid() {
+		return sysResourceDao.select(Global.NORMAL, null, null, null);
 	}
 
 }

@@ -3,7 +3,12 @@ package com.wise.core.bean.manage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.web.utils.DictUtils;
 
 public class SysResource extends BaseBean<SysResource> {
     /**
@@ -19,6 +24,8 @@ public class SysResource extends BaseBean<SysResource> {
     /**
      * 资源名称
      */
+    @NotEmpty(message="{sys.resource.name.notempty}")
+    @Length(min=2, message="{sys.resource.name.length}")
     private String name;
 
     /**
@@ -66,6 +73,11 @@ public class SysResource extends BaseBean<SysResource> {
      */
     private List<SysResource> childrenList = new ArrayList<SysResource>(0);
 
+    /**
+     * 父资源字符串（附加属性）
+     */
+    private String parentName;
+    
     public Integer getId() {
         return id;
     }
@@ -153,6 +165,30 @@ public class SysResource extends BaseBean<SysResource> {
 	public void setChildrenList(List<SysResource> childrenList) {
 		this.childrenList = childrenList;
 	}
+
+    public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	/**
+     * 状态字符串（附加属性）
+     * @return
+     */
+    public String getStatusName() {
+    	return DictUtils.getDictLabel(String.valueOf(status), "sys_resource_status", String.valueOf(Global.NORMAL));
+    }
+    
+    /**
+     * 类型字符串（附加属性）
+     * @return
+     */
+    public String getTypeName() {
+    	return DictUtils.getDictLabel(String.valueOf(type), "sys_resource_type", String.valueOf(Global.NORMAL));
+    }
 
 	@Override
     public String toString() {

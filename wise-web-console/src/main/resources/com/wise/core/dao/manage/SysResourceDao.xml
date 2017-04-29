@@ -11,11 +11,13 @@
 		<result column="type" property="type" jdbcType="TINYINT" />
 		<result column="permission" property="permission" jdbcType="VARCHAR" />
 		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<if test="fields == null">
-			id, name, url, icon, description, status, type, permission, parentId,
+			id, name, url, icon, description, status, type,
+			permission, parentId,
 			sort
 		</if>
 		<if test="fields != null">
@@ -25,12 +27,13 @@
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,name,url,icon,description,status,type,permission,parentId,sort
-		from t_sys_resource
-		where id = #{id,jdbcType=INTEGER}
+		a.id,a.name,a.url,a.icon,a.description,a.status,a.type,a.permission,a.parentId,a.sort,b.name parentName
+		from t_sys_resource a left join t_sys_resource b on a.parentId = b.id
+		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from t_sys_resource
+		delete from
+		t_sys_resource
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.wise.core.bean.manage.SysResource">
@@ -42,10 +45,13 @@
 		description, status, type,
 		permission, parentId, sort
 		)
-		values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+		values (#{name,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
 		#{icon,jdbcType=VARCHAR},
-		#{description,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{type,jdbcType=TINYINT},
-		#{permission,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+		#{description,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+		#{type,jdbcType=TINYINT},
+		#{permission,jdbcType=VARCHAR},
+		#{parentId,jdbcType=INTEGER},
 		#{sort,jdbcType=INTEGER}
 		)
 	</insert>
@@ -148,23 +154,30 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysResource">
-		update t_sys_resource
+		update
+		t_sys_resource
 		set name = #{name,jdbcType=VARCHAR},
-		url = #{url,jdbcType=VARCHAR},
+		url =
+		#{url,jdbcType=VARCHAR},
 		icon = #{icon,jdbcType=VARCHAR},
-		description = #{description,jdbcType=VARCHAR},
+		description =
+		#{description,jdbcType=VARCHAR},
 		status = #{status,jdbcType=TINYINT},
 		type = #{type,jdbcType=TINYINT},
-		permission = #{permission,jdbcType=VARCHAR},
-		parentId = #{parentId,jdbcType=INTEGER},
+		permission =
+		#{permission,jdbcType=VARCHAR},
+		parentId =
+		#{parentId,jdbcType=INTEGER},
 		sort = #{sort,jdbcType=INTEGER}
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</update>
-	
-	<!-- 多条件查询-->
+
+	<!-- 多条件查询 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		id, name, url, icon, description, status, type, permission, parentId, sort
+		id, name, url, icon, description, status, type, permission,
+		parentId, sort
 		from
 		t_sys_resource
 		<where>
@@ -180,14 +193,15 @@
 			<if test="sysRoleIds != null">
 				and id in
 				(
-					select distinct sysResourceId from t_sys_role_resource where roleId in
-					<foreach item="item" index="index" collection="sysRoleIds" open="(" separator="," close=")">  
-						#{item}  
-					</foreach>
+				select distinct sysResourceId from t_sys_role_resource where roleId in
+				<foreach item="item" index="index" collection="sysRoleIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
 				)
 			</if>
 		</where>
 		order by sort asc
 	</select>
-	
+
 </mapper>

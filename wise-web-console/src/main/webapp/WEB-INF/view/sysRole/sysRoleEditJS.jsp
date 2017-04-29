@@ -23,7 +23,7 @@ $(document).ready(function() {
             }
         }
     };
-	$.post("${ctx }/sysResource/data", {}, function(data){
+	$.post("${ctx }/sysResource/validData", {}, function(data){
 		$.fn.zTree.init($('#tree'), setting, data);
 		var treeObj = $.fn.zTree.getZTreeObj("tree");
 		// 展开所有节点
