@@ -118,11 +118,11 @@ public class SysManagerServiceImpl implements SysManagerService{
 	}
 
 	@Override
-	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String roleName, String name,
+	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name,
 			Date createdAtStart, Date createdAtEnd) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
-        List<SysManager> list = sysManagerDao.select(userName, status, email, roleName, name, createdAtStart, createdAtEnd);
+        List<SysManager> list = sysManagerDao.select(userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
 		return new PageInfo<SysManager>(list);
 	}
 

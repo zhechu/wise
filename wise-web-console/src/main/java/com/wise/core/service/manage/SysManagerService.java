@@ -24,13 +24,13 @@ public interface SysManagerService extends BaseService<SysManager> {
 	 * @param userName 用户名
 	 * @param status 状态
 	 * @param email 邮箱
-	 * @param roleName 角色名称
+	 * @param sysRoleId 角色主键
 	 * @param name 名称
 	 * @param createdAtStart 创建开始时间
 	 * @param createdAtEnd 创建结束时间
 	 * @return
 	 */
-	PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, String roleName, String name, Date createdAtStart, Date createdAtEnd);
+	PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name, Date createdAtStart, Date createdAtEnd);
 
 	/**
 	 * 用户登录

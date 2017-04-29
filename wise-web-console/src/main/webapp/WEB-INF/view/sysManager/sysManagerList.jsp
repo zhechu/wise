@@ -50,9 +50,20 @@
                     <br/>
                     <div class="row">
                     	<div class="form-group col-md-4">
-                            <label for="roleName" class="col-md-3 control-label">角色：</label>
+                            <label for="sysRoleId" class="col-md-3 control-label">角色：</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="roleName" id="roleName">
+								<div class="input-group">
+									<uform:select 
+										classes="chosen-select" 
+										style="width:120px;"
+										name="sysRoleId" 
+										id="sysRoleId" 
+										items="${sysRoleList}" 
+										itemLabel="name" 
+										itemValue="id" 
+										hintLabel="全部"
+									/>
+								</div>
                             </div>
                         </div>
                     	<div class="form-group col-md-4">

@@ -55,7 +55,10 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.GET})
-	public String list(){
+	public String list(Model model){
+		// 可用角色列表
+		List<SysRole> sysRoleList = sysRoleService.findValid();
+		model.addAttribute("sysRoleList", sysRoleList);
 		return "/sysManager/sysManagerList";
 	}
 
@@ -184,8 +187,8 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.POST})
-	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String userName, Integer status, String email, String roleName, String name, Date createdAtStart, Date createdAtEnd){
-		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, roleName, name, createdAtStart, createdAtEnd);
+	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name, Date createdAtStart, Date createdAtEnd){
+		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
 		return new BootstrapTableResponse(pageInfo.getList(), pageInfo.getTotal());
 	}
 	

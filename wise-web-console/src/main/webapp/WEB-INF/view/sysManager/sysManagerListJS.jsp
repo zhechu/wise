@@ -13,7 +13,7 @@ $(document).ready(function () {
 			userName: $("#userName").val(),
 			name: $("#name").val(),
 			email: $("#email").val(),
-			roleName: $("#roleName").val(),
+			sysRoleId: $("#sysRoleId").val(),
 			status: $("#status").val(),
 			createdAtStart: $("#createdAtStart").val(),
 			createdAtEnd: $("#createdAtEnd").val()
