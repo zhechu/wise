@@ -196,6 +196,7 @@ public class SysManagerController extends BaseController {
 	 * 进入修改密码页
 	 * @return
 	 */
+	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/pwd", method = {RequestMethod.GET})
 	public String pwd(){
 		return "/sysManager/pwd";
@@ -207,6 +208,7 @@ public class SysManagerController extends BaseController {
 	 * @param br
 	 * @return
 	 */
+	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/pwd", method = {RequestMethod.POST})
 	public @ResponseBody ResponseModel pwd(@Valid Pwd pwd, BindingResult br){
 		ResponseModel rm = new ResponseModel();
@@ -237,6 +239,7 @@ public class SysManagerController extends BaseController {
 	 * 进入个人资料页
 	 * @return
 	 */
+	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/info", method = {RequestMethod.GET})
 	public String info(Model model){
 		LoginUser loginUser = UserUtils.getLoginUser();
@@ -251,6 +254,7 @@ public class SysManagerController extends BaseController {
 	 * @param br
 	 * @return
 	 */
+	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/info", method = {RequestMethod.POST})
 	public @ResponseBody ResponseModel save(@Valid UserInfo userInfo, BindingResult br){
 		ResponseModel rm = new ResponseModel();
@@ -259,18 +263,18 @@ public class SysManagerController extends BaseController {
             return rm;
 		}
 		try {
+			LoginUser loginUser = UserUtils.getLoginUser();
 			SysManager sysManager = new SysManager();
-			sysManager.setId(userInfo.getId());
+			sysManager.setId(loginUser.getId());
 			sysManager.setName(userInfo.getName());
 			sysManager.setSex(userInfo.getSex());
 			sysManager.setPhone(userInfo.getPhone());
 			sysManager.setEmail(userInfo.getEmail());
-			LoginUser loginUser = UserUtils.getLoginUser();
 			// 修改者从会话中获取当前用户ID）
 			sysManager.setModifier(loginUser.getId());
 			// 修改时间
 			sysManager.setModifiedAt(new Date());
-			sysManagerService.update(sysManager);
+			sysManagerService.updateInfo(sysManager);
 			rm.msgSuccess("修改个人资料成功");
 		} catch (ServiceException e) {
 			rm.msgFailed(e.getMessage());

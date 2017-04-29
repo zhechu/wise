@@ -25,8 +25,8 @@ public class UserInfo implements Serializable {
     /**
      * 账号邮箱
      */
-    @NotEmpty(message="邮箱不能为空")
-    @Email(message="邮箱格式有误")
+    @NotEmpty(message="{sys.manager.info.email.notempty}")
+    @Email(message="{sys.manager.info.email.email}")
     private String email;
 
     /**
@@ -37,8 +37,8 @@ public class UserInfo implements Serializable {
     /**
      * 姓名
      */
-    @NotEmpty(message="姓名不能为空")
-    @Length(min=2, message="姓名至少2个字符")
+    @NotEmpty(message="{sys.manager.info.name.notempty}")
+    @Length(min=2, message="{sys.manager.info.name.length}")
     private String name;
 
     /**
@@ -49,7 +49,7 @@ public class UserInfo implements Serializable {
     /**
      * 电话
      */
-    @Pattern(regexp="^((\\+\\d+)?1[3458]\\d{9})|((\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8})$", message="电话格式有误")
+    @Pattern(regexp="^((\\+\\d+)?1[3458]\\d{9})|((\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8})$", message="{sys.manager.info.phone.pattern}")
     private String phone;
 
 	public Integer getId() {

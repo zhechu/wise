@@ -13,10 +13,10 @@ public class Pwd implements Serializable {
 	
 	private static final long serialVersionUID = -3761536260127959497L;
 
-	@NotEmpty(message="旧密码不能为空")
+	@NotEmpty(message="{sys.pwd.oldPwd.notempty}")
 	private String oldPwd;
 	
-	@NotEmpty(message="新密码不能为空")
+	@NotEmpty(message="{sys.pwd.newPwd.notempty}")
 	private String newPwd;
 
 	public String getOldPwd() {

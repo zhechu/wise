@@ -165,4 +165,15 @@ public class SysManagerServiceImpl implements SysManagerService{
 		sysManagerDao.updateByPrimaryKeySelective(sysManager);
 	}
 
+	@Override
+	public void updateInfo(SysManager sysManager) throws DataNotExistedException, DataNotAllowUpdateException {
+		SysManager sysManagerSource = sysManagerDao.selectByPrimaryKey(sysManager.getId());
+		if (sysManagerSource == null)
+			throw new DataNotExistedException("用户不存在");
+		// 判断用户名是否有更新，有则抛出异常（用户名不能编辑）
+		if (sysManager.getUserName() != null && !sysManager.getUserName().equals(sysManagerSource.getUserName()))
+			throw new DataNotAllowUpdateException("不能修改用户名");
+		sysManagerDao.updateByPrimaryKeySelective(sysManager);
+	}
+
 }

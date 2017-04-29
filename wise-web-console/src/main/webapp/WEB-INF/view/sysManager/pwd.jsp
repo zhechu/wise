@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@include file="/commons/include/main.jsp"%>
+<%@include file="/commons/include/base.jsp"%>
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
 </head>
 <body class="gray-bg">
@@ -17,7 +17,7 @@
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
-				<form class="form-horizontal m-t" id="pwdForm" action="${ctx }/sysManager/pwd.do" method="post">
+				<form class="form-horizontal m-t" id="pwdForm" action="${ctx }/sysManager/pwd" method="post">
 					<div class="form-group">
 						<label for="oldPwd" class="col-sm-3 control-label">旧密码：</label>
 						<div class="col-sm-8">
@@ -46,6 +46,6 @@
 		</div>
 	</div>
 
-<%@include file="/scripts/console/sysManager/pwdJS.jsp"%>
+<%@include file="pwdJS.jsp"%>
 </body>
 </html>

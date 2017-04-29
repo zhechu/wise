@@ -38,7 +38,7 @@ $(document).ready(function() {
 				newPwd: newPwd
 			};
 			$.ajax({
-				url : '${ctx }/sysManager/pwd.do',
+				url : '${ctx }/sysManager/pwd',
 				dataType : 'json',
 				type : 'post',
 				data : data,

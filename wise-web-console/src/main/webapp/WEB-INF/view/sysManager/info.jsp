@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<%@include file="/commons/include/main.jsp"%>
+<%@include file="/commons/include/base.jsp"%>
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
 <style type="text/css">
 	span.myform-control {
@@ -23,8 +23,7 @@
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
-				<form class="form-horizontal m-t" id="infoForm" action="${ctx }/sysManager/info.do" method="post">
-					<input id="id" name="id" value="${sysManager.id }" type="hidden">
+				<form class="form-horizontal m-t" id="infoForm" action="${ctx }/sysManager/info" method="post">
 					<div class="form-group">
 						<label for="userName" class="col-sm-3 control-label">用户名：</label>
 						<div class="col-sm-8">
@@ -65,7 +64,7 @@
 					<div class="form-group">
 						<label for="roleIds" class="col-sm-3 control-label">角色：</label>
 						<div class="col-sm-8">
-							<span class="myform-control"><c:forEach var="sysRole" items="${sysManager.roleList }" varStatus="status">${sysRole.name }<c:if test="${ ! status.last}">,</c:if></c:forEach></span>
+							<span class="myform-control"><c:forEach var="sysRole" items="${sysManager.sysRoleList }" varStatus="status">${sysRole.name }<c:if test="${ ! status.last}">,</c:if></c:forEach></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -78,6 +77,6 @@
 		</div>
 	</div>
 
-<%@include file="/scripts/console/sysManager/infoJS.jsp"%>
+<%@include file="infoJS.jsp"%>
 </body>
 </html>

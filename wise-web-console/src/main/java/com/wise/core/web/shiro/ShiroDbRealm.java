@@ -74,6 +74,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
     	LoginUser shiroUser = (LoginUser) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		
+		// 登录后拥有的权限
+		info.addStringPermission("user");
+		
 		// 添加权限标识
 		List<SysRole> sysRoleList = shiroUser.getRoleList();
 		int size = sysRoleList.size();

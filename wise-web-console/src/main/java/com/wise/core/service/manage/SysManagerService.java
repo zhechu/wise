@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.github.pagehelper.PageInfo;
 import com.wise.common.dto.PageParam;
+import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysManager;
@@ -51,5 +52,13 @@ public interface SysManagerService extends BaseService<SysManager> {
 	 * @throws ValueConflictException 
 	 */
 	void updatePwd(String loginName, String oldPwd, String newPwd) throws DataNotExistedException, ValueConflictException;
+	
+	/**
+	 * 更新个人资料
+	 * @param sysManager
+	 * @throws DataNotExistedException
+	 * @throws DataNotAllowUpdateException
+	 */
+	void updateInfo(SysManager sysManager) throws DataNotExistedException, DataNotAllowUpdateException;
 	
 }

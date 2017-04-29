@@ -12,7 +12,6 @@ $(document).ready(function() {
 				required: true,
                 minlength: 2
 			},
-			"sex" : "required",
 			"phone" : {
 				required: true,
 				phone: true
@@ -27,7 +26,6 @@ $(document).ready(function() {
 				required: e+"请输入姓名",
 				minlength: e+"姓名必须2个字符以上"
 			},
-			"sex" : e+"请选择性别",
 			"phone" : {
 				required: e+"请输入电话",
 				phone: e+"电话格式有误"
@@ -39,7 +37,7 @@ $(document).ready(function() {
 		},
 		submitHandler : function(form) {
 			$.ajax({
-				url : '${ctx }/sysManager/info.do',
+				url : '${ctx }/sysManager/info',
 				dataType : 'json',
 				type : 'post',
 				data : $("#infoForm").serialize(),
