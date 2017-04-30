@@ -12,8 +12,11 @@ import com.github.pagehelper.PageInfo;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysDict;
+import com.wise.core.config.Global;
 import com.wise.core.dao.manage.SysDictDao;
 import com.wise.core.dto.PageParam;
+import com.wise.core.utils.CacheUtils;
+import com.wise.core.web.utils.DictUtils;
 
 import tk.mybatis.orderbyhelper.OrderByHelper;
 
@@ -35,6 +38,9 @@ public class SysDictServiceImpl implements SysDictService{
 		if (!sysDictList.isEmpty())
 			throw new ValueConflictException("字典已经存在，类型、标签不能重复");
 		sysDictDao.insertSelective(sysDict);
+
+		// 清除缓存
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
 
 	@Transactional
@@ -44,6 +50,9 @@ public class SysDictServiceImpl implements SysDictService{
 		if (sysDict == null)
 			throw new DataNotExistedException("字典不存在");
 		sysDictDao.deleteByPrimaryKey(id);
+		
+		// 清除缓存
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
 
 	@Transactional
@@ -58,6 +67,9 @@ public class SysDictServiceImpl implements SysDictService{
 			}
 			sysDictDao.deleteByPrimaryKey(id);
 		}
+
+		// 清除缓存
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
 
 	@Transactional
@@ -73,6 +85,9 @@ public class SysDictServiceImpl implements SysDictService{
 				throw new ValueConflictException("字典已经存在，类型、标签不能重复");
 		}
 		sysDictDao.updateByPrimaryKeySelective(sysDict);
+
+		// 清除缓存
+		CacheUtils.remove(DictUtils.CACHE_DICT_MAP);
 	}
 
 	@Override
@@ -81,16 +96,16 @@ public class SysDictServiceImpl implements SysDictService{
 	}
 	
 	@Override
-	public List<SysDict> findByType(String type) {
-		return sysDictDao.selectByType(type);
-	}
-
-	@Override
 	public PageInfo<SysDict> findPage(PageParam pageParam, String type, Integer status) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("type", "asc"));
         List<SysDict> list = sysDictDao.select(type, status);
 		return new PageInfo<SysDict>(list);
+	}
+
+	@Override
+	public List<SysDict> findValid() {
+		return sysDictDao.select(null, Global.NORMAL);
 	}
 
 	/*@Override

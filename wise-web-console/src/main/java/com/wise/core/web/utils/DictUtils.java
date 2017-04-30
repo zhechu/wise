@@ -1,12 +1,15 @@
 package com.wise.core.web.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.wise.core.bean.manage.SysDict;
 import com.wise.core.service.manage.SysDictService;
+import com.wise.core.utils.CacheUtils;
 import com.wise.web.utils.SpringContextHolder;
 
 /**
@@ -16,8 +19,12 @@ import com.wise.web.utils.SpringContextHolder;
  */
 public class DictUtils {
 
+	private DictUtils() {}
+	
 	private static SysDictService sysDictService = SpringContextHolder.getBean(SysDictService.class);
 
+	public static final String CACHE_DICT_MAP = "dictMap";
+	
 	/**
 	 * 获取字典标签
 	 * @param value 字典值
@@ -77,9 +84,28 @@ public class DictUtils {
 	 * @param type 类型
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<SysDict> getDictList(String type){
-		List<SysDict> sysDictList = sysDictService.findByType(type);
-		return sysDictList;
+		Map<String, List<SysDict>> dictMap = (Map<String, List<SysDict>>)CacheUtils.get(CACHE_DICT_MAP);
+		if (dictMap==null){
+			dictMap = new HashMap<String, List<SysDict>>();
+			for (SysDict dict : sysDictService.findValid()){
+				List<SysDict> dictList = dictMap.get(dict.getType());
+				if (dictList != null){
+					dictList.add(dict);
+				}else{
+					dictList = new ArrayList<SysDict>();
+					dictList.add(dict);
+					dictMap.put(dict.getType(), dictList);
+				}
+			}
+			CacheUtils.put(CACHE_DICT_MAP, dictMap);
+		}
+		List<SysDict> dictList = dictMap.get(type);
+		if (dictList == null){
+			dictList = new ArrayList<SysDict>();
+		}
+		return dictList;
 	}
 	
 }

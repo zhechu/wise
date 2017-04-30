@@ -10,11 +10,10 @@ import com.wise.core.service.BaseService;
 public interface SysDictService extends BaseService<SysDict> {
 
 	/**
-	 * 获取字典
-	 * @param type 类型
+	 * 获取字典（可用）
 	 * @return
 	 */
-	List<SysDict> findByType(String type);
+	List<SysDict> findValid();
 	
 	/**
 	 * 分页查询（模糊查询）

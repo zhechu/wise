@@ -140,15 +140,6 @@
 		id = #{id,jdbcType=INTEGER}
 	</update>
 
-	<select id="selectByType" resultMap="BaseResultMap">
-		select
-		id,type,value,label,status,description,sort,parentId
-		from
-		t_sys_dict
-		where type = #{type,jdbcType=VARCHAR}
-		order by sort asc
-	</select>
-
 	<select id="selectByTypeAndLabel" resultMap="BaseResultMap">
 		select
 		id,type,value,label,status,description,sort,parentId

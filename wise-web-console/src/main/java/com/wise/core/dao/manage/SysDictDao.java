@@ -10,13 +10,6 @@ import com.wise.core.dao.BaseDao;
 public interface SysDictDao extends BaseDao<SysDict> {
 
 	/**
-	 * 获取字典表
-	 * @param type 类型
-	 * @return
-	 */
-	List<SysDict> selectByType(@Param("type") String type);
-	
-	/**
 	 * 获取字典列表
 	 * @param type 类型
 	 * @param label 标签
