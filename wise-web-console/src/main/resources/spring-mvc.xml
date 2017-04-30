@@ -16,6 +16,16 @@
 		http://www.springframework.org/schema/task
    		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
+	<!-- 读取 多个properties -->
+	<!-- 	<context:property-placeholder location="classpath:jdbc.properties"/> -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:wise.properties</value>
+			</list>
+		</property>
+    	<property name="fileEncoding" value="UTF-8" />
+	</bean>
 
 	<!-- 扫描 -->
 	<context:component-scan base-package="com.wise">
@@ -42,25 +52,24 @@
 	<!-- 视图解释器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/view/" />
-		<property name="suffix" value=".jsp" />
+		<property name="prefix" value="${web.view.prefix}" />
+		<property name="suffix" value="${web.view.suffix}" />
 	</bean>
 
 	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 
 	<!-- 静态资源映射 -->
-	<mvc:resources mapping="/commons/**,/res/**" location="/commons/,/res/"
-		cache-period="31536000" />
+	<mvc:resources mapping="${resource.mapping}" location="${resource.location}" cache-period="${resource.cache.period}" />
 
 	<!-- 定义无Controller的path<->view直接映射 -->
-	<mvc:view-controller path="/" view-name="redirect:/" />
+	<mvc:view-controller path="${view.default.path}" view-name="redirect:${view.default.path}" />
 
-	<!-- 上传图片 -->
+	<!-- 上传文件 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
-		<property name="maxUploadSize" value="104857600" />
-	    <property name="maxInMemorySize" value="4096" />
+		<property name="maxUploadSize" value="${upload.maxUploadSize}" />
+	    <property name="maxInMemorySize" value="${upload.maxInMemorySize}" />
 	    <property name="defaultEncoding" value="UTF-8"></property>	
 	</bean>
 
@@ -68,9 +77,9 @@
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<!-- 国际化信息所在的文件名 -->
-		<property name="basename" value="i18n/messages" />
+		<property name="basename" value="${message.source.basename}" />
 		<!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
-		<property name="useCodeAsDefaultMessage" value="true" />
+		<property name="useCodeAsDefaultMessage" value="${message.source.useCodeAsDefaultMessage}" />
 		<!-- 默认字符编码 -->
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
@@ -85,9 +94,9 @@
 	<!-- 基于Cookie的本地化解析器 -->
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="cookieMaxAge" value="604800" />
-		<property name="defaultLocale" value="zh_CN" />
-		<property name="cookieName" value="Language"></property>
+		<property name="cookieMaxAge" value="${cookie.maxAge}" />
+		<property name="defaultLocale" value="${cookie.defaultLocale}" />
+		<property name="cookieName" value="${cookie.name}"></property>
 	</bean>
 	<!-- 国际化请求拦截器处理 -->
 	<mvc:interceptors>
@@ -117,7 +126,7 @@
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException">/shiro/unauth</prop>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">${shiro.unauthorizedException.path}</prop>
 			</props>
 		</property>
 	</bean>
