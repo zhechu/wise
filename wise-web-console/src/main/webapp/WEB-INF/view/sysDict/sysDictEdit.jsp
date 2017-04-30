@@ -21,25 +21,25 @@
 				<form class="form-horizontal m-t" id="sysDictForm" action="/sysDict/save" method="post">
 					<input id="id" name="id" value="${sysDict.id }" type="hidden">
 					<div class="form-group">
-						<label for="type" class="col-sm-3 control-label">类型：</label>
+						<label for="type" class="col-sm-3 control-label">* 类型：</label>
 						<div class="col-sm-6">
 							<input id="type" name="type" value="${sysDict.type }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="label" class="col-sm-3 control-label">标签：</label>
+						<label for="label" class="col-sm-3 control-label">* 标签：</label>
 						<div class="col-sm-6">
 							<input id="label" name="label" value="${sysDict.label }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="value" class="col-sm-3 control-label">值：</label>
+						<label for="value" class="col-sm-3 control-label">* 值：</label>
 						<div class="col-sm-6">
 							<input id="value" name="value" value="${sysDict.value }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="status" class="col-sm-3 control-label">状态：</label>
+						<label for="status" class="col-sm-3 control-label">* 状态：</label>
 						<div class="col-sm-6">
 							<div class="input-group">
 								<uform:select 
@@ -50,7 +50,6 @@
 									items="${fns:getDictList('sys_dict_status')}" 
 									itemLabel="label" 
 									itemValue="value" 
-									hintLabel="请选择状态"
 									defaultValue="${status }"
 								/>
 							</div>

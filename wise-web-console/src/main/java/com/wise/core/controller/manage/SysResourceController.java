@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wise.common.config.Global;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
 import com.wise.core.bean.manage.SysResource;
+import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysResourceService;
 

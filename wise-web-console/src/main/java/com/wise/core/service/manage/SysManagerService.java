@@ -3,11 +3,11 @@ package com.wise.core.service.manage;
 import java.util.Date;
 
 import com.github.pagehelper.PageInfo;
-import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysManager;
+import com.wise.core.dto.PageParam;
 import com.wise.core.service.BaseService;
 
 public interface SysManagerService extends BaseService<SysManager> {

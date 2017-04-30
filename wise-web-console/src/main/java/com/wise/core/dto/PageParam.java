@@ -1,6 +1,6 @@
-package com.wise.common.dto;
+package com.wise.core.dto;
 
-import com.wise.common.config.Global;
+import com.wise.core.config.Global;
 
 /**
  * 分页传输对象

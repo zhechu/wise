@@ -49,19 +49,19 @@
 					</div>
 					<div class="form-group">
 						<label for="userName" class="col-sm-3 control-label">用户名：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<p class="form-control-static">${sysManager.userName }</p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-3 control-label">姓名：</label>
-						<div class="col-sm-8">
+						<label for="name" class="col-sm-3 control-label">* 姓名：</label>
+						<div class="col-sm-6">
 							<input id="name" name="name" value="${sysManager.name }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="label" class="col-sm-3 control-label">性别：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<uform:radio 
 								items="${fns:getDictList('sex')}" 
 								name="sex" 
@@ -73,20 +73,20 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="phone" class="col-sm-3 control-label">电话：</label>
-						<div class="col-sm-8">
+						<label for="phone" class="col-sm-3 control-label">* 电话：</label>
+						<div class="col-sm-6">
 							<input id="phone" name="phone" value="${sysManager.phone }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="email" class="col-sm-3 control-label">邮箱：</label>
-						<div class="col-sm-8">
+						<label for="email" class="col-sm-3 control-label">* 邮箱：</label>
+						<div class="col-sm-6">
 							<input id="email" name="email" value="${sysManager.email }" class="form-control" type="email">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="roleIds" class="col-sm-3 control-label">角色：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<p class="form-control-static"><c:forEach var="sysRole" items="${sysManager.sysRoleList }" varStatus="status">${sysRole.name }<c:if test="${ ! status.last}">,</c:if></c:forEach></p>
 						</div>
 					</div>

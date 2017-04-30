@@ -19,20 +19,20 @@
 				<div id="msg-box"></div>
 				<form class="form-horizontal m-t" id="pwdForm" action="${ctx }/sysManager/pwd" method="post">
 					<div class="form-group">
-						<label for="oldPwd" class="col-sm-3 control-label">旧密码：</label>
-						<div class="col-sm-8">
+						<label for="oldPwd" class="col-sm-3 control-label">* 旧密码：</label>
+						<div class="col-sm-6">
 							<input id="oldPwd" name="oldPwd" class="form-control" type="password">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="newPwd" class="col-sm-3 control-label">新密码：</label>
-						<div class="col-sm-8">
+						<label for="newPwd" class="col-sm-3 control-label">* 新密码：</label>
+						<div class="col-sm-6">
 							<input id="newPwd" name="newPwd" class="form-control" type="password">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="confirmPwd" class="col-sm-3 control-label">确认密码：</label>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<input id="confirmPwd" name="confirmPwd" class="form-control" type="password">
 						</div>
 					</div>

@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageInfo;
 import com.wise.BaseTest;
-import com.wise.common.config.Global;
-import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.core.bean.manage.SysDict;
+import com.wise.core.config.Global;
+import com.wise.core.dto.PageParam;
 
 public class TestSysDictService extends BaseTest {
 

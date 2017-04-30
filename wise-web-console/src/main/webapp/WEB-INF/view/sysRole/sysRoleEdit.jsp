@@ -23,7 +23,7 @@
 					<input id="id" name="id" value="${sysRole.id }" type="hidden">
 					<input id="resourceIds" name="resourceIds" type="hidden">
 					<div class="form-group">
-						<label for="type" class="col-sm-3 control-label">名称：</label>
+						<label for="type" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
 							<input id="name" name="name" value="${sysRole.name }" class="form-control" type="text">
 						</div>
@@ -47,7 +47,6 @@
 									items="${fns:getDictList('sys_role_status')}" 
 									itemLabel="label" 
 									itemValue="value" 
-									hintLabel="请选择状态"
 									defaultValue="${status }"
 								/>
 							</div>

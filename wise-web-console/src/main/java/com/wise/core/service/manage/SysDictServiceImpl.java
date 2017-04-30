@@ -9,11 +9,11 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysDict;
 import com.wise.core.dao.manage.SysDictDao;
+import com.wise.core.dto.PageParam;
 
 import tk.mybatis.orderbyhelper.OrderByHelper;
 

@@ -10,7 +10,9 @@
 <%@ attribute name="hintLabel" type="java.lang.String" description="提示标签"%>
 <%@ attribute name="defaultValue" type="java.lang.String" description="默认选中"%>
 <select class="${classes}" name="${name }" id="${id }" style="${style}">
-	<option value="">${hintLabel }</option>
+	<c:if test="${ ! empty hintLabel }">
+		<option value="">${hintLabel }</option>
+	</c:if>
 	<c:forEach items="${items }" var="item">
 		<c:choose>
 			<c:when test="${item[itemValue] == defaultValue }">

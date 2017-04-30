@@ -84,17 +84,13 @@ $(document).ready(function() {
 			"name" : {
 				required: true,
                 minlength: 2
-			},
-			"type" : "required",
-			"status" : "required"
+			}
 		},
 		messages : {
 			"name" : {
 				required: e+"请输入名称",
 				minlength: e+"名称至少2个字符"
-			},
-			"type" : e + "请选择类型",
-			"status" : e + "请选择状态"
+			}
 		},
 		submitHandler : function(form) {
 			$.ajax({

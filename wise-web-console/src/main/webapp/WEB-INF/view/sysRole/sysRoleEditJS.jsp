@@ -39,18 +39,10 @@ $(document).ready(function() {
 	$("#sysRoleForm").validate({
 		//debug : true, // 调试模式
 		rules : {
-			"name" : "required",
-			"status" : {
-				required : true,
-				min : 0
-			}
+			"name" : "required"
 		},
 		messages : {
-			"name" : e + "请输入名称",
-			"status" : {
-				required : e + "请选择状态",
-				min : e + "请选择状态"
-			}
+			"name" : e + "请输入名称"
 		},
 		submitHandler : function(form) {
 			// 获取选择的权限节点

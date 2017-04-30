@@ -31,7 +31,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-3 control-label">名称：</label>
+						<label for="name" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
 							<input id="name" name="name" value="${sysResource.name }" class="form-control" type="text">
 						</div>
@@ -48,7 +48,6 @@
 									items="${fns:getDictList('sys_resource_type')}" 
 									itemLabel="label" 
 									itemValue="value" 
-									hintLabel="请选择状态"
 									defaultValue="${type }"
 								/>
 							</div>
@@ -91,7 +90,6 @@
 									items="${fns:getDictList('sys_resource_status')}" 
 									itemLabel="label" 
 									itemValue="value" 
-									hintLabel="请选择状态"
 									defaultValue="${status }"
 								/>
 								<span class="help-block m-b-none"><spring:message code="sys.resource.status.hint" /></span>

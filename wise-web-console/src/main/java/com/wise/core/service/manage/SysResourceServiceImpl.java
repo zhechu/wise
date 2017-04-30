@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.wise.common.config.Global;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.core.bean.manage.SysResource;
+import com.wise.core.config.Global;
 import com.wise.core.dao.manage.SysResourceDao;
 import com.wise.core.dao.manage.SysRoleResourceDao;
 

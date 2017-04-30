@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
 import com.wise.core.bean.manage.SysDict;
 import com.wise.core.controller.BaseController;
+import com.wise.core.dto.PageParam;
 import com.wise.core.service.manage.SysDictService;
 
 /**

@@ -10,7 +10,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wise.common.dto.PageParam;
 import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
@@ -20,6 +19,7 @@ import com.wise.core.bean.manage.SysRole;
 import com.wise.core.bean.manage.SysRoleManager;
 import com.wise.core.dao.manage.SysManagerDao;
 import com.wise.core.dao.manage.SysRoleManagerDao;
+import com.wise.core.dto.PageParam;
 
 import tk.mybatis.orderbyhelper.OrderByHelper;
 

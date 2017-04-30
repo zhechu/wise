@@ -13,10 +13,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
-import com.wise.common.config.Global;
 import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysResource;
 import com.wise.core.bean.manage.SysRole;
+import com.wise.core.config.Global;
 import com.wise.core.service.manage.SysManagerService;
 import com.wise.core.service.manage.SysResourceService;
 

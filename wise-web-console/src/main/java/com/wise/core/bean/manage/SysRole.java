@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
 public class SysRole extends BaseBean<SysRole> {

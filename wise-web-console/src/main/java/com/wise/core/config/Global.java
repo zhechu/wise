@@ -1,4 +1,4 @@
-package com.wise.common.config;
+package com.wise.core.config;
 
 /**
  * 全局配置类

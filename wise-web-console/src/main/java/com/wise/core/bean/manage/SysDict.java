@@ -2,8 +2,8 @@ package com.wise.core.bean.manage;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.wise.common.config.Global;
 import com.wise.core.bean.BaseBean;
+import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
 public class SysDict extends BaseBean<SysDict> {

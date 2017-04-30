@@ -51,7 +51,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="userName" class="col-sm-3 control-label">用户名：</label>
+						<label for="userName" class="col-sm-3 control-label">* 用户名：</label>
 						<div class="col-sm-6">
 							<input id="userName" name="userName" value="${sysManager.userName }" class="form-control" ${readonly } type="text">
 						</div>
@@ -70,7 +70,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="name" class="col-sm-3 control-label">姓名：</label>
+						<label for="name" class="col-sm-3 control-label">* 姓名：</label>
 						<div class="col-sm-6">
 							<input id="name" name="name" value="${sysManager.name }" class="form-control" type="text">
 						</div>
@@ -89,13 +89,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="phone" class="col-sm-3 control-label">电话：</label>
+						<label for="phone" class="col-sm-3 control-label">* 电话：</label>
 						<div class="col-sm-6">
 							<input id="phone" name="phone" value="${sysManager.phone }" class="form-control" type="text">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="email" class="col-sm-3 control-label">邮箱：</label>
+						<label for="email" class="col-sm-3 control-label">* 邮箱：</label>
 						<div class="col-sm-6">
 							<input id="email" name="email" value="${sysManager.email }" class="form-control" type="email">
 						</div>
@@ -125,7 +125,6 @@
 									items="${fns:getDictList('sys_manager_status')}" 
 									itemLabel="label" 
 									itemValue="value" 
-									hintLabel="请选择状态"
 									defaultValue="${status }"
 								/>
 							</div>
