@@ -109,7 +109,7 @@ public class SysManagerController extends BaseController {
 			String portraitPic = "";
 			if (pic != null) {
 				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
-				portraitPic = Global.IMG_URL + path;
+				portraitPic = storageServer + path;
 			}
 			sysManager.setPortraitPic(portraitPic);
 			
@@ -282,7 +282,7 @@ public class SysManagerController extends BaseController {
 			String portraitPic = "";
 			if (pic != null) {
 				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
-				portraitPic = Global.IMG_URL + path;
+				portraitPic = storageServer + path;
 			}
 			sysManager.setPortraitPic(portraitPic);
 						

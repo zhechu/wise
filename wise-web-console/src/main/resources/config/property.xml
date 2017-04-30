@@ -22,9 +22,10 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:jdbc.properties</value>
+				<value>classpath:wise.properties</value>
 			</list>
 		</property>
+    	<property name="fileEncoding" value="utf-8" />
 	</bean>
 		
 		
