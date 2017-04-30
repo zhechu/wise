@@ -16,8 +16,6 @@
 		http://www.springframework.org/schema/task
    		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 
-	<!-- 读取 多个properties -->
-	<!-- 	<context:property-placeholder location="classpath:jdbc.properties"/> -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
