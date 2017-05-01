@@ -16,6 +16,7 @@
 		<result column="zipCode" property="zipCode" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<association property="sysArea" javaType="com.wise.core.bean.manage.SysArea" column="areaId" select="com.wise.core.dao.manage.SysAreaDao.selectByPrimaryKey"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		<if test="fields == null">
@@ -197,6 +198,13 @@
 		remarks = #{remarks,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 获取所有节点 -->
+	<select id="select" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
+		from t_sys_org
+	</select>
 	
 	<!-- 获取子节点 -->
 	<select id="selectByParentId" resultMap="BaseResultMap">

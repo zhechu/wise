@@ -162,6 +162,7 @@
 				and status = #{status,jdbcType=TINYINT}
 			</if>
 		</where>
+		order by sort asc
 	</select>
 
 	<!-- 多条件查询，模糊查询（数据权限，行级与列级） -->

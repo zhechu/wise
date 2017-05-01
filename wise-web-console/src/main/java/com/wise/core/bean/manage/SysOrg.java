@@ -1,6 +1,13 @@
 package com.wise.core.bean.manage;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.wise.core.bean.TreeBean;
+import com.wise.core.config.Global;
+import com.wise.core.web.utils.DictUtils;
 
 public class SysOrg extends TreeBean<SysOrg> {
     /**
@@ -11,6 +18,8 @@ public class SysOrg extends TreeBean<SysOrg> {
     /**
      * 名称
      */
+    @NotEmpty(message="{sys.org.name.notempty}")
+    @Length(min=2, message="{sys.org.name.length}")
     private String name;
 
     /**
@@ -21,8 +30,14 @@ public class SysOrg extends TreeBean<SysOrg> {
     /**
      * 归属区域
      */
+    @NotNull(message="{sys.org.areaId.notnull}")
     private Integer areaId;
 
+    /**
+     * 归属区域（附加属性）
+     */
+    private SysArea sysArea;
+    
     /**
      * 机构编码
      */
@@ -82,7 +97,15 @@ public class SysOrg extends TreeBean<SysOrg> {
         this.areaId = areaId;
     }
 
-    public String getCode() {
+	public SysArea getSysArea() {
+		return sysArea;
+	}
+
+	public void setSysArea(SysArea sysArea) {
+		this.sysArea = sysArea;
+	}
+
+	public String getCode() {
         return code;
     }
 
@@ -136,6 +159,30 @@ public class SysOrg extends TreeBean<SysOrg> {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+	/**
+     * 状态字符串（附加属性）
+     * @return
+     */
+    public String getStatusName() {
+    	return DictUtils.getDictLabel(String.valueOf(status), "sys_org_status", String.valueOf(Global.NORMAL));
+    }
+    
+    /**
+     * 类型字符串（附加属性）
+     * @return
+     */
+    public String getTypeName() {
+    	return DictUtils.getDictLabel(String.valueOf(type), "sys_org_type", String.valueOf(Global.NORMAL));
+    }
+    
+    /**
+     * 等级字符串（附加属性）
+     * @return
+     */
+    public String getGradeName() {
+    	return DictUtils.getDictLabel(String.valueOf(type), "sys_org_grade", String.valueOf(Global.NORMAL));
     }
 
     @Override

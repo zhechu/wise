@@ -92,7 +92,9 @@
 									itemValue="value" 
 									defaultValue="${status }"
 								/>
-								<span class="help-block m-b-none"><spring:message code="sys.resource.status.hint" /></span>
+								<c:if test="${ ! empty sysResource }">
+									<span class="help-block m-b-none"><spring:message code="sys.resource.status.hint" /></span>
+								</c:if>
 							</div>
 						</div>
 					</div>
