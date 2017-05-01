@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wise.core.dao.manage.SysAreaDao">
+	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysArea">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
+		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			id, parentId, parentIds, name, code, type, remarks, sort
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		a.id,a.parentId,a.parentIds,a.name,a.code,a.type,a.remarks,a.sort,b.name parentName
+		from t_sys_area a left join t_sys_area b on a.parentId = b.id
+		where a.id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_sys_area
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.wise.core.bean.manage.SysArea">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_sys_area (parentId, parentIds, name,
+		code, type, remarks,
+		sort)
+		values (#{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR},
+		#{sort,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.wise.core.bean.manage.SysArea">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_sys_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				parentId,
+			</if>
+			<if test="parentIds != null">
+				parentIds,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.wise.core.bean.manage.SysArea">
+		update t_sys_area
+		<set>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				parentIds = #{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysArea">
+		update t_sys_area
+		set parentId = #{parentId,jdbcType=INTEGER},
+		parentIds = #{parentIds,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		code = #{code,jdbcType=VARCHAR},
+		type = #{type,jdbcType=TINYINT},
+		remarks = #{remarks,jdbcType=VARCHAR},
+		sort = #{sort,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 获取所有节点 -->
+	<select id="select" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,code,type,remarks,sort
+		from t_sys_area
+	</select>
+	
+	<!-- 获取子节点 -->
+	<select id="selectByParentId" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,code,type,remarks,sort
+		from t_sys_area
+		where parentId = #{parentId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 获取子孙节点 -->
+	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,code,type,remarks,sort
+		from t_sys_area
+		where parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
+	</select>
+	
+</mapper>

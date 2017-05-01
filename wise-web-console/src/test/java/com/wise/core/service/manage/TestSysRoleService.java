@@ -6,9 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.wise.BaseTest;
-import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ServiceException;
-import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysRole;
 
 public class TestSysRoleService extends BaseTest {
@@ -24,7 +22,7 @@ public class TestSysRoleService extends BaseTest {
 		sysRole.setCreateAt(new Date());
 		try {
 			sysRoleService.create(sysRole);
-		} catch (ValueConflictException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -33,7 +31,7 @@ public class TestSysRoleService extends BaseTest {
 	public void deleteById() {
 		try {
 			sysRoleService.deleteById(4);
-		} catch (DataNotExistedException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
@@ -42,7 +40,7 @@ public class TestSysRoleService extends BaseTest {
 	public void delete() {
 		try {
 			sysRoleService.delete(new Integer[]{4, 5});
-		} catch (DataNotExistedException e) {
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}

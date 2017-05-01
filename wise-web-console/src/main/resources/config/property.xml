@@ -18,14 +18,13 @@
    		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
 		
 	<!-- 读取 多个properties -->
-<!-- 	<context:property-placeholder location="classpath:jdbc.properties"/> -->
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="com.wise.common.springframework.ext.DecryptPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:wise.properties</value>
 			</list>
 		</property>
-    	<property name="fileEncoding" value="utf-8" />
+    	<property name="fileEncoding" value="UTF-8" />
 	</bean>
 		
 		

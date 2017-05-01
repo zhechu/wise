@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wise.core.dao.manage.SysOrgDao">
+	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysOrg">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
+		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="areaId" property="areaId" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="grade" property="grade" jdbcType="TINYINT" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipCode" property="zipCode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			id, parentId, parentIds, name, sort, areaId, code, type, grade, address,
+			zipCode,
+			status, remarks
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		a.id,a.parentId,a.parentIds,a.name,a.sort,a.areaId,a.code,a.type,a.grade,a.address,a.zipCode,a.status,a.remarks,b.name parentName
+		from t_sys_org a left join t_sys_area b on a.parentId = b.id
+		where a.id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_sys_org
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.wise.core.bean.manage.SysOrg">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_sys_org (parentId, parentIds, name,
+		sort, areaId, code,
+		type, grade, address,
+		zipCode, status, remarks
+		)
+		values (#{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{sort,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
+		#{type,jdbcType=TINYINT}, #{grade,jdbcType=TINYINT},
+		#{address,jdbcType=VARCHAR},
+		#{zipCode,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.wise.core.bean.manage.SysOrg">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_sys_org
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				parentId,
+			</if>
+			<if test="parentIds != null">
+				parentIds,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="areaId != null">
+				areaId,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="zipCode != null">
+				zipCode,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="areaId != null">
+				#{areaId,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=TINYINT},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="zipCode != null">
+				#{zipCode,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.wise.core.bean.manage.SysOrg">
+		update t_sys_org
+		<set>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				parentIds = #{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="areaId != null">
+				areaId = #{areaId,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="grade != null">
+				grade = #{grade,jdbcType=TINYINT},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="zipCode != null">
+				zipCode = #{zipCode,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysOrg">
+		update t_sys_org
+		set parentId = #{parentId,jdbcType=INTEGER},
+		parentIds = #{parentIds,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		sort = #{sort,jdbcType=INTEGER},
+		areaId = #{areaId,jdbcType=INTEGER},
+		code = #{code,jdbcType=VARCHAR},
+		type = #{type,jdbcType=TINYINT},
+		grade = #{grade,jdbcType=TINYINT},
+		address = #{address,jdbcType=VARCHAR},
+		zipCode = #{zipCode,jdbcType=VARCHAR},
+		status = #{status,jdbcType=TINYINT},
+		remarks = #{remarks,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 获取子节点 -->
+	<select id="selectByParentId" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
+		from t_sys_org
+		where parentId = #{parentId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 获取子孙节点 -->
+	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
+		select
+		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
+		from t_sys_org
+		where parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
+	</select>
+	
+</mapper>

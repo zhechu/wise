@@ -16,8 +16,9 @@ public interface BaseService<T> {
 	 * 添加
 	 * @param t 实体对象
 	 * @throws ValueConflictException
+	 * @throws DataNotExistedException 
 	 */
-	void create(T t) throws ValueConflictException;
+	void create(T t) throws ValueConflictException, DataNotExistedException;
 	
 	/**
 	 * 删除
