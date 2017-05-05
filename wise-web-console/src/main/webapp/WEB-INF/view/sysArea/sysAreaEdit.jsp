@@ -24,8 +24,8 @@
 					<div class="form-group">
 						<label for="parentName" class="col-sm-3 control-label">父区域：</label>
 						<div class="col-sm-6">
-							<input id="parentName" name="parentName" value="${sysArea.parentName }" class="form-control" type="text" readonly="readonly">
-							<input id="parentId" name="parentId" value="${sysArea.parentId }" type="hidden">
+							<input id="parentName" name="parentName" value="${sysArea.parent.name }" class="form-control" type="text" readonly="readonly">
+							<input id="parentId" name="parent.id" value="${sysArea.parent.id }" type="hidden">
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysArea }"><spring:message code="sys.area.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.area.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>

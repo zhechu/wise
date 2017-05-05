@@ -26,6 +26,13 @@ $(document).ready(function() {
     		enable: true,
     		chkStyle: "radio",
     		radioType: "all"
+    	},
+    	callback: {
+    		onClick: function (event, treeId, treeNode) {
+    			// 单击选中或取消选中
+    			var treeObj = $.fn.zTree.getZTreeObj("tree");
+    			treeObj.checkNode(treeNode, !treeNode.checked, true);
+    		}
     	}
     };
 	// 刷新树

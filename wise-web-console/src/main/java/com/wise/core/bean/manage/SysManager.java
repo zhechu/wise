@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
@@ -106,6 +107,18 @@ public class SysManager extends BaseBean<SysManager> {
      * 修改时间
      */
     private Date modifiedAt;
+
+    /**
+     * 公司
+     */
+    /*@NotNull(message="{sys.manager.company.notnull}")
+    private SysOrg company;*/
+
+    /**
+     * 部门
+     */
+    /*@NotNull(message="{sys.manager.dept.notnull}")
+    private SysOrg dept;*/
 
     /**
      * 角色列表（附加属性）
@@ -239,8 +252,24 @@ public class SysManager extends BaseBean<SysManager> {
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
+/*
+	public SysOrg getCompany() {
+		return company;
+	}
 
-    public List<SysRole> getSysRoleList() {
+	public void setCompany(SysOrg company) {
+		this.company = company;
+	}
+
+	public SysOrg getDept() {
+		return dept;
+	}
+
+	public void setDept(SysOrg dept) {
+		this.dept = dept;
+	}
+*/
+	public List<SysRole> getSysRoleList() {
 		return sysRoleList;
 	}
 

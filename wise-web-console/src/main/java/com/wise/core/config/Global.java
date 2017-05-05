@@ -36,4 +36,8 @@ public class Global {
 	public static final int DEFAULT_PAGE_NUM = 1;
 	public static final int DEFAULT_PAGE_SIZE = 20;
 	
+	/**
+	 * 默认表的别名
+	 */
+	public static final String DEFAULT_TABLE_ALIAS = "a" + ".";
 }

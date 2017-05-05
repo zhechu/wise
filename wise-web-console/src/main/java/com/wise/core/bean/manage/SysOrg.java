@@ -28,14 +28,9 @@ public class SysOrg extends TreeBean<SysOrg> {
     private Integer sort;
 
     /**
-     * 归属区域
-     */
-    @NotNull(message="{sys.org.areaId.notnull}")
-    private Integer areaId;
-
-    /**
      * 归属区域（附加属性）
      */
+    @NotNull(message="{sys.org.areaId.notnull}")
     private SysArea sysArea;
     
     /**
@@ -87,14 +82,6 @@ public class SysOrg extends TreeBean<SysOrg> {
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
     }
 
 	public SysArea getSysArea() {
@@ -185,26 +172,4 @@ public class SysOrg extends TreeBean<SysOrg> {
     	return DictUtils.getDictLabel(String.valueOf(type), "sys_org_grade", String.valueOf(Global.NORMAL));
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", parentIds=").append(parentIds);
-        sb.append(", name=").append(name);
-        sb.append(", sort=").append(sort);
-        sb.append(", areaId=").append(areaId);
-        sb.append(", code=").append(code);
-        sb.append(", type=").append(type);
-        sb.append(", grade=").append(grade);
-        sb.append(", address=").append(address);
-        sb.append(", zipCode=").append(zipCode);
-        sb.append(", status=").append(status);
-        sb.append(", remarks=").append(remarks);
-        sb.append("]");
-        return sb.toString();
-    }
 }

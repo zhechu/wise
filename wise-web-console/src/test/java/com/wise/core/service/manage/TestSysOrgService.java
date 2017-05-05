@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.wise.BaseTest;
 import com.wise.common.exception.service.ServiceException;
+import com.wise.core.bean.manage.SysArea;
 import com.wise.core.bean.manage.SysOrg;
 import com.wise.core.config.Global;
 
@@ -18,9 +19,11 @@ public class TestSysOrgService extends BaseTest {
 	@Test
 	public void create() {
 		SysOrg sysOrg = new SysOrg();
-		sysOrg.setParentId(Global.DEFAULT_PARENT_ID);
+		//sysOrg.setParentId(Global.DEFAULT_PARENT_ID);
 		sysOrg.setName("广东省总公司");
-		sysOrg.setAreaId(1);
+		SysArea sysArea = new SysArea();
+		sysArea.setId(1);
+		sysOrg.setSysArea(sysArea);
 		try {
 			sysOrgService.create(sysOrg);
 		} catch (ServiceException e) {
@@ -46,7 +49,7 @@ public class TestSysOrgService extends BaseTest {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void update() {
 		SysOrg sysOrg = new SysOrg();
 		sysOrg.setId(28);
@@ -58,7 +61,7 @@ public class TestSysOrgService extends BaseTest {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	@Test
 	public void findById() {

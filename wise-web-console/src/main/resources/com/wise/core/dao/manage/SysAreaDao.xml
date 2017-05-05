@@ -3,27 +3,24 @@
 <mapper namespace="com.wise.core.dao.manage.SysAreaDao">
 	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysArea">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="parentId" property="parentId" jdbcType="INTEGER" />
-		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
 		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="type" property="type" jdbcType="TINYINT" />
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<association property="parent" javaType="com.wise.core.bean.manage.SysArea">   
+            <id property="id" column="parentId"/>
+            <result property="name" column="parentName"/>
+        </association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, parentId, parentIds, name, code, type, remarks, sort
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.parentId, a.parentIds, a.name, a.code, a.type, a.remarks, a.sort
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		a.id,a.parentId,a.parentIds,a.name,a.code,a.type,a.remarks,a.sort,b.name parentName
+		<include refid="Base_Column_List"/>,b.name parentName
 		from t_sys_area a left join t_sys_area b on a.parentId = b.id
 		where a.id = #{id,jdbcType=INTEGER}
 	</select>
@@ -39,7 +36,7 @@
 		insert into t_sys_area (parentId, parentIds, name,
 		code, type, remarks,
 		sort)
-		values (#{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
+		values (#{parent.id,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
 		#{name,jdbcType=VARCHAR},
 		#{code,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR},
 		#{sort,jdbcType=INTEGER})
@@ -51,7 +48,7 @@
 		</selectKey>
 		insert into t_sys_area
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="parentId != null">
+			<if test="parent !=null and parent.id != null">
 				parentId,
 			</if>
 			<if test="parentIds != null">
@@ -74,8 +71,8 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="parentId != null">
-				#{parentId,jdbcType=INTEGER},
+			<if test="parent !=null and parent.id != null">
+				#{parent.id,jdbcType=INTEGER},
 			</if>
 			<if test="parentIds != null">
 				#{parentIds,jdbcType=VARCHAR},
@@ -100,8 +97,8 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.wise.core.bean.manage.SysArea">
 		update t_sys_area
 		<set>
-			<if test="parentId != null">
-				parentId = #{parentId,jdbcType=INTEGER},
+			<if test="parent !=null and parent.id != null">
+				parentId = #{parent.id,jdbcType=INTEGER},
 			</if>
 			<if test="parentIds != null">
 				parentIds = #{parentIds,jdbcType=VARCHAR},
@@ -126,7 +123,7 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysArea">
 		update t_sys_area
-		set parentId = #{parentId,jdbcType=INTEGER},
+		set parentId = #{parent.id,jdbcType=INTEGER},
 		parentIds = #{parentIds,jdbcType=VARCHAR},
 		name = #{name,jdbcType=VARCHAR},
 		code = #{code,jdbcType=VARCHAR},
@@ -139,24 +136,24 @@
 	<!-- 获取所有节点 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,code,type,remarks,sort
-		from t_sys_area
+		<include refid="Base_Column_List"/>,b.name parentName
+		from t_sys_area a left join t_sys_area b on a.parentId = b.id
 	</select>
 	
 	<!-- 获取子节点 -->
 	<select id="selectByParentId" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,code,type,remarks,sort
-		from t_sys_area
-		where parentId = #{parentId,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>,b.name parentName
+		from t_sys_area a left join t_sys_area b on a.parentId = b.id
+		where a.parentId = #{parentId,jdbcType=INTEGER}
 	</select>
 	
 	<!-- 获取子孙节点 -->
 	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,code,type,remarks,sort
-		from t_sys_area
-		where parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
+		<include refid="Base_Column_List"/>,b.name parentName
+		from t_sys_area a left join t_sys_area b on a.parentId = b.id
+		where a.parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
 	</select>
 	
 </mapper>

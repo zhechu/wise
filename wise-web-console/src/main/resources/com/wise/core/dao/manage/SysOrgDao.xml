@@ -8,7 +8,6 @@
 		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
-		<result column="areaId" property="areaId" jdbcType="INTEGER" />
 		<result column="code" property="code" jdbcType="VARCHAR" />
 		<result column="type" property="type" jdbcType="TINYINT" />
 		<result column="grade" property="grade" jdbcType="TINYINT" />
@@ -51,7 +50,7 @@
 		)
 		values (#{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
 		#{name,jdbcType=VARCHAR},
-		#{sort,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
+		#{sort,jdbcType=INTEGER}, #{sysArea.id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
 		#{type,jdbcType=TINYINT}, #{grade,jdbcType=TINYINT},
 		#{address,jdbcType=VARCHAR},
 		#{zipCode,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR}
@@ -76,7 +75,7 @@
 			<if test="sort != null">
 				sort,
 			</if>
-			<if test="areaId != null">
+			<if test="sysArea.id != null">
 				areaId,
 			</if>
 			<if test="code != null">
@@ -114,8 +113,8 @@
 			<if test="sort != null">
 				#{sort,jdbcType=INTEGER},
 			</if>
-			<if test="areaId != null">
-				#{areaId,jdbcType=INTEGER},
+			<if test="sysArea.id != null">
+				#{sysArea.id,jdbcType=INTEGER},
 			</if>
 			<if test="code != null">
 				#{code,jdbcType=VARCHAR},
@@ -155,8 +154,8 @@
 			<if test="sort != null">
 				sort = #{sort,jdbcType=INTEGER},
 			</if>
-			<if test="areaId != null">
-				areaId = #{areaId,jdbcType=INTEGER},
+			<if test="sysArea.id != null">
+				areaId = #{sysArea.id,jdbcType=INTEGER},
 			</if>
 			<if test="code != null">
 				code = #{code,jdbcType=VARCHAR},
@@ -188,7 +187,7 @@
 		parentIds = #{parentIds,jdbcType=VARCHAR},
 		name = #{name,jdbcType=VARCHAR},
 		sort = #{sort,jdbcType=INTEGER},
-		areaId = #{areaId,jdbcType=INTEGER},
+		areaId = #{sysArea.id,jdbcType=INTEGER},
 		code = #{code,jdbcType=VARCHAR},
 		type = #{type,jdbcType=TINYINT},
 		grade = #{grade,jdbcType=TINYINT},

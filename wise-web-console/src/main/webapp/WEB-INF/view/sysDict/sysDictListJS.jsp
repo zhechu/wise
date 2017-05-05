@@ -62,8 +62,8 @@ $(document).ready(function () {
 	        field: 'value',
 	        title: '键值',
 	    }, {
-	        field: 'description',
-	        title: '描述',
+	        field: 'remarks',
+	        title: '备注',
 	    }, {
 	        field: 'sort',
 	        title: '排序',

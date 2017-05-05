@@ -83,7 +83,9 @@ public class PageParam {
 	 */
 	public String getOrderBy(String defaultSortName, String defaultSortOrder) {
 		if(sortName == null)
-			sortName = defaultSortName;
+			sortName = Global.DEFAULT_TABLE_ALIAS + defaultSortName;
+		else
+			sortName = Global.DEFAULT_TABLE_ALIAS + sortName;
 		if (sortOrder == null) 
 			sortOrder = defaultSortOrder;
 		return sortName + " " + sortOrder;

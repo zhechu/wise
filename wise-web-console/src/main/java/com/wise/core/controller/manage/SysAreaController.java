@@ -21,6 +21,7 @@ import com.wise.core.bean.manage.SysArea;
 import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysAreaService;
+import com.wise.core.web.dto.ZTree;
 
 /**
  * 区域管理
@@ -118,8 +119,9 @@ public class SysAreaController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:area:view"})
 	@RequestMapping(value = "/data", method = {RequestMethod.POST})
-	public @ResponseBody List<SysArea> data(){
-		return sysAreaService.find();
+	public @ResponseBody List<ZTree> data(){
+		List<SysArea> sysAreaList = sysAreaService.find();
+		return convertToZTree(sysAreaList);
 	}
 	
 	/**

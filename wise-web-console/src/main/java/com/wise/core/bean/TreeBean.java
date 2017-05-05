@@ -1,5 +1,8 @@
 package com.wise.core.bean;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * 实体树基类
  * @author lingyuwang
@@ -14,9 +17,9 @@ public abstract class TreeBean<T> extends BaseBean<T> {
 	private static final long serialVersionUID = 6306703568883832713L;
 
     /**
-     * 父级编号
+     * 父级对象（附加属性）
      */
-	protected Integer parentId;
+	protected T parent;
 
     /**
      * 所有父级编号
@@ -24,16 +27,18 @@ public abstract class TreeBean<T> extends BaseBean<T> {
 	protected String parentIds;
 
     /**
-     * 父资源字符串（附加属性）
+     * 名称
      */
-    private String parentName;
-    
-	public Integer getParentId() {
-		return parentId;
+    @NotEmpty(message="{name.notempty}")
+    @Length(min=2, message="{name.length}")
+    protected String name;
+
+	public T getParent() {
+		return parent;
 	}
 
-	public void setParentId(Integer parentId) {
-		this.parentId = parentId;
+	public void setParent(T parent) {
+		this.parent = parent;
 	}
 
 	public String getParentIds() {
@@ -41,15 +46,15 @@ public abstract class TreeBean<T> extends BaseBean<T> {
 	}
 
 	public void setParentIds(String parentIds) {
-		this.parentIds = parentIds;
+		this.parentIds = parentIds == null ? null : parentIds.trim();
 	}
 
-	public String getParentName() {
-		return parentName;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
 }

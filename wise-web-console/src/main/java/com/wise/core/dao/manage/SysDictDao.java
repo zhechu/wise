@@ -23,7 +23,14 @@ public interface SysDictDao extends BaseDao<SysDict> {
 	 * @param status 状态
 	 * @return
 	 */
-	List<SysDict> select(@Param("type") String type, @Param("status") Integer status);
+	List<SysDict> selectByLike(@Param("type") String type, @Param("status") Integer status);
+	
+	/**
+	 * 获取字典列表
+	 * @param status 状态
+	 * @return
+	 */
+	List<SysDict> selectByStatus(@Param("status") Integer status);
 	
 	/**
 	 * 获取字典列表（模糊查询，数据权限，行级与列级）

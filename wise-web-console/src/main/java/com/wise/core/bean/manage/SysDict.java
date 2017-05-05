@@ -12,11 +12,6 @@ public class SysDict extends BaseBean<SysDict> {
 	 */
 	private static final long serialVersionUID = 4803935162539000847L;
 
-	/**
-     * 主键（自增）
-     */
-    private Integer id;
-
     /**
      * 类型
      */
@@ -41,27 +36,14 @@ public class SysDict extends BaseBean<SysDict> {
     private Integer status;
 
     /**
-     * 字典项描述
+     * 备注
      */
-    private String description;
+    private String remarks;
 
     /**
      * 排序
      */
     private Integer sort;
-
-    /**
-     * 父级字典项
-     */
-    private Integer parentId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getType() {
         return type;
@@ -95,28 +77,20 @@ public class SysDict extends BaseBean<SysDict> {
         this.status = status;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getRemarks() {
+		return remarks;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
-    public Integer getSort() {
+	public Integer getSort() {
         return sort;
     }
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
     }
 
     /**
@@ -127,22 +101,10 @@ public class SysDict extends BaseBean<SysDict> {
         return DictUtils.getDictLabel(String.valueOf(status), "sys_dict_status", String.valueOf(Global.NORMAL));
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", type=").append(type);
-        sb.append(", value=").append(value);
-        sb.append(", label=").append(label);
-        sb.append(", status=").append(status);
-        sb.append(", description=").append(description);
-        sb.append(", sort=").append(sort);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		return "SysDict [type=" + type + ", value=" + value + ", label=" + label + ", status=" + status + ", remarks="
+				+ remarks + ", sort=" + sort + ", id=" + id + "]";
+	}
+
 }

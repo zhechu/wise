@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.wise.BaseTest;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.core.bean.manage.SysArea;
-import com.wise.core.config.Global;
 
 public class TestSysAreaService extends BaseTest {
 
@@ -33,7 +32,7 @@ public class TestSysAreaService extends BaseTest {
 		sysArea.setCode("100101");
 		sysArea.setType(2);
 		sysArea.setSort(10);*/
-		sysArea.setParentId(18);
+		//sysArea.setParentId(18);
 		sysArea.setName("xxx");
 		sysArea.setCode("100201");
 		sysArea.setType(2);
@@ -57,7 +56,7 @@ public class TestSysAreaService extends BaseTest {
 	@Test
 	public void delete() {
 		try {
-			sysAreaService.delete(new Integer[]{17, 20});
+			sysAreaService.delete(new Integer[]{43});
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +66,7 @@ public class TestSysAreaService extends BaseTest {
 	public void update() {
 		SysArea sysArea = new SysArea();
 		sysArea.setId(10);
-		sysArea.setParentId(Global.DEFAULT_PARENT_ID);
+		//sysArea.setParentId(Global.DEFAULT_PARENT_ID);
 		sysArea.setParentIds("0,");
 		sysArea.setName("天河区");
 		sysArea.setCode("100002");

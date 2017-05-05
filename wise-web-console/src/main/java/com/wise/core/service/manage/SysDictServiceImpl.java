@@ -15,6 +15,7 @@ import com.wise.core.bean.manage.SysDict;
 import com.wise.core.config.Global;
 import com.wise.core.dao.manage.SysDictDao;
 import com.wise.core.dto.PageParam;
+import com.wise.core.service.BaseServiceImpl;
 import com.wise.core.utils.CacheUtils;
 import com.wise.core.web.utils.DictUtils;
 
@@ -26,7 +27,7 @@ import tk.mybatis.orderbyhelper.OrderByHelper;
  *
  */
 @Service("sysDictService")
-public class SysDictServiceImpl implements SysDictService{
+public class SysDictServiceImpl extends BaseServiceImpl<SysDictDao, SysDict>  implements SysDictService{
 
 	@Autowired
 	private SysDictDao sysDictDao;
@@ -91,21 +92,16 @@ public class SysDictServiceImpl implements SysDictService{
 	}
 
 	@Override
-	public SysDict findById(Integer id) {
-		return sysDictDao.selectByPrimaryKey(id);
-	}
-	
-	@Override
 	public PageInfo<SysDict> findPage(PageParam pageParam, String type, Integer status) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("type", "asc"));
-        List<SysDict> list = sysDictDao.select(type, status);
+        List<SysDict> list = sysDictDao.selectByLike(type, status);
 		return new PageInfo<SysDict>(list);
 	}
 
 	@Override
 	public List<SysDict> findValid() {
-		return sysDictDao.select(null, Global.NORMAL);
+		return sysDictDao.selectByStatus(Global.NORMAL);
 	}
 
 	/*@Override

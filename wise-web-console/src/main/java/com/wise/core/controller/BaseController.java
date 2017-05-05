@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.FieldError;
 
+import com.wise.core.bean.TreeBean;
+import com.wise.core.config.Global;
+import com.wise.core.web.dto.ZTree;
+
 /**
  * 控制器基础类
  * @author lingyuwang
@@ -79,6 +83,24 @@ public abstract class BaseController {
 			idList.add(Integer.parseInt(id));
 		}
 		return idList;
+	}
+	
+	/**
+	 * 转换树传输对象
+	 * @param zTreeList
+	 * @return
+	 */
+	protected <T extends TreeBean<T>> List<ZTree> convertToZTree(List<T> zTreeList) {
+		List<ZTree> resultList = new ArrayList<ZTree>();
+		for (T t : zTreeList) {
+			Integer parentId = Global.DEFAULT_PARENT_ID;
+			T parent = t.getParent();
+			if (parent != null && parent.getId() != null) {
+				parentId = parent.getId();
+			}
+			resultList.add(new ZTree(parentId, t.getId(), t.getName()));
+		}
+		return resultList;
 	}
 	
 	/**

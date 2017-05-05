@@ -7,25 +7,18 @@
 		<result column="value" property="value" jdbcType="VARCHAR" />
 		<result column="label" property="label" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
-		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
-		<result column="parentId" property="parentId" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, type, value, label, status, description, sort,
-			parentId
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.type, a.value, a.label, a.status, a.remarks, a.sort
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,type,value,label,status,description,sort,parentId
-		from t_sys_dict
-		where id = #{id,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>
+		from t_sys_dict a
+		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
@@ -38,13 +31,11 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into t_sys_dict (type, value, label,
-		status, description, sort,
-		parentId)
+		status, remarks, sort)
 		values (#{type,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR},
 		#{label,jdbcType=VARCHAR},
 		#{status,jdbcType=TINYINT},
-		#{description,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
-		#{parentId,jdbcType=INTEGER})
+		#{remarks,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="com.wise.core.bean.manage.SysDict">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
@@ -65,14 +56,11 @@
 			<if test="status != null">
 				status,
 			</if>
-			<if test="description != null">
-				description,
+			<if test="remarks != null">
+				remarks,
 			</if>
 			<if test="sort != null">
 				sort,
-			</if>
-			<if test="parentId != null">
-				parentId,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -88,14 +76,11 @@
 			<if test="status != null">
 				#{status,jdbcType=TINYINT},
 			</if>
-			<if test="description != null">
-				#{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="sort != null">
 				#{sort,jdbcType=INTEGER},
-			</if>
-			<if test="parentId != null">
-				#{parentId,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
@@ -114,14 +99,11 @@
 			<if test="status != null">
 				status = #{status,jdbcType=TINYINT},
 			</if>
-			<if test="description != null">
-				description = #{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="sort != null">
 				sort = #{sort,jdbcType=INTEGER},
-			</if>
-			<if test="parentId != null">
-				parentId = #{parentId,jdbcType=INTEGER},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
@@ -132,37 +114,45 @@
 		value = #{value,jdbcType=VARCHAR},
 		label = #{label,jdbcType=VARCHAR},
 		status = #{status,jdbcType=TINYINT},
-		description = #{description,jdbcType=VARCHAR},
-		sort =
-		#{sort,jdbcType=INTEGER},
-		parentId = #{parentId,jdbcType=INTEGER}
+		remarks = #{remarks,jdbcType=VARCHAR},
+		sort = #{sort,jdbcType=INTEGER}
 		where
 		id = #{id,jdbcType=INTEGER}
 	</update>
 
 	<select id="selectByTypeAndLabel" resultMap="BaseResultMap">
 		select
-		id,type,value,label,status,description,sort,parentId
+		<include refid="Base_Column_List"/>
 		from
-		t_sys_dict
-		where type = #{type,jdbcType=VARCHAR} and label = #{label,jdbcType=VARCHAR}
+		t_sys_dict a
+		where a.type = #{type,jdbcType=VARCHAR} and a.label = #{label,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据状态查询 -->
+	<select id="selectByStatus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from
+		t_sys_dict a
+		where a.status = #{status,jdbcType=TINYINT}
+		order by sort asc
 	</select>
 
 	<!-- 多条件查询，模糊查询 -->
-	<select id="select" resultMap="BaseResultMap">
+	<select id="selectByLike" resultMap="BaseResultMap">
 		select
-		id,type,value,label,status,description,sort,parentId
+		<include refid="Base_Column_List"/>
 		from
-		t_sys_dict
+		t_sys_dict a
 		<where>
 			<if test="type != null and type != ''">
-				and type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
+				and a.type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
-				and status = #{status,jdbcType=TINYINT}
+				and a.status = #{status,jdbcType=TINYINT}
 			</if>
 		</where>
-		order by sort asc
+		order by a.sort asc
 	</select>
 
 	<!-- 多条件查询，模糊查询（数据权限，行级与列级） -->
@@ -171,17 +161,17 @@
 		<!-- 列级权限 -->
 		<include refid="Base_Column_List"/>
 		from
-		t_sys_dict
+		t_sys_dict a
 		<where>
 			<!-- 行级权限 -->
 			<if test="filtrate != null and filtrate != ''">
 				and ${filtrate}
 			</if>
 			<if test="type != null and type != ''">
-				and type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
+				and a.type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
-				and status = #{status,jdbcType=TINYINT}
+				and a.status = #{status,jdbcType=TINYINT}
 			</if>
 		</where>
 	</select>

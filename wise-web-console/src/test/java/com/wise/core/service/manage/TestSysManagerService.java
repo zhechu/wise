@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.wise.BaseTest;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.core.bean.manage.SysManager;
+import com.wise.core.bean.manage.SysOrg;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.config.Global;
 import com.wise.core.dto.PageParam;
@@ -38,6 +39,12 @@ public class TestSysManagerService extends BaseTest {
 		sysRole.setId(1);
 		sysRoleList.add(sysRole);
 		sysManager.setSysRoleList(sysRoleList);
+		/*SysOrg company = new SysOrg();
+		company.setId(0);
+		SysOrg dept = new SysOrg();
+		dept.setId(0);
+		sysManager.setCompany(company);
+		sysManager.setCompany(dept);*/
 		try {
 			sysManagerService.create(sysManager);
 		} catch (ServiceException e) {

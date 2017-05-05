@@ -22,9 +22,8 @@ public class TestSysDictService extends BaseTest {
 		sysDict.setLabel("启用");
 		sysDict.setValue("1");
 		sysDict.setStatus(Global.NORMAL);
-		sysDict.setDescription("管理员状态");
+		sysDict.setRemarks("管理员状态");
 		sysDict.setSort(10);
-		sysDict.setParentId(Global.DEFAULT_PARENT_ID);
 		try {
 			sysDictService.create(sysDict);
 		} catch (ServiceException e) {
@@ -35,7 +34,7 @@ public class TestSysDictService extends BaseTest {
 	@Test
 	public void deleteById() {
 		try {
-			sysDictService.deleteById(17);
+			sysDictService.deleteById(31);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -53,14 +52,13 @@ public class TestSysDictService extends BaseTest {
 	@Test
 	public void update() {
 		SysDict sysDict = new SysDict();
-		sysDict.setId(17);
+		sysDict.setId(31);
 		sysDict.setType("b_status");
-		sysDict.setLabel("启用");
-		sysDict.setValue("1");
-		sysDict.setStatus(Global.NORMAL);
-		sysDict.setDescription("管理员状态");
+		sysDict.setLabel("启用2");
+		sysDict.setValue("2");
+		sysDict.setStatus(Global.FORBIDDEN);
+		sysDict.setRemarks("管理员状态2");
 		sysDict.setSort(10);
-		sysDict.setParentId(Global.DEFAULT_PARENT_ID);
 		try {
 			sysDictService.update(sysDict);
 		} catch (ServiceException e) {
@@ -70,7 +68,7 @@ public class TestSysDictService extends BaseTest {
 	
 	@Test
 	public void findById() {
-		SysDict sysDict = sysDictService.findById(1);
+		SysDict sysDict = sysDictService.findById(31);
 		System.out.println(sysDict);
 	}
 	

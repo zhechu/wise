@@ -27,7 +27,7 @@
 						<label for="areaName" class="col-sm-3 control-label">* 归属区域：</label>
 						<div class="col-sm-6">
 							<input id="areaName" name="areaName" value="${sysOrg.sysArea.name }" class="form-control" type="text" readonly="readonly">
-							<input id="areaId" name="areaId" value="${sysOrg.areaId }" type="hidden">
+							<input id="areaId" name="sysArea.id" value="${sysOrg.sysArea.id }" type="hidden">
 						</div>
 					</div>
 					<div class="form-group">
