@@ -155,8 +155,8 @@
 		from
 		t_sys_dict a
 		<where>
-			<if test="type != null and type != ''">
-				and a.type like CONCAT(CONCAT('%', #{type,jdbcType=VARCHAR}), '%')
+			<if test="remarks != null and remarks != ''">
+				and a.remarks like CONCAT(CONCAT('%', #{remarks,jdbcType=VARCHAR}), '%')
 			</if>
 			<if test="status != null">
 				and a.status = #{status,jdbcType=TINYINT}

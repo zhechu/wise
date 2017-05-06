@@ -153,9 +153,10 @@ $(document).ready(function () {
         $('#managerTable').bootstrapTable('resetView',{height:table_height});
     });
     
-    // 查询按钮事件
-    $("#searchBtn").on("click", function(){
-    	 $('#managerTable').bootstrapTable('refresh');
+    // 查询
+    $("#searchForm").on("submit", function(){
+    	$('#managerTable').bootstrapTable('refresh');
+    	 return false;
     });
     
     // 删除

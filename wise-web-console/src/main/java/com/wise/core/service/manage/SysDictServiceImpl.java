@@ -89,10 +89,10 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictDao, SysDict>  im
 	}
 
 	@Override
-	public PageInfo<SysDict> findPage(PageParam pageParam, String type, Integer status) {
+	public PageInfo<SysDict> findPage(PageParam pageParam, String remarks, Integer status) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("remarks", "asc"));
-        List<SysDict> list = dao.selectByLike(type, status);
+        List<SysDict> list = dao.selectByLike(remarks, status);
 		return new PageInfo<SysDict>(list);
 	}
 

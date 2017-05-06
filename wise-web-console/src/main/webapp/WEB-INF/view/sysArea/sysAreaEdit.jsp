@@ -96,6 +96,14 @@
 <div id="parentNameContent" style="display:none;">
 	<div class="ibox float-e-margins">
         <div class="ibox-content" style="width:260px; height:300px; overflow:auto;">
+        	<form id="searchParentForm" role="form"  class="form-horizontal" style="padding:5px;">
+	           	<div class="input-group input-group-sm">
+			      <input type="text" class="form-control" name="searchParentName" id="searchParentName" placeholder="名称">
+			      <span class="input-group-btn">
+			        <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			      </span>
+			    </div>
+            </form>
         	<ul id="tree" class="ztree"></ul>
         </div>
     </div>

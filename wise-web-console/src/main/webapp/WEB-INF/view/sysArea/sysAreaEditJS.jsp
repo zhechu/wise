@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/commons/include/taglib.jsp"%>
-
 <script>
 $(document).ready(function() {
 	// 区域树
@@ -36,7 +35,7 @@ $(document).ready(function() {
     	}
     };
 	// 刷新树
-	function initTree() {
+	function initTree(callback) {
 		$.post("${ctx }/sysArea/data", {}, function(data){
 			$.fn.zTree.init($('#tree'), setting, data);
 			var treeObj = $.fn.zTree.getZTreeObj("tree");
@@ -47,6 +46,9 @@ $(document).ready(function() {
 			$.each(nodes, function(i, node){
 				treeObj.expandNode(node, true);
 	    	});
+			if (callback) {
+				callback();
+			}
 		});
 	}
 	//initTree();
@@ -70,19 +72,75 @@ $(document).ready(function() {
 						$("#parentName").val(nodes[0].name);
 						$("#parentId").val(nodes[0].id);
 					}
+					// 重置 search form
+					$("#searchParentForm")[0].reset();
 					layer.close(parentNameLayer);
 				},
 				btn2: function(index, layero){
 					$("#parentName").val('');
 					$("#parentId").val('');
+					// 重置 search form
+					$("#searchParentForm")[0].reset();
 				},
 				btn3: function(index, layero){
+					// 重置 search form
+					$("#searchParentForm")[0].reset();
 					layer.close(parentNameLayer);
 				}
 			});
 			initTree();
 		});
 	</c:if>
+
+	// 更新节点状态
+	function updateNodes(name) {
+		var treeObj = $.fn.zTree.getZTreeObj("tree");
+		var nodes = treeObj.getNodesByParamFuzzy("name", name, null);
+		var data = [];
+		for(var i=0, l=nodes.length; i<l; i++) {
+			nodes[i].children = [];
+			data.push(nodes[i]);
+			// 获取符合条件节点的父节点
+			while(nodes[i].getParentNode() != null){
+				nodes[i] = nodes[i].getParentNode();
+				nodes[i].children = [];
+				data.push(nodes[i]);
+			}
+		}
+		// data 去重
+		data = treeObj.transformToArray(data);
+		var uniqueData = [];
+		$.each(data, function(i, n){
+		    var isContinue = false;
+		    for(var u=0, len=uniqueData.length; u<len; u++) {
+		    	if (uniqueData[u].tId == n.tId) {
+		    		isContinue = true;
+		    		break;
+		    	}
+		    }
+		    if (isContinue) {
+		    	return true;
+		    }
+		    uniqueData.push(n);
+		});
+		uniqueData = treeObj.transformTozTreeNodes(uniqueData);
+		$.fn.zTree.init($("#tree"), setting, uniqueData);
+		// 展开所有节点
+        treeObj.expandAll(true);
+	}
+	
+	// 父区域选择器搜索
+	$("#searchParentForm").on("submit", function() {
+		initTree(function(){
+			var name = $.trim($("#searchParentName").val());
+			if (name.length == 0) {
+				return;
+			}
+	        // 更新父区域选择器
+	        updateNodes(name);
+		}); // 重新加载
+        return false;
+	});
 	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#sysAreaForm").validate({

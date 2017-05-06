@@ -10,7 +10,7 @@ $(document).ready(function () {
 			pageNum: params.pageNumber,  //页码
 			sortName: params.sortName,
 			sortOrder: params.sortOrder,
-			type: $.trim($("#type").val()),
+			remarks: $.trim($("#remarks").val()),
 			status: $("#status").val()
 		};
 	}
@@ -111,9 +111,10 @@ $(document).ready(function () {
         $('#dictTable').bootstrapTable('resetView',{height:table_height});
     });
     
-    // 查询按钮事件
-    $("#searchBtn").on("click", function(){
+    // 查询
+    $("#searchForm").on("submit", function(){
     	 $('#dictTable').bootstrapTable('refresh');
+    	 return false;
     });
     
     // 删除

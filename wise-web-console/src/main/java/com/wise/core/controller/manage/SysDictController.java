@@ -146,14 +146,14 @@ public class SysDictController extends BaseController {
 	/**
 	 * 返回字典列表数据
 	 * @param pageParam 分页参数
-	 * @param type 字典类型
+	 * @param remarks 字典备注
 	 * @param status 状态
 	 * @return
 	 */
 	@RequiresPermissions({"sys:dict:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.POST})
-	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String type, Integer status){
-		PageInfo<SysDict> pageInfo = sysDictService.findPage(pageParam, type, status);
+	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String remarks, Integer status){
+		PageInfo<SysDict> pageInfo = sysDictService.findPage(pageParam, remarks, status);
 		return new BootstrapTableResponse(pageInfo.getList(), pageInfo.getTotal());
 	}
 	

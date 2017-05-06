@@ -26,12 +26,12 @@
 	            </div>
 	        </div>
 	        <div class="ibox-content">
-	            <form role="form"  class="form-horizontal">
+	            <form id="searchForm" role="form"  class="form-horizontal">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="type" class="col-md-3 control-label">类型：</label>
+                            <label for="remarks" class="col-md-3 control-label">类型：</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="type" id="type">
+                                <input type="text" class="form-control" name="remarks" id="remarks">
                             </div>
                         </div>
                         <div class="form-group col-md-4">
@@ -40,7 +40,7 @@
 								<div class="input-group">
 									<uform:select 
 										classes="chosen-select" 
-										style="width:80px;"
+										style="width:200px;"
 										name="status" 
 										id="status" 
 										items="${fns:getDictList('sys_dict_status')}" 
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4 text-right">
-                            <a href="javascript:;" id="searchBtn" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;查询</a>
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;查询</button>
                         </div>
                     </div>
                 </form>
