@@ -19,6 +19,11 @@ public class Global {
 	public static final Integer DEFAULT_PARENT_ID = 0;
 	
 	/**
+	 * 默认字典值
+	 */
+	public static final Integer DEFAULT_DICT_VALUE = 0;
+	
+	/**
 	 * 资源类型，菜单/页面/操作
 	 */
 	public static final Integer SYS_RESOURCE_TYPE_MENU = 0;

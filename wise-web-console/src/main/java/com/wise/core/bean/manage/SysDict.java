@@ -3,6 +3,7 @@ package com.wise.core.bean.manage;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.wise.core.bean.BaseBean;
+import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
@@ -98,7 +99,7 @@ public class SysDict extends BaseBean<SysDict> {
      * @return
      */
     public String getStatusName() {
-        return DictUtils.getDictLabel(String.valueOf(status), "sys_dict_status", String.valueOf(Global.NORMAL));
+        return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_DICT_STATUS, String.valueOf(Global.NORMAL));
     }
 
 	@Override

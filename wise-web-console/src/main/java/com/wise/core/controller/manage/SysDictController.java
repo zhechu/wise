@@ -1,5 +1,7 @@
 package com.wise.core.controller.manage;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,8 +19,11 @@ import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
 import com.wise.core.bean.manage.SysDict;
+import com.wise.core.bean.manage.SysDictMeta;
+import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.dto.PageParam;
+import com.wise.core.service.manage.SysDictMetaService;
 import com.wise.core.service.manage.SysDictService;
 
 /**
@@ -32,6 +37,9 @@ public class SysDictController extends BaseController {
 
 	@Autowired
 	private SysDictService sysDictService;
+	
+	@Autowired
+	private SysDictMetaService sysDictMetaService;
 
 	/**
 	 * 进入字典列表页
@@ -50,6 +58,9 @@ public class SysDictController extends BaseController {
 	@RequiresPermissions({"sys:dict:add", "sys:dict:update"})
 	@RequestMapping(value = "/edit", method = {RequestMethod.GET})
 	public String edit(Integer id, Model model){
+		// 获取字典元数据列表
+		List<SysDictMeta> sysDictMetaList = sysDictMetaService.find();
+		model.addAttribute("sysDictMetaList", sysDictMetaList);
 		if (id != null) { // 编辑，反之添加
 			SysDict sysDict = sysDictService.findById(id);
 			model.addAttribute("sysDict", sysDict);
@@ -70,6 +81,9 @@ public class SysDictController extends BaseController {
             return rm;
 		}
 		try {
+			// 字典备注
+			SysDictMeta sysDictMeta = sysDictMetaService.findByCode(sysDict.getType());
+			sysDict.setRemarks(sysDictMeta.getName());
 			if (sysDict.getId() != null) { // 编辑
 				sysDictService.update(sysDict);
 				rm.msgSuccess("编辑字典成功");
@@ -107,6 +121,25 @@ public class SysDictController extends BaseController {
 			rm.msgFailed("未知错误，请联系管理员");
 			logger.error(e.getMessage(), e);
 		}
+		return rm;
+	}
+	
+	/**
+	 * 获取最大值字典
+	 * @param type 类型
+	 * @return
+	 */
+	@RequiresPermissions({"sys:dict:add", "sys:dict:update"})
+	@RequestMapping(value = "/value", method = {RequestMethod.GET})
+	public @ResponseBody ResponseModel value(@RequestParam String type){
+		ResponseModel rm = new ResponseModel();
+		Integer value = Global.DEFAULT_DICT_VALUE;
+		SysDict sysDict = sysDictService.findMaxValueByType(type);
+		if (sysDict != null && sysDict.getValue() != null) {
+			value = Integer.valueOf(sysDict.getValue()) + 1;
+		}
+		rm.setData(value);
+		rm.msgSuccess();
 		return rm;
 	}
 	

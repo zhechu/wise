@@ -4,6 +4,29 @@
 
 <script>
 $(document).ready(function() {
+	// 设置值
+	function setValue(type) {
+		$.ajax({
+			url : '${ctx}/sysDict/value',
+			dataType : 'json',
+			type : 'get',
+			data : {type: type},
+			success : function(data) {
+				if (data!=null && data.success) {
+					$("#value").val(data.data);
+				}
+			}
+		});
+	}
+	// 添加时，类型级联值
+	<c:if test="${empty sysDict }">
+		setValue($("#type").val());
+		// 类型选择级联改变值
+		$("#type").on("change", function(){
+			setValue($(this).val());
+		});
+	</c:if>
+	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#sysDictForm").validate({
 		//debug : true, // 调试模式

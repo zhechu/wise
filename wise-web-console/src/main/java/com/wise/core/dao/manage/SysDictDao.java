@@ -18,6 +18,13 @@ public interface SysDictDao extends BaseDao<SysDict> {
 	List<SysDict> selectByTypeAndLabel(@Param("type") String type, @Param("label") String label);
 	
 	/**
+	 * 获取字典列表
+	 * @param type 类型
+	 * @return
+	 */
+	List<SysDict> selectByType(@Param("type") String type);
+	
+	/**
 	 * 获取字典列表（模糊查询）
 	 * @param type 类型
 	 * @param status 状态

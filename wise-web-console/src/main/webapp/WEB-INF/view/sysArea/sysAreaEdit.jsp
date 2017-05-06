@@ -47,7 +47,7 @@
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
-									style="width:150px;"
+									style="width:200px;"
 									name="type" 
 									id="type" 
 									items="${fns:getDictList('sys_area_type')}" 

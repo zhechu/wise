@@ -73,6 +73,12 @@ public class TestSysDictService extends BaseTest {
 	}
 	
 	@Test
+	public void findMaxValueByType() {
+		SysDict sysDict = sysDictService.findMaxValueByType("a");
+		System.out.println(sysDict);
+	}
+	
+	@Test
 	public void findPage() {
 		PageParam pageParam = new PageParam();
 		pageParam.setPageNum(2);

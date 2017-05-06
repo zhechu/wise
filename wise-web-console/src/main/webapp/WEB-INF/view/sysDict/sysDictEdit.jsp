@@ -23,19 +23,32 @@
 					<div class="form-group">
 						<label for="type" class="col-sm-3 control-label">* 类型：</label>
 						<div class="col-sm-6">
-							<input id="type" name="type" value="${sysDict.type }" class="form-control" type="text">
+							<div class="input-group">
+								<uform:select 
+									classes="chosen-select" 
+									style="width:200px;"
+									name="type" 
+									id="type" 
+									items="${sysDictMetaList}" 
+									itemLabel="name" 
+									itemValue="code" 
+									defaultValue="${sysDict.type }"
+								/>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="label" class="col-sm-3 control-label">* 标签：</label>
 						<div class="col-sm-6">
 							<input id="label" name="label" value="${sysDict.label }" class="form-control" type="text">
+							<span class="help-block m-b-none"><spring:message code="sys.dict.label.hint" /></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="value" class="col-sm-3 control-label">* 值：</label>
 						<div class="col-sm-6">
 							<input id="value" name="value" value="${sysDict.value }" class="form-control" type="text">
+							<span class="help-block m-b-none"><spring:message code="sys.dict.value.hint" /></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -44,7 +57,7 @@
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
-									style="width:120px;"
+									style="width:200px;"
 									name="status" 
 									id="status" 
 									items="${fns:getDictList('sys_dict_status')}" 
@@ -53,13 +66,6 @@
 									defaultValue="${status }"
 								/>
 							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="remarks" class="col-sm-3 control-label">描述：</label>
-						<div class="col-sm-6">
-							<textarea id="remarks" name="remarks"
-								class="form-control" rows="3">${sysDict.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

@@ -10,7 +10,7 @@ $(document).ready(function () {
 			pageNum: params.pageNumber,  //页码
 			sortName: params.sortName,
 			sortOrder: params.sortOrder,
-			type: $("#type").val(),
+			type: $.trim($("#type").val()),
 			status: $("#status").val()
 		};
 	}
@@ -42,7 +42,7 @@ $(document).ready(function () {
 	    clickToSelect: true, // 点击内容，自动选择rediobox 和 checkbox
 	    height: table_height, // 表格高度
 	    sortable: true, // 是否启用排序
-	    sortName: 'type', // 默认排序字段
+	    sortName: 'remarks', // 默认排序字段
 	    sortOrder: 'asc', // 默认排序方式
 	    silentSort: false, // 设置为 false 将在点击分页按钮时，自动记住排序项
 	    idField : "id", // 指定主键列
@@ -52,7 +52,7 @@ $(document).ready(function () {
 	        field: 'checked',
 	        checkbox: true
 	    }, {
-	        field: 'type',
+	        field: 'remarks',
 	        title: '类型',
 	        sortable: true
 	    }, {
@@ -60,10 +60,7 @@ $(document).ready(function () {
 	        title: '标签',
 	    }, {
 	        field: 'value',
-	        title: '键值',
-	    }, {
-	        field: 'remarks',
-	        title: '备注',
+	        title: '值',
 	    }, {
 	        field: 'sort',
 	        title: '排序',

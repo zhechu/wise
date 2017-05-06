@@ -1,6 +1,7 @@
 package com.wise.core.bean.manage;
 
 import com.wise.core.bean.TreeBean;
+import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
@@ -67,7 +68,7 @@ public class SysArea extends TreeBean<SysArea> {
      * @return
      */
     public String getTypeName() {
-    	return DictUtils.getDictLabel(String.valueOf(type), "sys_area_type", String.valueOf(Global.NORMAL));
+    	return DictUtils.getDictLabel(String.valueOf(type), DictMeta.SYS_AREA_TYPE, String.valueOf(Global.NORMAL));
     }
 
 	@Override

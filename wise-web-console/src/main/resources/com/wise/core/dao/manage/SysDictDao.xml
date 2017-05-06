@@ -128,6 +128,16 @@
 		where a.type = #{type,jdbcType=VARCHAR} and a.label = #{label,jdbcType=VARCHAR}
 	</select>
 
+	<!-- 根据类型查询 -->
+	<select id="selectByType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from
+		t_sys_dict a
+		where a.type = #{type,jdbcType=VARCHAR}
+		order by a.value desc
+	</select>
+
 	<!-- 根据状态查询 -->
 	<select id="selectByStatus" resultMap="BaseResultMap">
 		select
@@ -135,7 +145,7 @@
 		from
 		t_sys_dict a
 		where a.status = #{status,jdbcType=TINYINT}
-		order by sort asc
+		order by a.sort asc
 	</select>
 
 	<!-- 多条件查询，模糊查询 -->

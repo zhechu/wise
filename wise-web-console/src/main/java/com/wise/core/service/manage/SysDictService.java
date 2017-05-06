@@ -16,6 +16,13 @@ public interface SysDictService extends BaseService<SysDict> {
 	List<SysDict> findValid();
 	
 	/**
+	 * 获取最大值字典
+	 * @param type 类型
+	 * @return
+	 */
+	SysDict findMaxValueByType(String type);
+	
+	/**
 	 * 分页查询（模糊查询）
 	 * @param pageParam 分页参数
 	 * @param type 类型

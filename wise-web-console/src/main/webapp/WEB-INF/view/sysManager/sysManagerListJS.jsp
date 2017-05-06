@@ -10,9 +10,9 @@ $(document).ready(function () {
 			pageNum: params.pageNumber,  //页码
 			sortName: params.sortName,
 			sortOrder: params.sortOrder,
-			userName: $("#userName").val(),
-			name: $("#name").val(),
-			email: $("#email").val(),
+			userName: $.trim($("#userName").val()),
+			name: $.trim($("#name").val()),
+			email: $.trim($("#email").val()),
 			sysRoleId: $("#sysRoleId").val(),
 			status: $("#status").val(),
 			createdAtStart: $("#createdAtStart").val(),
