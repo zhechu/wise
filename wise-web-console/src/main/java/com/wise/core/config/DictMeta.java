@@ -47,7 +47,7 @@ public class DictMeta {
 	/**
 	 * 角色状态
 	 */
-	public static final String SYS_ROLE_TYPE = "sys_role_type";
+	public static final String SYS_ROLE_STATUS = "sys_role_status";
 	
 	/**
 	 * 用户状态

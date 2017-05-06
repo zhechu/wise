@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
+import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysRoleService;
@@ -80,15 +81,17 @@ public class SysRoleController extends BaseController {
 			}
 			// 当前用户
 			LoginUser loginUser = UserUtils.getLoginUser();
+			SysManager sysManager = new SysManager();
+			sysManager.setId(loginUser.getId());
 			if (sysRole.getId() != null) { // 编辑
 				// 设置修改人和修改时间
-				sysRole.setModifier(loginUser.getId());
+				sysRole.setModifier(sysManager);
 				sysRole.setModifiedAt(new Date());
 				sysRoleService.update(sysRole);
 				rm.msgSuccess("编辑角色成功");
 			} else { // 添加
 				// 设置创建人和创建时间
-				sysRole.setCreator(loginUser.getId());
+				sysRole.setCreator(sysManager);
 				sysRole.setCreateAt(new Date());
 				sysRoleService.create(sysRole);
 				rm.msgSuccess("添加角色成功");

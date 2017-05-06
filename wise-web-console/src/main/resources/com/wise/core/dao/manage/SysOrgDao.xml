@@ -29,7 +29,7 @@
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
-		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -200,14 +200,14 @@
 	<select id="select" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"/>, b.name parentName, c.name areaName
-		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 	</select>
 	
 	<!-- 获取子节点 -->
 	<select id="selectByParentId" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
-		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 		where a.parentId = #{parentId,jdbcType=INTEGER}
 	</select>
 	
@@ -215,7 +215,7 @@
 	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
-		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 		where a.parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
 	</select>
 	

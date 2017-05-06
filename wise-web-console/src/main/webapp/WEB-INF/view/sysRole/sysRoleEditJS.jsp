@@ -39,10 +39,24 @@ $(document).ready(function() {
 	$("#sysRoleForm").validate({
 		//debug : true, // 调试模式
 		rules : {
-			"name" : "required"
+			"name" : {
+				required: true,
+                minlength: 2,
+                maxlength: 50
+			},
+			"remarks" : {
+                maxlength: 200
+			}
 		},
 		messages : {
-			"name" : e + "请输入名称"
+			"name" : {
+				required: e+"请输入名称",
+				minlength: e+"名称不能小于2个字符",
+				maxlength: e+"名称不能大于50个字符"
+			},
+			"remarks" : {
+                maxlength: e+"备注不能大于200个字符"
+			}
 		},
 		submitHandler : function(form) {
 			// 获取选择的权限节点

@@ -1,10 +1,12 @@
 package com.wise.core.bean.manage;
 
-public class SysRoleResource {
+import com.wise.core.bean.BaseBean;
+
+public class SysRoleResource extends BaseBean<SysRoleResource> {
     /**
-     * 主键（自增）
-     */
-    private Integer id;
+	 * 
+	 */
+	private static final long serialVersionUID = -5506322395457721217L;
 
     /**
      * 角色Id
@@ -15,14 +17,6 @@ public class SysRoleResource {
      * 系统资源Id
      */
     private Integer sysResourceId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getRoleId() {
         return roleId;

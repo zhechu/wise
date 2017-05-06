@@ -8,17 +8,12 @@
 			jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, roleId, sysResourceId
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		id, roleId, sysResourceId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,roleId,sysResourceId
+		<include refid="Base_Column_List"/>
 		from t_sys_role_resource
 		where id = #{id,jdbcType=INTEGER}
 	</select>
@@ -79,6 +74,14 @@
 		where id =
 		#{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 根据角色主键查询资源主键列表 -->
+	<select id="selectSysResourceIdsBySysRoleId" resultType="java.lang.Integer">
+		select
+		sysResourceId
+		from t_sys_role_resource
+		where roleId = #{sysRoleId,jdbcType=INTEGER}
+	</select>
 	
 	<!-- 根据角色主键删除 -->
 	<delete id="deleteBySysRoleId">

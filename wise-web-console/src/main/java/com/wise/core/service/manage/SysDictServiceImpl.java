@@ -28,7 +28,7 @@ import tk.mybatis.orderbyhelper.OrderByHelper;
  *
  */
 @Service("sysDictService")
-public class SysDictServiceImpl extends BaseServiceImpl<SysDictDao, SysDict>  implements SysDictService{
+public class SysDictServiceImpl extends BaseServiceImpl<SysDictDao, SysDict> implements SysDictService{
 
 	@Transactional
 	@Override

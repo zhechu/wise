@@ -23,7 +23,7 @@ public abstract class TreeServiceImpl<D extends TreeDao<T>, T extends TreeBean<T
 	public void create(T t) throws ValueConflictException, DataNotExistedException {
 		// 如果没有设置父节点，则代表为根节点，有则获取父节点主键
 		String parentIds = Global.DEFAULT_PARENT_ID + ",";
-		if (t.getParent() != null && t.getParent().getId() != Global.DEFAULT_PARENT_ID) {
+		if (t.getParent() != null && t.getParent().getId() != null && t.getParent().getId() != Global.DEFAULT_PARENT_ID) {
 			T parent = super.findById(t.getParent().getId());
 			if (parent == null) 
 				throw new DataNotExistedException("父节点不存在");

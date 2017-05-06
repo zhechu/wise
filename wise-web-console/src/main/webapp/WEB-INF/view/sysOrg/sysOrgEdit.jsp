@@ -17,7 +17,8 @@
 				<c:set var="status" value="1"/>
 				<c:set var="type" value="0"/>
 				<c:set var="grade" value="0"/>
-				<h5><c:choose><c:when test="${empty sysOrg }">添加</c:when><c:otherwise><c:set var="status" value="${sysOrg.status }"/><c:set var="type" value="${sysOrg.type }"/><c:set var="grade" value="${sysOrg.grade }"/>编辑</c:otherwise></c:choose>组织机构</h5>
+				<c:set var="disabled" value="false"/>
+				<h5><c:choose><c:when test="${empty sysOrg }">添加</c:when><c:otherwise><c:set var="status" value="${sysOrg.status }"/><c:set var="type" value="${sysOrg.type }"/><c:set var="grade" value="${sysOrg.grade }"/><c:set var="disabled" value="true"/>编辑</c:otherwise></c:choose>组织机构</h5>
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
@@ -26,15 +27,34 @@
 					<div class="form-group">
 						<label for="areaName" class="col-sm-3 control-label">* 归属区域：</label>
 						<div class="col-sm-6">
-							<input id="areaName" name="areaName" value="${sysOrg.sysArea.name }" class="form-control" type="text" readonly="readonly">
-							<input id="areaId" name="sysArea.id" value="${sysOrg.sysArea.id }" type="hidden">
+							<uform:treeselect 
+								classes="form-control" 
+								id="areaId" 
+								name="sysArea.id"
+								defaultValue="${sysOrg.sysArea.id }"
+								url="${ctx }/sysArea/data"  
+								labelId="areaName" 
+								labelName="areaName" 
+								labelDefaultValue="${sysOrg.sysArea.name }" 
+								panelTitle="归属区域"
+							/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="parentName" class="col-sm-3 control-label">父组织机构：</label>
 						<div class="col-sm-6">
-							<input id="parentName" name="parent.name" value="${sysOrg.parent.name }" class="form-control" type="text" readonly="readonly">
-							<input id="parentId" name="parent.id" value="${sysOrg.parent.id }" type="hidden">
+							<uform:treeselect 
+								classes="form-control" 
+								id="parentId" 
+								name="parent.id"
+								defaultValue="${sysOrg.parent.id }"
+								url="${ctx }/sysOrg/data"  
+								disabled="${disabled }"
+								labelId="parentName" 
+								labelName="parent.name" 
+								labelDefaultValue="${sysOrg.parent.name }" 
+								panelTitle="父组织机构"
+							/>
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysOrg }"><spring:message code="sys.org.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.org.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>

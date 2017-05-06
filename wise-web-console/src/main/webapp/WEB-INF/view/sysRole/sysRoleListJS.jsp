@@ -29,8 +29,8 @@ $(document).ready(function () {
 	        field: 'name',
 	        title: '名称'
 	    }, {
-	        field: 'description',
-	        title: '描述',
+	        field: 'remarks',
+	        title: '备注',
 	    }, {
 	        field: 'statusName',
 	        title: '状态',
@@ -45,7 +45,7 @@ $(document).ready(function () {
 	            return value;
 	        }
 	    }, {
-	        field: 'creatorName',
+	        field: 'creator.name',
 	        title: '创建人',
 	    }, {
 	        field: 'createAt',

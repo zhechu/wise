@@ -1,5 +1,9 @@
 package com.wise.core.bean.manage;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.wise.core.bean.BaseBean;
@@ -29,11 +33,14 @@ public class SysDict extends BaseBean<SysDict> {
      * 字典项名称
      */
     @NotEmpty(message="{sys.dict.label.notempty}")
+    @Length(min=2, max=50, message="{sys.dict.label.length}")
     private String label;
 
     /**
      * 状态值（0-禁用，1-启用）
      */
+    @NotNull
+    @Min(value=0, message="{sys.dict.status.min}")
     private Integer status;
 
     /**
@@ -44,6 +51,7 @@ public class SysDict extends BaseBean<SysDict> {
     /**
      * 排序
      */
+    @Min(value=0, message="{sys.dict.sort.min}")
     private Integer sort;
 
     public String getType() {

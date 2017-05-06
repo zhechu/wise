@@ -31,16 +31,20 @@ $(document).ready(function() {
 	$("#sysDictForm").validate({
 		//debug : true, // 调试模式
 		rules : {
-			"type" : "required",
-			"label" : "required",
-			"value" : "required",
-			"status" : "required"
+			"label" : {
+				required: true,
+                minlength: 2,
+                maxlength: 50
+			},
+			"value" : "required"
 		},
 		messages : {
-			"type" : e + "请输入类型",
-			"label" : e + "请输入标签",
-			"value" : e + "请输入值",
-			"status" : e + "请选择状态"
+			"label" : {
+				required: e+"请输入标签",
+				minlength: e+"标签不能小于2个字符",
+				maxlength: e+"标签不能大于50个字符"
+			},
+			"value" : e + "请输入值"
 		},
 		submitHandler : function(form) {
 			$.ajax({

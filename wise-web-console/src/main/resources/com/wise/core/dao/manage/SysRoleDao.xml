@@ -4,28 +4,28 @@
 	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysRole">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
-		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
-		<result column="creator" property="creator" jdbcType="INTEGER" />
-		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
 		<result column="createAt" property="createAt" jdbcType="TIMESTAMP" />
-		<result column="modifier" property="modifier" jdbcType="INTEGER" />
 		<result column="modifiedAt" property="modifiedAt" jdbcType="TIMESTAMP" />
+		<association property="creator" javaType="com.wise.core.bean.manage.SysManager">
+			<id property="id" column="creator"/>
+            <result property="name" column="creatorName"/>
+		</association>
+		<association property="modifier" javaType="com.wise.core.bean.manage.SysManager">
+			<id property="id" column="modifier"/>
+            <result property="name" column="modifierName"/>
+		</association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, name, description, status, creator, createAt, modifier, modifiedAt
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.name, a.remarks, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,name,description,status,creator,createAt,modifier,modifiedAt
-		from t_sys_role
-		where id = #{id,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>, b.name creatorName, c.name modifierName
+		from t_sys_role a left join t_sys_manager b on a.creator = b.id left join t_sys_manager c on a.modifier = c.id
+		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from t_sys_role
@@ -36,12 +36,12 @@
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		insert into t_sys_role (name, description, status,
+		insert into t_sys_role (name, remarks, status,
 		creator, createAt, modifier,
 		modifiedAt)
-		values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+		values (#{name,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},
 		#{status,jdbcType=TINYINT},
-		#{creator,jdbcType=INTEGER}, #{createAt,jdbcType=TIMESTAMP}, #{modifier,jdbcType=INTEGER},
+		#{creator.id,jdbcType=INTEGER}, #{createAt,jdbcType=TIMESTAMP}, #{modifier.id,jdbcType=INTEGER},
 		#{modifiedAt,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="com.wise.core.bean.manage.SysRole">
@@ -54,19 +54,19 @@
 			<if test="name != null">
 				name,
 			</if>
-			<if test="description != null">
-				description,
+			<if test="remarks != null">
+				remarks,
 			</if>
 			<if test="status != null">
 				status,
 			</if>
-			<if test="creator != null">
+			<if test="creator != null and creator.id != null">
 				creator,
 			</if>
 			<if test="createAt != null">
 				createAt,
 			</if>
-			<if test="modifier != null">
+			<if test="modifier != null and modifier.id != null">
 				modifier,
 			</if>
 			<if test="modifiedAt != null">
@@ -77,20 +77,20 @@
 			<if test="name != null">
 				#{name,jdbcType=VARCHAR},
 			</if>
-			<if test="description != null">
-				#{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
 				#{status,jdbcType=TINYINT},
 			</if>
-			<if test="creator != null">
-				#{creator,jdbcType=INTEGER},
+			<if test="creator != null and creator.id != null">
+				#{creator.id,jdbcType=INTEGER},
 			</if>
 			<if test="createAt != null">
 				#{createAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifier != null">
-				#{modifier,jdbcType=INTEGER},
+			<if test="modifier != null and modifier.id != null">
+				#{modifier.id,jdbcType=INTEGER},
 			</if>
 			<if test="modifiedAt != null">
 				#{modifiedAt,jdbcType=TIMESTAMP},
@@ -103,20 +103,20 @@
 			<if test="name != null">
 				name = #{name,jdbcType=VARCHAR},
 			</if>
-			<if test="description != null">
-				description = #{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
 				status = #{status,jdbcType=TINYINT},
 			</if>
-			<if test="creator != null">
-				creator = #{creator,jdbcType=INTEGER},
+			<if test="creator != null and creator.id != null">
+				creator = #{creator.id,jdbcType=INTEGER},
 			</if>
 			<if test="createAt != null">
 				createAt = #{createAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifier != null">
-				modifier = #{modifier,jdbcType=INTEGER},
+			<if test="modifier != null and modifier.id != null">
+				modifier = #{modifier.id,jdbcType=INTEGER},
 			</if>
 			<if test="modifiedAt != null">
 				modifiedAt = #{modifiedAt,jdbcType=TIMESTAMP},
@@ -127,11 +127,11 @@
 	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysRole">
 		update t_sys_role
 		set name = #{name,jdbcType=VARCHAR},
-		description = #{description,jdbcType=VARCHAR},
+		remarks = #{remarks,jdbcType=VARCHAR},
 		status = #{status,jdbcType=TINYINT},
-		creator = #{creator,jdbcType=INTEGER},
+		creator = #{creator.id,jdbcType=INTEGER},
 		createAt = #{createAt,jdbcType=TIMESTAMP},
-		modifier = #{modifier,jdbcType=INTEGER},
+		modifier = #{modifier.id,jdbcType=INTEGER},
 		modifiedAt = #{modifiedAt,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -139,7 +139,7 @@
 	<!-- 根据系统用户主键查询（可用）-->
 	<select id="selectByManagerId" resultMap="BaseResultMap">
 		select
-		a.id, a.name, a.description, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt
+		a.id, a.name, a.remarks, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt
 		from
 		t_sys_role a right join t_sys_role_manager b on a.id = b.roleId
 		where a.status = 1 and b.managerId = #{id,jdbcType=INTEGER}
@@ -148,9 +148,8 @@
 	<!-- 查询-->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		a.id, a.name, a.description, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt, b.name creatorName
-		from
-		t_sys_role a left join t_sys_manager b on a.creator = b.id
+		<include refid="Base_Column_List"/>, b.name creatorName, c.name modifierName
+		from t_sys_role a left join t_sys_manager b on a.creator = b.id left join t_sys_manager c on a.modifier = c.id
 		<where>
 			<if test="status != null">
 				and a.status = #{status,jdbcType=TINYINT}

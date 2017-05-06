@@ -18,7 +18,7 @@ public class TestSysRoleService extends BaseTest {
 	public void create() {
 		SysRole sysRole = new SysRole();
 		sysRole.setName("操作员");
-		sysRole.setCreator(1);
+		//sysRole.setCreator(1);
 		sysRole.setCreateAt(new Date());
 		try {
 			sysRoleService.create(sysRole);
@@ -50,7 +50,7 @@ public class TestSysRoleService extends BaseTest {
 		SysRole sysRole = new SysRole();
 		sysRole.setId(6);
 		sysRole.setName("普通人员");
-		sysRole.setCreator(0);
+		//sysRole.setCreator(0);
 		sysRole.setCreateAt(new Date());
 		try {
 			sysRoleService.update(sysRole);

@@ -15,7 +15,8 @@
 		<div class="ibox float-e-margins">
 			<div class="ibox-title">
 				<c:set var="type" value="0"/>
-				<h5><c:choose><c:when test="${empty sysArea }">添加</c:when><c:otherwise><c:set var="type" value="${sysArea.type }"/>编辑</c:otherwise></c:choose>区域</h5>
+				<c:set var="disabled" value="false"/>
+				<h5><c:choose><c:when test="${empty sysArea }">添加</c:when><c:otherwise><c:set var="type" value="${sysArea.type }"/><c:set var="disabled" value="true"/>编辑</c:otherwise></c:choose>区域</h5>
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
@@ -24,8 +25,18 @@
 					<div class="form-group">
 						<label for="parentName" class="col-sm-3 control-label">父区域：</label>
 						<div class="col-sm-6">
-							<input id="parentName" name="parentName" value="${sysArea.parent.name }" class="form-control" type="text" readonly="readonly">
-							<input id="parentId" name="parent.id" value="${sysArea.parent.id }" type="hidden">
+							<uform:treeselect 
+								classes="form-control" 
+								id="parentId" 
+								name="parent.id"
+								defaultValue="${sysArea.parent.id }"
+								url="${ctx }/sysArea/data"  
+								disabled="${disabled }"
+								labelId="parentName" 
+								labelName="parentName" 
+								labelDefaultValue="${sysArea.parent.name }" 
+								panelTitle="父区域"
+							/>
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysArea }"><spring:message code="sys.area.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.area.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>

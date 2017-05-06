@@ -29,10 +29,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="description" class="col-sm-3 control-label">描述：</label>
+						<label for="remarks" class="col-sm-3 control-label">备注：</label>
 						<div class="col-sm-6">
-							<textarea id="description" name="description"
-								class="form-control" rows="3">${sysRole.description }</textarea>
+							<textarea id="remarks" name="remarks"
+								class="form-control" rows="3">${sysRole.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.wise.core.bean.BaseBean;
+import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
@@ -16,37 +21,31 @@ public class SysRole extends BaseBean<SysRole> {
 	 */
 	private static final long serialVersionUID = 4497175268922480227L;
 
-	/**
-     * 主键（自增）
-     */
-    private Integer id;
-
     /**
      * 角色名称
      */
     @NotEmpty(message="{sys.role.name.notempty}")
+    @Length(min=2, max=50, message="{sys.role.name.length}")
     private String name;
 
     /**
      * 描述
      */
-    private String description;
+    @Length(max=200, message="{sys.role.remarks.length}")
+    private String remarks;
 
     /**
      * 状态（0-禁用，1-启用）
      */
+    @NotNull
+    @Min(value=0, message="{sys.role.status.min}")
     private Integer status;
 
     /**
      * 创建者
      */
-    private Integer creator;
+    private SysManager creator;
     
-    /**
-     * 创建者名称（附加属性）
-     */
-    private String creatorName;
-
     /**
      * 创建时间
      */
@@ -55,7 +54,7 @@ public class SysRole extends BaseBean<SysRole> {
     /**
      * 修改者
      */
-    private Integer modifier;
+    private SysManager modifier;
 
     /**
      * 修改时间
@@ -67,14 +66,6 @@ public class SysRole extends BaseBean<SysRole> {
      */
     private List<Integer> sysResourceIdList = new ArrayList<Integer>(0);
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -83,15 +74,15 @@ public class SysRole extends BaseBean<SysRole> {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getRemarks() {
+		return remarks;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
-    public Integer getStatus() {
+	public Integer getStatus() {
         return status;
     }
 
@@ -99,20 +90,12 @@ public class SysRole extends BaseBean<SysRole> {
         this.status = status;
     }
 
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public String getCreatorName() {
-		return creatorName;
+	public SysManager getCreator() {
+		return creator;
 	}
 
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
+	public void setCreator(SysManager creator) {
+		this.creator = creator;
 	}
 
 	public Date getCreateAt() {
@@ -123,15 +106,15 @@ public class SysRole extends BaseBean<SysRole> {
         this.createAt = createAt;
     }
 
-    public Integer getModifier() {
-        return modifier;
-    }
+    public SysManager getModifier() {
+		return modifier;
+	}
 
-    public void setModifier(Integer modifier) {
-        this.modifier = modifier;
-    }
+	public void setModifier(SysManager modifier) {
+		this.modifier = modifier;
+	}
 
-    public Date getModifiedAt() {
+	public Date getModifiedAt() {
         return modifiedAt;
     }
 
@@ -152,24 +135,7 @@ public class SysRole extends BaseBean<SysRole> {
      * @return
      */
     public String getStatusName() {
-        return DictUtils.getDictLabel(String.valueOf(status), "sys_role_status", String.valueOf(Global.NORMAL));
+        return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_ROLE_STATUS, String.valueOf(Global.NORMAL));
     }
 
-	@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
-        sb.append(", status=").append(status);
-        sb.append(", creator=").append(creator);
-        sb.append(", createAt=").append(createAt);
-        sb.append(", modifier=").append(modifier);
-        sb.append(", modifiedAt=").append(modifiedAt);
-        sb.append("]");
-        return sb.toString();
-    }
 }
