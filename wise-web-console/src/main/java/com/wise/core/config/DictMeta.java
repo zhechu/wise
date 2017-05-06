@@ -30,6 +30,11 @@ public class DictMeta {
 	public static final String SYS_ORG_STATUS = "sys_org_status";
 	
 	/**
+	 * 机构级别
+	 */
+	public static final String SYS_ORG_GRADE = "sys_org_grade";
+	
+	/**
 	 * 资源类型
 	 */
 	public static final String SYS_RESOURCE_TYPE = "sys_resource_type";

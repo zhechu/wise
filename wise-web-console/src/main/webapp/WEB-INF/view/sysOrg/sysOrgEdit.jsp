@@ -33,8 +33,8 @@
 					<div class="form-group">
 						<label for="parentName" class="col-sm-3 control-label">父组织机构：</label>
 						<div class="col-sm-6">
-							<input id="parentName" name="parentName" value="${sysOrg.parentName }" class="form-control" type="text" readonly="readonly">
-							<input id="parentId" name="parentId" value="${sysOrg.parentId }" type="hidden">
+							<input id="parentName" name="parent.name" value="${sysOrg.parent.name }" class="form-control" type="text" readonly="readonly">
+							<input id="parentId" name="parent.id" value="${sysOrg.parent.id }" type="hidden">
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysOrg }"><spring:message code="sys.org.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.org.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>

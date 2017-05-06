@@ -3,8 +3,6 @@
 <mapper namespace="com.wise.core.dao.manage.SysOrgDao">
 	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysOrg">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="parentId" property="parentId" jdbcType="INTEGER" />
-		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
 		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
@@ -15,23 +13,23 @@
 		<result column="zipCode" property="zipCode" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
-		<association property="sysArea" javaType="com.wise.core.bean.manage.SysArea" column="areaId" select="com.wise.core.dao.manage.SysAreaDao.selectByPrimaryKey"/>
+		<association property="parent" javaType="com.wise.core.bean.manage.SysOrg">   
+            <id property="id" column="parentId"/>
+            <result property="name" column="parentName"/>
+        </association>
+		<association property="sysArea" javaType="com.wise.core.bean.manage.SysArea">
+			<id property="id" column="areaId"/>
+            <result property="name" column="areaName"/>
+		</association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, parentId, parentIds, name, sort, areaId, code, type, grade, address,
-			zipCode,
-			status, remarks
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.parentId, a.parentIds, a.name, a.sort, a.areaId, a.code, a.type, a.grade, a.address, a.zipCode, a.status, a.remarks
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		a.id,a.parentId,a.parentIds,a.name,a.sort,a.areaId,a.code,a.type,a.grade,a.address,a.zipCode,a.status,a.remarks,b.name parentName
-		from t_sys_org a left join t_sys_area b on a.parentId = b.id
+		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
+		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -48,7 +46,7 @@
 		type, grade, address,
 		zipCode, status, remarks
 		)
-		values (#{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
+		values (#{parent.id,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR},
 		#{name,jdbcType=VARCHAR},
 		#{sort,jdbcType=INTEGER}, #{sysArea.id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
 		#{type,jdbcType=TINYINT}, #{grade,jdbcType=TINYINT},
@@ -63,7 +61,7 @@
 		</selectKey>
 		insert into t_sys_org
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="parentId != null">
+			<if test="parent != null and parent.id != null">
 				parentId,
 			</if>
 			<if test="parentIds != null">
@@ -75,7 +73,7 @@
 			<if test="sort != null">
 				sort,
 			</if>
-			<if test="sysArea.id != null">
+			<if test="sysArea != null and sysArea.id != null">
 				areaId,
 			</if>
 			<if test="code != null">
@@ -101,8 +99,8 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="parentId != null">
-				#{parentId,jdbcType=INTEGER},
+			<if test="parent != null and parent.id != null">
+				#{parent.id,jdbcType=INTEGER},
 			</if>
 			<if test="parentIds != null">
 				#{parentIds,jdbcType=VARCHAR},
@@ -113,7 +111,7 @@
 			<if test="sort != null">
 				#{sort,jdbcType=INTEGER},
 			</if>
-			<if test="sysArea.id != null">
+			<if test="sysArea != null and sysArea.id != null">
 				#{sysArea.id,jdbcType=INTEGER},
 			</if>
 			<if test="code != null">
@@ -142,8 +140,8 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.wise.core.bean.manage.SysOrg">
 		update t_sys_org
 		<set>
-			<if test="parentId != null">
-				parentId = #{parentId,jdbcType=INTEGER},
+			<if test="parent != null and parent.id != null">
+				parentId = #{parent.id,jdbcType=INTEGER},
 			</if>
 			<if test="parentIds != null">
 				parentIds = #{parentIds,jdbcType=VARCHAR},
@@ -154,7 +152,7 @@
 			<if test="sort != null">
 				sort = #{sort,jdbcType=INTEGER},
 			</if>
-			<if test="sysArea.id != null">
+			<if test="sysArea != null and sysArea.id != null">
 				areaId = #{sysArea.id,jdbcType=INTEGER},
 			</if>
 			<if test="code != null">
@@ -183,7 +181,7 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.wise.core.bean.manage.SysOrg">
 		update t_sys_org
-		set parentId = #{parentId,jdbcType=INTEGER},
+		set parentId = #{parent.id,jdbcType=INTEGER},
 		parentIds = #{parentIds,jdbcType=VARCHAR},
 		name = #{name,jdbcType=VARCHAR},
 		sort = #{sort,jdbcType=INTEGER},
@@ -201,24 +199,24 @@
 	<!-- 获取所有节点 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
-		from t_sys_org
+		<include refid="Base_Column_List"/>, b.name parentName, c.name areaName
+		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 	</select>
 	
 	<!-- 获取子节点 -->
 	<select id="selectByParentId" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
-		from t_sys_org
-		where parentId = #{parentId,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
+		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		where a.parentId = #{parentId,jdbcType=INTEGER}
 	</select>
 	
 	<!-- 获取子孙节点 -->
 	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
 		select
-		id,parentId,parentIds,name,sort,areaId,code,type,grade,address,zipCode,status,remarks
-		from t_sys_org
-		where parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
+		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
+		from t_sys_org a left join t_sys_area b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		where a.parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
 	</select>
 	
 </mapper>

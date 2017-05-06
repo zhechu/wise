@@ -2,10 +2,8 @@ package com.wise.core.bean.manage;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.wise.core.bean.TreeBean;
+import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
@@ -16,13 +14,6 @@ public class SysOrg extends TreeBean<SysOrg> {
 	private static final long serialVersionUID = 1824731540172898011L;
 
     /**
-     * 名称
-     */
-    @NotEmpty(message="{sys.org.name.notempty}")
-    @Length(min=2, message="{sys.org.name.length}")
-    private String name;
-
-    /**
      * 排序
      */
     private Integer sort;
@@ -30,7 +21,7 @@ public class SysOrg extends TreeBean<SysOrg> {
     /**
      * 归属区域（附加属性）
      */
-    @NotNull(message="{sys.org.areaId.notnull}")
+    @NotNull(message="{sys.org.sysArea.notnull}")
     private SysArea sysArea;
     
     /**
@@ -67,14 +58,6 @@ public class SysOrg extends TreeBean<SysOrg> {
      * 备注
      */
     private String remarks;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
 
     public Integer getSort() {
         return sort;
@@ -153,7 +136,7 @@ public class SysOrg extends TreeBean<SysOrg> {
      * @return
      */
     public String getStatusName() {
-    	return DictUtils.getDictLabel(String.valueOf(status), "sys_org_status", String.valueOf(Global.NORMAL));
+    	return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_ORG_STATUS, String.valueOf(Global.NORMAL));
     }
     
     /**
@@ -161,7 +144,7 @@ public class SysOrg extends TreeBean<SysOrg> {
      * @return
      */
     public String getTypeName() {
-    	return DictUtils.getDictLabel(String.valueOf(type), "sys_org_type", String.valueOf(Global.NORMAL));
+    	return DictUtils.getDictLabel(String.valueOf(type), DictMeta.SYS_ORG_TYPE, String.valueOf(Global.NORMAL));
     }
     
     /**
@@ -169,7 +152,7 @@ public class SysOrg extends TreeBean<SysOrg> {
      * @return
      */
     public String getGradeName() {
-    	return DictUtils.getDictLabel(String.valueOf(type), "sys_org_grade", String.valueOf(Global.NORMAL));
+    	return DictUtils.getDictLabel(String.valueOf(grade), DictMeta.SYS_ORG_GRADE, String.valueOf(Global.NORMAL));
     }
 
 }

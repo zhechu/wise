@@ -21,6 +21,7 @@ import com.wise.core.bean.manage.SysOrg;
 import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysOrgService;
+import com.wise.core.web.dto.ZTree;
 
 /**
  * 机构管理
@@ -118,8 +119,9 @@ public class SysOrgController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:org:view"})
 	@RequestMapping(value = "/data", method = {RequestMethod.POST})
-	public @ResponseBody List<SysOrg> data(){
-		return sysOrgService.find();
+	public @ResponseBody List<ZTree> data(){
+		List<SysOrg> sysOrgList = sysOrgService.find();
+		return convertToZTree(sysOrgList);
 	}
 	
 	/**
