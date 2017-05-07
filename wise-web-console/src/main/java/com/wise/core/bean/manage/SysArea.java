@@ -1,5 +1,9 @@
 package com.wise.core.bean.manage;
 
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.wise.core.bean.TreeBean;
 import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
@@ -14,21 +18,25 @@ public class SysArea extends TreeBean<SysArea> {
     /**
      * 区域编码
      */
+    @Length(max=50, message="{sys.area.code.length}")
     private String code;
 
     /**
      * 区域类型（1-国家，2-省份、直辖市，3-地市，4-区县）
      */
+    @Min(value=0, message="{sys.area.type.min}")
     private Integer type;
 
     /**
      * 备注
      */
+    @Length(max=200, message="{sys.area.remarks.length}")
     private String remarks;
 
     /**
      * 排序
      */
+    @Min(value=0, message="{sys.area.sort.min}")
     private Integer sort;
 
     public String getCode() {

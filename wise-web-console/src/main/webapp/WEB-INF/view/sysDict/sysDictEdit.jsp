@@ -40,7 +40,7 @@
 					<div class="form-group">
 						<label for="label" class="col-sm-3 control-label">* 标签：</label>
 						<div class="col-sm-6">
-							<input id="label" name="label" value="${sysDict.label }" class="form-control" type="text">
+							<input id="label" name="label" value="${sysDict.label }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.dict.label.length" />">
 							<span class="help-block m-b-none"><spring:message code="sys.dict.label.hint" /></span>
 						</div>
 					</div>

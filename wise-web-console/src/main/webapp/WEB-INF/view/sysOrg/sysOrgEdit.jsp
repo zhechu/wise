@@ -61,13 +61,13 @@
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
-							<input id="name" name="name" value="${sysOrg.name }" class="form-control" type="text">
+							<input id="name" name="name" value="${sysOrg.name }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="name.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="code" class="col-sm-3 control-label">编码：</label>
 						<div class="col-sm-6">
-							<input id="code" name="code" value="${sysOrg.code }" class="form-control" type="text">
+							<input id="code" name="code" value="${sysOrg.code }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.org.code.length" />">
 						</div>
 					</div>
 					<div class="form-group">
@@ -107,20 +107,20 @@
 					<div class="form-group">
 						<label for="address" class="col-sm-3 control-label">联系地址：</label>
 						<div class="col-sm-6">
-							<input id="address" name="address" value="${sysOrg.address }" class="form-control" type="text">
+							<input id="address" name="address" value="${sysOrg.address }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.org.address.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="zipCode" class="col-sm-3 control-label">邮政编码：</label>
 						<div class="col-sm-6">
-							<input id="zipCode" name="zipCode" value="${sysOrg.zipCode }" class="form-control" type="text">
+							<input id="zipCode" name="zipCode" value="${sysOrg.zipCode }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.org.zipCode.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="remarks" class="col-sm-3 control-label">备注：</label>
 						<div class="col-sm-6">
 							<textarea id="remarks" name="remarks"
-								class="form-control" rows="3">${sysOrg.remarks }</textarea>
+								class="form-control" rows="3" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.org.remarks.length" />">${sysOrg.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

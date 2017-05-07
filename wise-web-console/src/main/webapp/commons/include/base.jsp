@@ -42,3 +42,4 @@
 <script src="${ctx }/res/js/form.js"></script>
 <script src="${ctx }/res/js/jquery.msg-box.js"></script>
 <script src="${ctx }/res/js/date-extend.js"></script>
+<script src="${ctx }/res/js/tooltip-on.js"></script>

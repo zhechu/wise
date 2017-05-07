@@ -10,16 +10,42 @@ $(document).ready(function() {
 		rules : {
 			"name" : {
 				required: true,
-                minlength: 2
+                minlength: 2,
+                maxlength: 50
 			},
-			"areaName" : "required"
+			"code" : {
+                maxlength: 50
+			},
+			"areaName" : "required",
+			"address" : {
+                maxlength: 50
+			},
+			"zipCode" : {
+                maxlength: 50
+			},
+			"remarks" : {
+                maxlength: 200
+			}
 		},
 		messages : {
 			"name" : {
 				required: e+"请输入名称",
-				minlength: e+"名称至少2个字符"
+				minlength: e+"名称至少2个字符",
+				maxlength: e+"名称不能大于50个字符"
 			},
-			"areaName" : e+"请选择归属区域"
+			"code" : {
+                maxlength: e+"编码不能大于50个字符"
+			},
+			"areaName" : e+"请选择归属区域",
+			"address" : {
+                maxlength: e+"联系地址不能大于50个字符"
+			},
+			"zipCode" : {
+                maxlength: e+"邮政编码不能大于50个字符"
+			},
+			"remarks" : {
+                maxlength: e+"备注不能大于200个字符"
+			}
 		},
 		submitHandler : function(form) {
 			$.ajax({

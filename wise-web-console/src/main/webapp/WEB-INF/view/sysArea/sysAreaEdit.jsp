@@ -43,13 +43,13 @@
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
-							<input id="name" name="name" value="${sysArea.name }" class="form-control" type="text">
+							<input id="name" name="name" value="${sysArea.name }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="name.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="code" class="col-sm-3 control-label">编码：</label>
 						<div class="col-sm-6">
-							<input id="code" name="code" value="${sysArea.code }" class="form-control" type="text">
+							<input id="code" name="code" value="${sysArea.code }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.area.code.length" />">
 						</div>
 					</div>
 					<div class="form-group">
@@ -73,7 +73,7 @@
 						<label for="remarks" class="col-sm-3 control-label">备注：</label>
 						<div class="col-sm-6">
 							<textarea id="remarks" name="remarks"
-								class="form-control" rows="3">${sysArea.remarks }</textarea>
+								class="form-control" rows="3" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.area.remarks.length" />">${sysArea.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

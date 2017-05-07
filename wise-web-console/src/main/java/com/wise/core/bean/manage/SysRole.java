@@ -5,10 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.wise.core.bean.BaseBean;
 import com.wise.core.config.DictMeta;
@@ -24,7 +22,6 @@ public class SysRole extends BaseBean<SysRole> {
     /**
      * 角色名称
      */
-    @NotEmpty(message="{sys.role.name.notempty}")
     @Length(min=2, max=50, message="{sys.role.name.length}")
     private String name;
 
@@ -37,7 +34,6 @@ public class SysRole extends BaseBean<SysRole> {
     /**
      * 状态（0-禁用，1-启用）
      */
-    @NotNull
     @Min(value=0, message="{sys.role.status.min}")
     private Integer status;
 

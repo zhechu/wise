@@ -25,14 +25,14 @@
 					<div class="form-group">
 						<label for="type" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
-							<input id="name" name="name" value="${sysRole.name }" class="form-control" type="text">
+							<input id="name" name="name" value="${sysRole.name }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.role.name.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="remarks" class="col-sm-3 control-label">备注：</label>
 						<div class="col-sm-6">
 							<textarea id="remarks" name="remarks"
-								class="form-control" rows="3">${sysRole.remarks }</textarea>
+								class="form-control" rows="3" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.role.remarks.length" />">${sysRole.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">

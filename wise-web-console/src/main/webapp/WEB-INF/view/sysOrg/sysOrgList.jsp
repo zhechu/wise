@@ -60,10 +60,10 @@
 	                <div class="ibox-title">
 	                    <h5>组织机构</h5>
 	                    <div class="ibox-tools">
-                            <a id="backRootBtn" href="javascript:;" title="回到根节点">
+                            <a id="backRootBtn" href="javascript:;" data-toggle="tooltip" data-placement="top" title="回到根节点">
                                 <i class="fa fa-undo"></i>
                             </a>
-                            <a id="refreshBtn" href="javascript:;" title="刷新">
+                            <a id="refreshBtn" href="javascript:;" data-toggle="tooltip" data-placement="top" title="刷新">
                                 <i class="fa fa-refresh"></i>
                             </a>
                         </div>

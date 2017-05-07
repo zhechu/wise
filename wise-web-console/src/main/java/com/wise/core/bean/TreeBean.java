@@ -1,7 +1,6 @@
 package com.wise.core.bean;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 实体树基类
@@ -29,8 +28,7 @@ public abstract class TreeBean<T> extends BaseBean<T> {
     /**
      * 名称
      */
-    @NotEmpty(message="{name.notempty}")
-    @Length(min=2, message="{name.length}")
+    @Length(min=2, max=50, message="{name.length}")
     protected String name;
 
 	public T getParent() {

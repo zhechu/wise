@@ -20,7 +20,7 @@
 	        <div class="ibox-title">
 	            <h5>字典查询</h5>
 	            <div class="ibox-tools">
-	                <a class="collapse-link">
+	                <a class="collapse-link" data-toggle="tooltip" data-placement="left" title="折叠/展开">
 	                    <i class="fa fa-chevron-up"></i>
 	                </a>
 	            </div>

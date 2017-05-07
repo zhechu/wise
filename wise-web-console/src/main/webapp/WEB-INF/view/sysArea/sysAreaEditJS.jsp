@@ -9,13 +9,27 @@ $(document).ready(function() {
 		rules : {
 			"name" : {
 				required: true,
-                minlength: 2
+                minlength: 2,
+                maxlength: 50
+			},
+			"code" : {
+                maxlength: 50
+			},
+			"remarks" : {
+                maxlength: 200
 			}
 		},
 		messages : {
 			"name" : {
 				required: e+"请输入名称",
-				minlength: e+"名称至少2个字符"
+				minlength: e+"名称至少2个字符",
+				maxlength: e+"名称不能大于50个字符"
+			},
+			"code" : {
+                maxlength: e+"编码不能大于50个字符"
+			},
+			"remarks" : {
+                maxlength: e+"备注不能大于200个字符"
 			}
 		},
 		submitHandler : function(form) {
