@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.wise.core.bean.BaseBean;
+import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
 import com.wise.core.web.utils.DictUtils;
 
@@ -21,28 +22,22 @@ public class SysManager extends BaseBean<SysManager> {
 	 */
 	private static final long serialVersionUID = -4003817900697556840L;
 
-	/**
-     * 主键（自增）
-     */
-    private Integer id;
-
     /**
      * 用户名
      */
-    @NotEmpty(message="{sys.manager.userName.notempty}")
-    @Length(min=2, message="{sys.manager.userName.length}")
+    @Length(min=2, max=50, message="{sys.manager.userName.length}")
     private String userName;
 
     /**
      * 姓名
      */
-    @NotEmpty(message="{sys.manager.name.notempty}")
-    @Length(min=2, message="{sys.manager.name.length}")
+    @Length(min=2, max=50, message="{sys.manager.name.length}")
     private String name;
 
     /**
      * 性别（0-女，1-男）
      */
+    @Min(value=0, message="{sys.manager.sex.min}")
     private Integer sex;
 
     /**
@@ -64,12 +59,12 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 账号状态（0-禁用，1-启用）
      */
+    @Min(value=0, message="{sys.manager.status.min}")
     private Integer status;
 
     /**
      * 账号邮箱
      */
-    @NotEmpty(message="{sys.manager.email.notempty}")
     @Email(message="{sys.manager.email.email}")
     private String email;
 
@@ -86,12 +81,7 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 创建者
      */
-    private Integer creator;
-
-    /**
-     * 创建者名称（附加属性）
-     */
-    private String creatorName;
+    private SysManager creator;
 
     /**
      * 创建时间
@@ -101,7 +91,7 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 修改者
      */
-    private Integer modifier;
+    private SysManager modifier;
 
     /**
      * 修改时间
@@ -111,28 +101,20 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 公司
      */
-    /*@NotNull(message="{sys.manager.company.notnull}")
-    private SysOrg company;*/
+    @NotNull(message="{sys.manager.company.notnull}")
+    private SysOrg company;
 
     /**
      * 部门
      */
-    /*@NotNull(message="{sys.manager.dept.notnull}")
-    private SysOrg dept;*/
+    @NotNull(message="{sys.manager.dept.notnull}")
+    private SysOrg dept;
 
     /**
      * 角色列表（附加属性）
      */
     private List<SysRole> sysRoleList = new ArrayList<SysRole>(0);
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -213,20 +195,12 @@ public class SysManager extends BaseBean<SysManager> {
         this.portraitPic = portraitPic == null ? null : portraitPic.trim();
     }
 
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public String getCreatorName() {
-		return creatorName;
+	public SysManager getCreator() {
+		return creator;
 	}
 
-	public void setCreatorName(String creatorName) {
-		this.creatorName = creatorName;
+	public void setCreator(SysManager creator) {
+		this.creator = creator;
 	}
 
 	public Date getCreatedAt() {
@@ -237,22 +211,22 @@ public class SysManager extends BaseBean<SysManager> {
         this.createdAt = createdAt;
     }
 
-    public Integer getModifier() {
-        return modifier;
-    }
+    public SysManager getModifier() {
+		return modifier;
+	}
 
-    public void setModifier(Integer modifier) {
-        this.modifier = modifier;
-    }
+	public void setModifier(SysManager modifier) {
+		this.modifier = modifier;
+	}
 
-    public Date getModifiedAt() {
+	public Date getModifiedAt() {
         return modifiedAt;
     }
 
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
-/*
+
 	public SysOrg getCompany() {
 		return company;
 	}
@@ -268,7 +242,7 @@ public class SysManager extends BaseBean<SysManager> {
 	public void setDept(SysOrg dept) {
 		this.dept = dept;
 	}
-*/
+
 	public List<SysRole> getSysRoleList() {
 		return sysRoleList;
 	}
@@ -282,7 +256,7 @@ public class SysManager extends BaseBean<SysManager> {
      * @return
      */
     public String getSexName() {
-        return DictUtils.getDictLabel(String.valueOf(sex), "sex", String.valueOf(Global.NORMAL));
+        return DictUtils.getDictLabel(String.valueOf(sex), DictMeta.SEX, String.valueOf(Global.NORMAL));
     }
     
     /**
@@ -290,31 +264,7 @@ public class SysManager extends BaseBean<SysManager> {
      * @return
      */
     public String getStatusName() {
-    	return DictUtils.getDictLabel(String.valueOf(status), "sys_manager_status", String.valueOf(Global.NORMAL));
+    	return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_MANAGER_STATUS, String.valueOf(Global.NORMAL));
     }
 
-	@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userName=").append(userName);
-        sb.append(", name=").append(name);
-        sb.append(", sex=").append(sex);
-        sb.append(", phone=").append(phone);
-        sb.append(", salt=").append(salt);
-        sb.append(", pwd=").append(pwd);
-        sb.append(", status=").append(status);
-        sb.append(", email=").append(email);
-        sb.append(", registIp=").append(registIp);
-        sb.append(", portraitPic=").append(portraitPic);
-        sb.append(", creator=").append(creator);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", modifier=").append(modifier);
-        sb.append(", modifiedAt=").append(modifiedAt);
-        sb.append("]");
-        return sb.toString();
-    }
 }

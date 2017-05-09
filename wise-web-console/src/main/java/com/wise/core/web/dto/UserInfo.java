@@ -6,7 +6,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 个人信息 传输对象
@@ -25,7 +24,6 @@ public class UserInfo implements Serializable {
     /**
      * 账号邮箱
      */
-    @NotEmpty(message="{sys.manager.info.email.notempty}")
     @Email(message="{sys.manager.info.email.email}")
     private String email;
 
@@ -37,8 +35,7 @@ public class UserInfo implements Serializable {
     /**
      * 姓名
      */
-    @NotEmpty(message="{sys.manager.info.name.notempty}")
-    @Length(min=2, message="{sys.manager.info.name.length}")
+    @Length(min=2, max=50, message="{sys.manager.info.name.length}")
     private String name;
 
     /**

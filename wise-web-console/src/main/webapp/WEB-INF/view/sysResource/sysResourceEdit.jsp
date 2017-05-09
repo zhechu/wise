@@ -16,7 +16,8 @@
 			<div class="ibox-title">
 				<c:set var="status" value="1"/>
 				<c:set var="type" value="0"/>
-				<h5><c:choose><c:when test="${empty sysResource }">添加</c:when><c:otherwise><c:set var="status" value="${sysResource.status }"/><c:set var="type" value="${sysResource.type }"/>编辑</c:otherwise></c:choose>资源</h5>
+				<c:set var="disabled" value="false"/>
+				<h5><c:choose><c:when test="${empty sysResource }">添加</c:when><c:otherwise><c:set var="status" value="${sysResource.status }"/><c:set var="type" value="${sysResource.type }"/><c:set var="disabled" value="true"/>编辑</c:otherwise></c:choose>资源</h5>
 			</div>
 			<div class="ibox-content">
 				<div id="msg-box"></div>
@@ -25,15 +26,25 @@
 					<div class="form-group">
 						<label for="parentName" class="col-sm-3 control-label">父资源：</label>
 						<div class="col-sm-6">
-							<input id="parentName" name="parentName" value="${sysResource.parentName }" class="form-control" type="text" readonly="readonly">
-							<input id="parentId" name="parentId" value="${sysResource.parentId }" type="hidden">
+							<uform:treeselect 
+								classes="form-control" 
+								id="parentId" 
+								name="parent.id"
+								defaultValue="${sysResource.parent.id }"
+								url="${ctx }/sysResource/data"  
+								disabled="${disabled }"
+								labelId="parentName" 
+								labelName="parentName" 
+								labelDefaultValue="${sysResource.parent.name }" 
+								panelTitle="父资源"
+							/>
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysResource }"><spring:message code="sys.resource.add.parent.hint" /></c:when><c:otherwise><spring:message code="sys.resource.update.parent.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">* 名称：</label>
 						<div class="col-sm-6">
-							<input id="name" name="name" value="${sysResource.name }" class="form-control" type="text">
+							<input id="name" name="name" value="${sysResource.name }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="name.length" />">
 						</div>
 					</div>
 					<div class="form-group">
@@ -42,7 +53,7 @@
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
-									style="width:120px;"
+									style="width:200px;"
 									name="type" 
 									id="type" 
 									items="${fns:getDictList('sys_resource_type')}" 
@@ -56,26 +67,26 @@
 					<div class="form-group">
 						<label for="permission" class="col-sm-3 control-label">权限标识：</label>
 						<div class="col-sm-6">
-							<input id="permission" name="permission" value="${sysResource.permission }" class="form-control" type="text">
+							<input id="permission" name="permission" value="${sysResource.permission }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.resource.permission.length" />">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="description" class="col-sm-3 control-label">描述：</label>
+						<label for="remarks" class="col-sm-3 control-label">备注：</label>
 						<div class="col-sm-6">
-							<textarea id="description" name="description"
-								class="form-control" rows="3">${sysResource.description }</textarea>
+							<textarea id="remarks" name="remarks"
+								class="form-control" rows="3" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.resource.remarks.length" />">${sysResource.remarks }</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="url" class="col-sm-3 control-label">URL：</label>
 						<div class="col-sm-6">
-							<input id="url" name="url" value="${sysResource.url }" class="form-control" type="text">
+							<input id="url" name="url" value="${sysResource.url }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.resource.url.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="icon" class="col-sm-3 control-label">图标：</label>
 						<div class="col-sm-6">
-							<input id="icon" name="icon" value="${sysResource.icon }" class="form-control" type="text">
+							<input id="icon" name="icon" value="${sysResource.icon }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.resource.icon.length" />">
 						</div>
 					</div>
 					<div class="form-group">
@@ -84,7 +95,7 @@
 							<div class="input-group">
 								<uform:select 
 									classes="chosen-select" 
-									style="width:120px;"
+									style="width:200px;"
 									name="status" 
 									id="status" 
 									items="${fns:getDictList('sys_resource_status')}" 
@@ -125,14 +136,6 @@
 		</div>
 	</div>
 
-<!-- 父资源面板内容 -->
-<div id="parentNameContent" style="display:none;">
-	<div class="ibox float-e-margins">
-        <div class="ibox-content" style="width:260px; height:300px; overflow:auto;">
-        	<ul id="tree" class="ztree"></ul>
-        </div>
-    </div>
-</div>
 <%@include file="sysResourceEditJS.jsp"%>
 </body>
 </html>

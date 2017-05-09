@@ -125,6 +125,17 @@ public class SysOrgController extends BaseController {
 	}
 	
 	/**
+	 * 返回机构所有列表（可用）
+	 * @return
+	 */
+	@RequiresPermissions({"sys:org:view"})
+	@RequestMapping(value = "/validData", method = {RequestMethod.POST})
+	public @ResponseBody List<ZTree> validData(){
+		List<SysOrg> sysOrgList = sysOrgService.findValid();
+		return convertToZTree(sysOrgList);
+	}
+	
+	/**
 	 * 返回机构列表数据
 	 * @return
 	 */

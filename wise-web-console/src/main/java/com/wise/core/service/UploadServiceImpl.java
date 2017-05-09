@@ -1,5 +1,7 @@
 package com.wise.core.service;
 
+import java.io.File;
+
 import org.springframework.stereotype.Service;
 
 import com.wise.common.fdfs.FastDFSUtils;
@@ -17,4 +19,9 @@ public class UploadServiceImpl implements UploadService{
 		return FastDFSUtils.uploadFile(file, name, size);
 	}
 
+	@Override
+	public String uploadPic(File file, String name) {
+		return FastDFSUtils.uploadFile(file, name);
+	}
+	
 }

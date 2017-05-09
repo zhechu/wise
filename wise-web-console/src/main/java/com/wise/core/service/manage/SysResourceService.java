@@ -3,9 +3,9 @@ package com.wise.core.service.manage;
 import java.util.List;
 
 import com.wise.core.bean.manage.SysResource;
-import com.wise.core.service.BaseService;
+import com.wise.core.service.TreeService;
 
-public interface SysResourceService extends BaseService<SysResource> {
+public interface SysResourceService extends TreeService<SysResource> {
 
 	/**
 	 * 获取资源

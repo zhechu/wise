@@ -7,31 +7,27 @@
 	
 	<resultMap id="BaseResultMap" type="com.wise.core.bean.manage.SysResource">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="url" property="url" jdbcType="VARCHAR" />
 		<result column="icon" property="icon" jdbcType="VARCHAR" />
-		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="type" property="type" jdbcType="TINYINT" />
 		<result column="permission" property="permission" jdbcType="VARCHAR" />
-		<result column="parentId" property="parentId" jdbcType="INTEGER" />
-		<result column="parentName" property="parentName" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<association property="parent" javaType="com.wise.core.bean.manage.SysResource">   
+            <id property="id" column="parentId"/>
+            <result property="name" column="parentName"/>
+        </association>
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, name, url, icon, description, status, type,
-			permission, parentId,
-			sort
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.name, a.url, a.icon, a.remarks, a.status, a.type, a.permission, a.parentId, a.parentIds, a.sort
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		a.id,a.name,a.url,a.icon,a.description,a.status,a.type,a.permission,a.parentId,a.sort,b.name parentName
+		<include refid="Base_Column_List"/>, b.name parentName
 		from t_sys_resource a left join t_sys_resource b on a.parentId = b.id
 		where a.id = #{id,jdbcType=INTEGER}
 	</select>
@@ -46,16 +42,17 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		insert into t_sys_resource (name, url, icon,
-		description, status, type,
-		permission, parentId, sort
+		remarks, status, type,
+		permission, parentId, parentIds, sort
 		)
 		values (#{name,jdbcType=VARCHAR},
 		#{url,jdbcType=VARCHAR},
 		#{icon,jdbcType=VARCHAR},
-		#{description,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+		#{remarks,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
 		#{type,jdbcType=TINYINT},
 		#{permission,jdbcType=VARCHAR},
-		#{parentId,jdbcType=INTEGER},
+		#{parent.id,jdbcType=INTEGER},
+		#{parentIds,jdbcType=VARCHAR},
 		#{sort,jdbcType=INTEGER}
 		)
 	</insert>
@@ -75,8 +72,8 @@
 			<if test="icon != null">
 				icon,
 			</if>
-			<if test="description != null">
-				description,
+			<if test="remarks != null">
+				remarks,
 			</if>
 			<if test="status != null">
 				status,
@@ -87,8 +84,11 @@
 			<if test="permission != null">
 				permission,
 			</if>
-			<if test="parentId != null">
+			<if test="parent != null and parent.id != null">
 				parentId,
+			</if>
+			<if test="parentIds != null">
+				parentIds,
 			</if>
 			<if test="sort != null">
 				sort,
@@ -104,8 +104,8 @@
 			<if test="icon != null">
 				#{icon,jdbcType=VARCHAR},
 			</if>
-			<if test="description != null">
-				#{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
 				#{status,jdbcType=TINYINT},
@@ -116,8 +116,11 @@
 			<if test="permission != null">
 				#{permission,jdbcType=VARCHAR},
 			</if>
-			<if test="parentId != null">
-				#{parentId,jdbcType=INTEGER},
+			<if test="parent != null and parent.id != null">
+				#{parent.id,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds,jdbcType=VARCHAR},
 			</if>
 			<if test="sort != null">
 				#{sort,jdbcType=INTEGER},
@@ -136,8 +139,8 @@
 			<if test="icon != null">
 				icon = #{icon,jdbcType=VARCHAR},
 			</if>
-			<if test="description != null">
-				description = #{description,jdbcType=VARCHAR},
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
 				status = #{status,jdbcType=TINYINT},
@@ -148,8 +151,11 @@
 			<if test="permission != null">
 				permission = #{permission,jdbcType=VARCHAR},
 			</if>
-			<if test="parentId != null">
-				parentId = #{parentId,jdbcType=INTEGER},
+			<if test="parent != null and parent.id != null">
+				parentId = #{parent.id,jdbcType=INTEGER},
+			</if>
+			<if test="parentIds != null">
+				parentIds,
 			</if>
 			<if test="sort != null">
 				sort = #{sort,jdbcType=INTEGER},
@@ -164,14 +170,16 @@
 		url =
 		#{url,jdbcType=VARCHAR},
 		icon = #{icon,jdbcType=VARCHAR},
-		description =
-		#{description,jdbcType=VARCHAR},
+		remarks =
+		#{remarks,jdbcType=VARCHAR},
 		status = #{status,jdbcType=TINYINT},
 		type = #{type,jdbcType=TINYINT},
 		permission =
 		#{permission,jdbcType=VARCHAR},
 		parentId =
-		#{parentId,jdbcType=INTEGER},
+		#{parent.id,jdbcType=INTEGER},
+		parentIds =
+		#{parentIds,jdbcType=VARCHAR},
 		sort = #{sort,jdbcType=INTEGER}
 		where id =
 		#{id,jdbcType=INTEGER}
@@ -180,22 +188,20 @@
 	<!-- 多条件查询 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-		id, name, url, icon, description, status, type, permission,
-		parentId, sort
-		from
-		t_sys_resource
+		<include refid="Base_Column_List"/>, b.name parentName
+		from t_sys_resource a left join t_sys_resource b on a.parentId = b.id
 		<where>
 			<if test="status != null">
-				and status = #{status,jdbcType=TINYINT}
+				and a.status = #{status,jdbcType=TINYINT}
 			</if>
 			<if test="type != null">
-				and type = #{type,jdbcType=TINYINT}
+				and a.type = #{type,jdbcType=TINYINT}
 			</if>
 			<if test="parentId != null">
-				and parentId = #{parentId,jdbcType=INTEGER}
+				and a.parentId = #{parentId,jdbcType=INTEGER}
 			</if>
 			<if test="sysRoleIds != null">
-				and id in
+				and a.id in
 				(
 				select distinct sysResourceId from t_sys_role_resource where roleId in
 				<foreach item="item" index="index" collection="sysRoleIds"
@@ -205,7 +211,23 @@
 				)
 			</if>
 		</where>
-		order by sort asc
+		order by a.sort asc
 	</select>
 
+	<!-- 获取子节点 -->
+	<select id="selectByParentId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>,b.name parentName
+		from t_sys_resource a left join t_sys_resource b on a.parentId = b.id
+		where a.parentId = #{parentId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 获取子孙节点 -->
+	<select id="selectByLikeParentIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>,b.name parentName
+		from t_sys_resource a left join t_sys_resource b on a.parentId = b.id
+		where a.parentIds like CONCAT(#{parentIds,jdbcType=VARCHAR}, '%')
+	</select>
+	
 </mapper>

@@ -4,11 +4,6 @@
 
 <script>
 $(document).ready(function() {
-	// 头像清除事件
-	$("#picClear").on("click", function(){
-		$("#picImg").attr("src", "${ctx }/res/img/default_user_image.png");
-	});
-	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#infoForm").validate({
 		//debug : true, // 调试模式
@@ -42,6 +37,12 @@ $(document).ready(function() {
 		},
 		submitHandler : function(form) {
 			var form = new FormData($("#infoForm")[0]);
+			// 头像 base64 data
+			var picImg = $("#picImg").attr("src");
+			// 检查是否需提交头像
+			if (picImg.indexOf("data:image") == 0) { // 表明是 base64 data 图像格式
+				form.append("picImg", picImg);
+			}
 			$.ajax({
 				url : '${ctx }/sysManager/info',
 				dataType : 'json',

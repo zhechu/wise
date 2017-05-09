@@ -12,5 +12,11 @@ public interface SysOrgService extends TreeService<SysOrg> {
 	 * @return
 	 */
 	List<SysOrg> find();
+	
+	/**
+	 * 获取所有机构（可用）
+	 * @return
+	 */
+	List<SysOrg> findValid();
 
 }

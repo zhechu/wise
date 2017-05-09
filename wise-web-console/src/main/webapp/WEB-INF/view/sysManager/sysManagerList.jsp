@@ -20,7 +20,7 @@
 	        <div class="ibox-title">
 	            <h5>用户查询</h5>
 	            <div class="ibox-tools">
-	                <a class="collapse-link">
+	                <a class="collapse-link" data-toggle="tooltip" data-placement="left" title="折叠/展开">
 	                    <i class="fa fa-chevron-up"></i>
 	                </a>
 	            </div>
@@ -55,7 +55,7 @@
 								<div class="input-group">
 									<uform:select 
 										classes="chosen-select" 
-										style="width:120px;"
+										style="width:200px;"
 										name="sysRoleId" 
 										id="sysRoleId" 
 										items="${sysRoleList}" 
@@ -72,7 +72,7 @@
 								<div class="input-group">
 									<uform:select 
 										classes="chosen-select" 
-										style="width:80px;"
+										style="width:200px;"
 										name="status" 
 										id="status" 
 										items="${fns:getDictList('sys_manager_status')}" 

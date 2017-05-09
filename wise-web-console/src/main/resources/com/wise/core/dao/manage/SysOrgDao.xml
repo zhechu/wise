@@ -203,6 +203,14 @@
 		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
 	</select>
 	
+	<!-- 根据状态获取节点 -->
+	<select id="selectByStatus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>,b.name parentName, c.name areaName
+		from t_sys_org a left join t_sys_org b on a.parentId = b.id left join t_sys_area c on a.areaId = c.id
+		where a.status = #{status,jdbcType=INTEGER}
+	</select>
+	
 	<!-- 获取子节点 -->
 	<select id="selectByParentId" resultMap="BaseResultMap">
 		select

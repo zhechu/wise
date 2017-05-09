@@ -1,5 +1,6 @@
 package com.wise.core.controller.manage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
+import com.wise.common.exception.controller.ControllerException;
+import com.wise.common.exception.controller.UploadFileException;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
 import com.wise.common.response.ResponseModel;
+import com.wise.common.utils.FileUtils;
+import com.wise.common.utils.IdUtils;
+import com.wise.common.utils.ImgUtils;
 import com.wise.common.utils.SecureUtil;
 import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysRole;
@@ -98,7 +103,7 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:add", "sys:manager:update"})
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@RequestParam(value="pic", required=false) MultipartFile pic, @Valid SysManager sysManager, BindingResult br, Integer[] roleIds){
+	public @ResponseBody ResponseModel save(@Valid SysManager sysManager, BindingResult br, Integer[] roleIds, String picImg){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
@@ -106,10 +111,22 @@ public class SysManagerController extends BaseController {
 		}
 		try {
 			// 头像地址
-			String portraitPic = "";
-			if (pic != null) {
-				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
-				portraitPic = storageServer + path;
+			String portraitPic = null;
+			if (StringUtils.isNotBlank(picImg)) {
+				String[] imgPart = picImg.split(",");
+				if (imgPart.length != 2) {
+					throw new UploadFileException("上传头像失败");
+				}
+				// 临时文件路径
+				String tempFileName = IdUtils.uuid() + picSuffix;
+				String tempFilePath = request.getServletContext().getRealPath(tempFileDirectory) + File.separator + tempFileName; 
+				File file = ImgUtils.base64DataToImg(imgPart[1], tempFilePath);
+				if (file == null || !file.exists()) {
+					throw new UploadFileException("上传头像失败");
+				}
+				String picPath = uploadService.uploadPic(file, tempFileName);
+				portraitPic = storageServer + picPath;
+				FileUtils.deleteFile(file);
 			}
 			sysManager.setPortraitPic(portraitPic);
 			
@@ -124,7 +141,8 @@ public class SysManagerController extends BaseController {
 			}
 			sysManager.setSysRoleList(sysRoleList);
 			LoginUser loginUser = UserUtils.getLoginUser();
-			Integer loginUserId = loginUser.getId();
+			SysManager operator = new SysManager();
+			operator.setId(loginUser.getId());
 			if (sysManager.getId() != null) { // 编辑
 				// 密码不为空时， base64 解密
 				String pwd = sysManager.getPwd();
@@ -133,8 +151,7 @@ public class SysManagerController extends BaseController {
 				else
 					pwd = null;
 				sysManager.setPwd(pwd);
-				// 修改者从会话中获取当前用户ID）
-				sysManager.setModifier(loginUserId);
+				sysManager.setModifier(operator);
 				// 修改时间
 				sysManager.setModifiedAt(new Date());
 				sysManagerService.update(sysManager);
@@ -150,8 +167,7 @@ public class SysManagerController extends BaseController {
 				sysManager.setPwd(pwd);
 				// ip
 				sysManager.setRegistIp(getClientIP(request)); 
-				// 创建者（从会话中获取当前用户ID）
-				sysManager.setCreator(loginUserId);
+				sysManager.setCreator(operator);
 				// 创建时间
 				sysManager.setCreatedAt(new Date());
 				sysManagerService.create(sysManager);
@@ -160,6 +176,9 @@ public class SysManagerController extends BaseController {
 		} catch (ServiceException e) {
 			rm.msgFailed(e.getMessage());
 			logger.debug(e.getMessage(), e);
+		} catch (ControllerException e) {
+			rm.msgFailed(e.getMessage());
+			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			rm.msgFailed("未知错误，请联系管理员");
 			logger.error(e.getMessage(), e);
@@ -269,7 +288,7 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/info", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@RequestParam(value="pic", required=false) MultipartFile pic, @Valid UserInfo userInfo, BindingResult br){
+	public @ResponseBody ResponseModel save(@Valid UserInfo userInfo, BindingResult br, String picImg){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
@@ -279,10 +298,22 @@ public class SysManagerController extends BaseController {
 			SysManager sysManager = new SysManager();
 			
 			// 头像地址
-			String portraitPic = "";
-			if (pic != null) {
-				String path = uploadService.uploadPic(pic.getBytes(), pic.getOriginalFilename(), pic.getSize());
-				portraitPic = storageServer + path;
+			String portraitPic = null;
+			if (StringUtils.isNotBlank(picImg)) {
+				String[] imgPart = picImg.split(",");
+				if (imgPart.length != 2) {
+					throw new UploadFileException("上传头像失败");
+				}
+				// 临时文件路径
+				String tempFileName = IdUtils.uuid() + picSuffix;
+				String tempFilePath = request.getServletContext().getRealPath(tempFileDirectory) + File.separator + tempFileName; 
+				File file = ImgUtils.base64DataToImg(imgPart[1], tempFilePath);
+				if (file == null || !file.exists()) {
+					throw new UploadFileException("上传头像失败");
+				}
+				String picPath = uploadService.uploadPic(file, tempFileName);
+				portraitPic = storageServer + picPath;
+				FileUtils.deleteFile(file);
 			}
 			sysManager.setPortraitPic(portraitPic);
 						
@@ -292,8 +323,9 @@ public class SysManagerController extends BaseController {
 			sysManager.setSex(userInfo.getSex());
 			sysManager.setPhone(userInfo.getPhone());
 			sysManager.setEmail(userInfo.getEmail());
-			// 修改者从会话中获取当前用户ID）
-			sysManager.setModifier(loginUser.getId());
+			SysManager operator = new SysManager();
+			operator.setId(loginUser.getId());
+			sysManager.setModifier(operator);
 			// 修改时间
 			sysManager.setModifiedAt(new Date());
 			sysManagerService.updateInfo(sysManager);

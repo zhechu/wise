@@ -17,31 +17,45 @@
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="registIp" property="registIp" jdbcType="VARCHAR" />
 		<result column="portraitPic" property="portraitPic" jdbcType="VARCHAR" />
-		<result column="creator" property="creator" jdbcType="INTEGER" />
-		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
 		<result column="createdAt" property="createdAt" jdbcType="TIMESTAMP" />
-		<result column="modifier" property="modifier" jdbcType="INTEGER" />
 		<result column="modifiedAt" property="modifiedAt" jdbcType="TIMESTAMP" />
-		<collection property="sysRoleList" ofType="com.wise.core.bean.manage.SysRole" column="id" select="com.wise.core.dao.manage.SysRoleDao.selectByManagerId" />
-		<!-- <association property="company" javaType="com.wise.core.bean.manage.SysOrg" column="companyId" select="com.wise.core.dao.manage.SysOrgDao.selectByPrimaryKey"/>
-		<association property="dept" javaType="com.wise.core.bean.manage.SysOrg" column="deptId" select="com.wise.core.dao.manage.SysOrgDao.selectByPrimaryKey"/> -->
+		<association property="creator" javaType="com.wise.core.bean.manage.SysManager">
+			<id property="id" column="creator"/>
+            <result property="name" column="creatorName"/>
+		</association>
+		<association property="modifier" javaType="com.wise.core.bean.manage.SysManager">
+			<id property="id" column="modifier"/>
+            <result property="name" column="modifierName"/>
+		</association>
+		<association property="company" javaType="com.wise.core.bean.manage.SysOrg">
+			<id property="id" column="companyId"/>
+            <result property="name" column="companyName"/>
+		</association>
+		<association property="dept" javaType="com.wise.core.bean.manage.SysOrg">
+			<id property="id" column="deptId"/>
+            <result property="name" column="deptName"/>
+		</association>
+		<collection property="sysRoleList" ofType="com.wise.core.bean.manage.SysRole">
+			<id property="id" column="sysRoleId"/>
+            <result property="name" column="sysRoleName"/>
+		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, userName, name, sex, phone, salt, pwd, status, email, registIp,
-			portraitPic,
-			creator, createdAt, modifier, modifiedAt, companyId, deptId
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		a.id, a.userName, a.name, a.sex, a.phone, a.salt, a.pwd, a.status, a.email, a.registIp, 
+		a.portraitPic, a.creator, a.createdAt, a.modifier, a.modifiedAt, a.companyId, a.deptId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,userName,name,sex,phone,salt,pwd,status,email,registIp,portraitPic,creator,createdAt,modifier,modifiedAt, companyId, deptId
-		from t_sys_manager
-		where id = #{id,jdbcType=INTEGER}
+		<include refid="Base_Column_List"/>, b.name creatorName, c.name modifierName, d.name companyName, e.name deptName, g.id sysRoleId, g.name sysRoleName
+		from t_sys_manager a 
+		left join t_sys_manager b on a.creator = b.id 
+		left join t_sys_manager c on a.modifier = c.id
+		left join t_sys_org d on a.companyId = d.id
+		left join t_sys_org e on a.deptId = e.id
+		left join t_sys_role_manager f on a.id = f.managerId
+		left join t_sys_role g on f.roleId = g.id
+		where a.id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from t_sys_manager
@@ -62,8 +76,8 @@
 		#{phone,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR},
 		#{status,jdbcType=TINYINT},
 		#{email,jdbcType=VARCHAR}, #{registIp,jdbcType=VARCHAR}, #{portraitPic,jdbcType=VARCHAR},
-		#{creator,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP},
-		#{modifier,jdbcType=INTEGER},
+		#{creator.id,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP},
+		#{modifier.id,jdbcType=INTEGER},
 		#{modifiedAt,jdbcType=TIMESTAMP},
 		#{company.id,jdbcType=INTEGER},
 		#{dept.id,jdbcType=INTEGER})
@@ -105,22 +119,22 @@
 			<if test="portraitPic != null">
 				portraitPic,
 			</if>
-			<if test="creator != null">
+			<if test="creator != null and creator.id != null">
 				creator,
 			</if>
 			<if test="createdAt != null">
 				createdAt,
 			</if>
-			<if test="modifier != null">
+			<if test="modifier != null and modifier.id != null">
 				modifier,
 			</if>
 			<if test="modifiedAt != null">
 				modifiedAt,
 			</if>
-			<if test="company.id != null">
+			<if test="company != null and company.id != null">
 				companyId,
 			</if>
-			<if test="dept.id != null">
+			<if test="dept != null and dept.id != null">
 				deptId,
 			</if>
 		</trim>
@@ -155,22 +169,22 @@
 			<if test="portraitPic != null">
 				#{portraitPic,jdbcType=VARCHAR},
 			</if>
-			<if test="creator != null">
-				#{creator,jdbcType=INTEGER},
+			<if test="creator != null and creator.id != null">
+				#{creator.id,jdbcType=INTEGER},
 			</if>
 			<if test="createdAt != null">
 				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifier != null">
-				#{modifier,jdbcType=INTEGER},
+			<if test="modifier != null and modifier.id != null">
+				#{modifier.id,jdbcType=INTEGER},
 			</if>
 			<if test="modifiedAt != null">
 				#{modifiedAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="company.id != null">
+			<if test="company != null and company.id != null">
 				#{company.id,jdbcType=INTEGER},
 			</if>
-			<if test="dept.id != null">
+			<if test="dept != null and dept.id != null">
 				#{dept.id,jdbcType=INTEGER},
 			</if>
 		</trim>
@@ -208,22 +222,22 @@
 			<if test="portraitPic != null">
 				portraitPic = #{portraitPic,jdbcType=VARCHAR},
 			</if>
-			<if test="creator != null">
-				creator = #{creator,jdbcType=INTEGER},
+			<if test="creator != null and creator.id != null">
+				creator = #{creator.id,jdbcType=INTEGER},
 			</if>
 			<if test="createdAt != null">
 				createdAt = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="modifier != null">
-				modifier = #{modifier,jdbcType=INTEGER},
+			<if test="modifier != null and modifier.id != null">
+				modifier = #{modifier.id,jdbcType=INTEGER},
 			</if>
 			<if test="modifiedAt != null">
 				modifiedAt = #{modifiedAt,jdbcType=TIMESTAMP},
 			</if>
-			<if test="company.id != null">
+			<if test="company != null and company.id != null">
 				companyId = #{company.id,jdbcType=INTEGER},
 			</if>
-			<if test="dept.id != null">
+			<if test="dept != null and dept.id != null">
 				deptId = #{dept.id,jdbcType=INTEGER},
 			</if>
 		</set>
@@ -241,9 +255,9 @@
 		email = #{email,jdbcType=VARCHAR},
 		registIp = #{registIp,jdbcType=VARCHAR},
 		portraitPic = #{portraitPic,jdbcType=VARCHAR},
-		creator = #{creator,jdbcType=INTEGER},
+		creator = #{creator.id,jdbcType=INTEGER},
 		createdAt = #{createdAt,jdbcType=TIMESTAMP},
-		modifier = #{modifier,jdbcType=INTEGER},
+		modifier = #{modifier.id,jdbcType=INTEGER},
 		modifiedAt = #{modifiedAt,jdbcType=TIMESTAMP},
 		companyId = #{company.id,jdbcType=INTEGER},
 		deptId = #{dept.id,jdbcType=INTEGER}
@@ -253,22 +267,28 @@
 	<!-- 根据用户名查询-->
 	<select id="selectByUserName" resultMap="BaseResultMap">
 		select
-			id, userName, name, sex, phone, salt, pwd, status, email, registIp,
-			portraitPic,
-			creator, createdAt, modifier, modifiedAt, companyId, deptId
-		from
-		t_sys_manager
-		where userName = #{userName,jdbcType=VARCHAR}
+		<include refid="Base_Column_List"/>, b.name creatorName, c.name modifierName, d.name companyName, e.name deptName, g.id sysRoleId, g.name sysRoleName
+		from t_sys_manager a 
+		left join t_sys_manager b on a.creator = b.id 
+		left join t_sys_manager c on a.modifier = c.id
+		left join t_sys_org d on a.companyId = d.id
+		left join t_sys_org e on a.deptId = e.id
+		left join t_sys_role_manager f on a.id = f.managerId
+		left join t_sys_role g on f.roleId = g.id
+		where a.userName = #{userName,jdbcType=VARCHAR}
 	</select>
 	
 	<!-- 多条件查询，模糊查询 -->
 	<select id="select" resultMap="BaseResultMap">
 		select
-			a.id, a.userName, a.name, a.sex, a.phone, a.salt, a.pwd, a.status, a.email, a.registIp,
-			a.portraitPic,
-			a.creator, a.createdAt, a.modifier, a.modifiedAt, a.companyId, a.deptId, b.name creatorName
-		from
-		t_sys_manager a left join t_sys_manager b on a.creator = b.id
+		<include refid="Base_Column_List"/>, b.name creatorName, c.name modifierName, d.name companyName, e.name deptName, g.id sysRoleId, g.name sysRoleName
+		from t_sys_manager a 
+		left join t_sys_manager b on a.creator = b.id 
+		left join t_sys_manager c on a.modifier = c.id
+		left join t_sys_org d on a.companyId = d.id
+		left join t_sys_org e on a.deptId = e.id
+		left join t_sys_role_manager f on a.id = f.managerId
+		left join t_sys_role g on f.roleId = g.id
 		<where>
 			<if test="userName != null and userName != ''">
 				and a.userName like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')

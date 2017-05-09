@@ -1,0 +1,36 @@
+
+.tooltip-inner {
+	background-color: #1ab394;
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #1ab394;
+}
+
+.tooltip.top-left .tooltip-arrow {
+	border-top-color: #1ab394;
+}
+
+.tooltip.top-right .tooltip-arrow {
+	border-top-color: #1ab394;
+}
+
+.tooltip.right .tooltip-arrow {
+	border-right-color: #1ab394;
+}
+
+.tooltip.left .tooltip-arrow {
+	border-left-color: #1ab394;
+}
+
+.tooltip.bottom .tooltip-arrow {
+	border-bottom-color: #1ab394;
+}
+
+.tooltip.bottom-left .tooltip-arrow {
+	border-bottom-color: #1ab394;
+}
+
+.tooltip.bottom-right .tooltip-arrow {
+	border-bottom-color: #1ab394;
+}

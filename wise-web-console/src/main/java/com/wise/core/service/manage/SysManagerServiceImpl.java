@@ -20,6 +20,7 @@ import com.wise.core.bean.manage.SysRoleManager;
 import com.wise.core.dao.manage.SysManagerDao;
 import com.wise.core.dao.manage.SysRoleManagerDao;
 import com.wise.core.dto.PageParam;
+import com.wise.core.service.BaseServiceImpl;
 
 import tk.mybatis.orderbyhelper.OrderByHelper;
 
@@ -29,10 +30,7 @@ import tk.mybatis.orderbyhelper.OrderByHelper;
  *
  */
 @Service("sysManagerService")
-public class SysManagerServiceImpl implements SysManagerService{
-
-	@Autowired
-	private SysManagerDao sysManagerDao;
+public class SysManagerServiceImpl extends BaseServiceImpl<SysManagerDao, SysManager> implements SysManagerService{
 
 	@Autowired
 	private SysRoleManagerDao sysRoleManagerDao;
@@ -40,7 +38,7 @@ public class SysManagerServiceImpl implements SysManagerService{
 	@Transactional
 	@Override
 	public void create(SysManager sysManager) throws ValueConflictException {
-		SysManager sysManagerSource = sysManagerDao.selectByUserName(sysManager.getUserName());
+		SysManager sysManagerSource = dao.selectByUserName(sysManager.getUserName());
 		if (sysManagerSource != null)
 			throw new ValueConflictException("用户已存在，用户名不能重复");
 		// 密码加盐
@@ -48,7 +46,7 @@ public class SysManagerServiceImpl implements SysManagerService{
 		String pwd = SecureUtil.encryptByMd5(sysManager.getPwd(), salt);
 		sysManager.setSalt(salt);
 		sysManager.setPwd(pwd);
-		sysManagerDao.insertSelective(sysManager);
+		dao.insertSelective(sysManager);
 		
 		// 添加用户角色
 		List<SysRole> sysRoleList = sysManager.getSysRoleList();
@@ -63,20 +61,20 @@ public class SysManagerServiceImpl implements SysManagerService{
 	@Transactional
 	@Override
 	public void deleteById(Integer id) throws DataNotExistedException {
-		SysManager sysManager = sysManagerDao.selectByPrimaryKey(id);
+		SysManager sysManager = dao.selectByPrimaryKey(id);
 		if (sysManager == null)
 			throw new DataNotExistedException("用户不存在");
 		// 删除用户角色关系
 		sysRoleManagerDao.deleteByManagerId(id);
 		// 删除用户
-		sysManagerDao.deleteByPrimaryKey(id);
+		dao.deleteByPrimaryKey(id);
 	}
 
 	@Transactional
 	@Override
 	public void delete(Integer[] ids) throws DataNotExistedException {
 		for (Integer id : ids) {
-			SysManager sysManager = sysManagerDao.selectByPrimaryKey(id);
+			SysManager sysManager = dao.selectByPrimaryKey(id);
 			if (sysManager == null) {
 				// 手动回滚
 				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -85,19 +83,20 @@ public class SysManagerServiceImpl implements SysManagerService{
 			// 删除用户角色关系
 			sysRoleManagerDao.deleteByManagerId(id);
 			// 删除用户
-			sysManagerDao.deleteByPrimaryKey(id);
+			dao.deleteByPrimaryKey(id);
 		}
 	}
 
+	@Transactional
 	@Override
 	public void update(SysManager sysManager) throws DataNotExistedException, DataNotAllowUpdateException {
-		SysManager sysManagerSource = sysManagerDao.selectByPrimaryKey(sysManager.getId());
+		SysManager sysManagerSource = dao.selectByPrimaryKey(sysManager.getId());
 		if (sysManagerSource == null)
 			throw new DataNotExistedException("用户不存在");
 		// 判断用户名是否有更新，有则抛出异常（用户名不能编辑）
 		if (sysManager.getUserName() != null && !sysManager.getUserName().equals(sysManagerSource.getUserName()))
 			throw new DataNotAllowUpdateException("不能修改用户名");
-		sysManagerDao.updateByPrimaryKeySelective(sysManager);
+		dao.updateByPrimaryKeySelective(sysManager);
 
 		// 更新用户角色
 		// 先删除用户角色
@@ -113,27 +112,22 @@ public class SysManagerServiceImpl implements SysManagerService{
 	}
 
 	@Override
-	public SysManager findById(Integer id) {
-		return sysManagerDao.selectByPrimaryKey(id);
-	}
-
-	@Override
 	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name,
 			Date createdAtStart, Date createdAtEnd) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
-        List<SysManager> list = sysManagerDao.select(userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
+        List<SysManager> list = dao.select(userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
 		return new PageInfo<SysManager>(list);
 	}
 
 	@Override
 	public SysManager findByUserName(String userName) {
-		return sysManagerDao.selectByUserName(userName);
+		return dao.selectByUserName(userName);
 	}
 
 	@Override
 	public SysManager login(String userName, String pwd) throws DataNotExistedException, ValueConflictException {
-		SysManager sysManager = sysManagerDao.selectByUserName(userName);
+		SysManager sysManager = dao.selectByUserName(userName);
 		if (sysManager == null) 
 			throw new DataNotExistedException("用户不存在");
 		// 密码加盐
@@ -146,9 +140,10 @@ public class SysManagerServiceImpl implements SysManagerService{
 		return sysManager;
 	}
 
+	@Transactional
 	@Override
 	public void updatePwd(String loginName, String oldPwd, String newPwd) throws DataNotExistedException, ValueConflictException {
-		SysManager sysManager = sysManagerDao.selectByUserName(loginName);
+		SysManager sysManager = dao.selectByUserName(loginName);
 		if (sysManager == null) 
 			throw new DataNotExistedException("用户不存在");
 		// 密码加盐
@@ -162,18 +157,19 @@ public class SysManagerServiceImpl implements SysManagerService{
 		newPwd = SecureUtil.encryptByMd5(newPwd, salt);
 		sysManager.setPwd(newPwd);
 		// 更新用户
-		sysManagerDao.updateByPrimaryKeySelective(sysManager);
+		dao.updateByPrimaryKeySelective(sysManager);
 	}
 
+	@Transactional
 	@Override
 	public void updateInfo(SysManager sysManager) throws DataNotExistedException, DataNotAllowUpdateException {
-		SysManager sysManagerSource = sysManagerDao.selectByPrimaryKey(sysManager.getId());
+		SysManager sysManagerSource = dao.selectByPrimaryKey(sysManager.getId());
 		if (sysManagerSource == null)
 			throw new DataNotExistedException("用户不存在");
 		// 判断用户名是否有更新，有则抛出异常（用户名不能编辑）
 		if (sysManager.getUserName() != null && !sysManager.getUserName().equals(sysManagerSource.getUserName()))
 			throw new DataNotAllowUpdateException("不能修改用户名");
-		sysManagerDao.updateByPrimaryKeySelective(sysManager);
+		dao.updateByPrimaryKeySelective(sysManager);
 	}
 
 }

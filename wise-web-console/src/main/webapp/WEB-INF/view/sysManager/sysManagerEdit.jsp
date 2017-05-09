@@ -7,16 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="/commons/include/base.jsp"%>
+<%@include file="/commons/include/tree.jsp"%>
+<%@include file="/commons/include/cropper.jsp"%>
 <link href="${ctx }/res/css/content.css" rel="stylesheet">
-<link href="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet">
-<style type="text/css">
-	.fileinput {
-	    margin-bottom: 0;
-	}
-	.fileinput-preview.fileinput-exists img {
-	    border-radius: 50%;
-	}
-</style>
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -33,33 +26,53 @@
 				<form class="form-horizontal m-t" id="sysManagerForm" action="${ctx }/sysManager/save" method="post" enctype="multipart/form-data">
 					<input id="id" name="id" value="${sysManager.id }" type="hidden">
 					<div class="form-group">
-						<label for="portraitPic" class="col-sm-3 control-label">头像：</label>
+						<label for="picImg" class="col-sm-3 control-label">头像：</label>
 						<div class="col-sm-6">
-                            <div class="fileinput fileinput-new" data-provides="fileinput">
-							    <div class="fileinput-new thumbnail" style="width: 100px; height: 64px; border:none;">
-                                    <img id="picImg" class="img-circle" src="${portraitPic }" alt="" /> </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail" style="width: 100px; height: 64px; max-width: 100px; max-height: 64px; border:none;"> </div>
-                               <div>
-                                   <span class="btn-file">
-                                       <span class="btn btn-default btn-sm fileinput-new"> 选择 </span>
-                                       <span class="btn btn-default btn-sm fileinput-exists"> 选择 </span>
-                                       <input type="file" name="pic" id="pic"></span>
-                                   <a id="picClear" style="float:right;" href="javascript:;" class="btn btn-default btn-sm fileinput-exists" data-dismiss="fileinput"> 清空 </a>
-                               </div>
-                           </div>
-                           <span class="help-block m-b-none"><spring:message code="sys.manager.portraitPic.hint" /></span>
+                            <uform:portrait id="picImg" defaultValue="${portraitPic }" panelTitle="头像"/>
+                        </div>
+					</div>
+					<div class="form-group">
+						<label for="companyName" class="col-sm-3 control-label">* 归属公司：</label>
+						<div class="col-sm-6">
+							<uform:treeselect 
+								classes="form-control" 
+								id="companyId" 
+								name="company.id"
+								defaultValue="${sysManager.company.id }"
+								url="${ctx }/sysOrg/validData"  
+								labelId="companyName" 
+								labelName="companyName" 
+								labelDefaultValue="${sysManager.company.name }" 
+								panelTitle="归属公司"
+							/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="deptName" class="col-sm-3 control-label">* 归属部门：</label>
+						<div class="col-sm-6">
+							<uform:treeselect 
+								classes="form-control" 
+								id="deptId" 
+								name="dept.id"
+								defaultValue="${sysManager.dept.id }"
+								url="${ctx }/sysOrg/validData"  
+								labelId="deptName" 
+								labelName="deptName" 
+								labelDefaultValue="${sysManager.dept.name }" 
+								panelTitle="归属部门"
+							/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="userName" class="col-sm-3 control-label">* 用户名：</label>
 						<div class="col-sm-6">
-							<input id="userName" name="userName" value="${sysManager.userName }" class="form-control" ${readonly } type="text">
+							<input id="userName" name="userName" value="${sysManager.userName }" class="form-control" ${readonly } type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.manager.userName.length" />">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="pwd" class="col-sm-3 control-label">密码：</label>
 						<div class="col-sm-6">
-							<input id="pwd" name="pwd" class="form-control" type="password">
+							<input id="pwd" name="pwd" class="form-control" type="password" data-toggle="tooltip" data-placement="right" title="密码格式为2-50个字符">
 							<span class="help-block m-b-none"><c:choose><c:when test="${empty sysManager }"><spring:message code="pwd.add.hint" /></c:when><c:otherwise><spring:message code="pwd.update.hint" /></c:otherwise></c:choose></span>
 						</div>
 					</div>
@@ -72,7 +85,7 @@
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">* 姓名：</label>
 						<div class="col-sm-6">
-							<input id="name" name="name" value="${sysManager.name }" class="form-control" type="text">
+							<input id="name" name="name" value="${sysManager.name }" class="form-control" type="text" data-toggle="tooltip" data-placement="right" title="<spring:message code="sys.manager.name.length" />">
 						</div>
 					</div>
 					<div class="form-group">
@@ -142,7 +155,6 @@
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
 <%@include file="sysManagerEditJS.jsp"%>
 </body>
 </html>

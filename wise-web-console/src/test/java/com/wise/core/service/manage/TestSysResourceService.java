@@ -17,11 +17,11 @@ public class TestSysResourceService extends BaseTest {
 	@Test
 	public void create() {
 		SysResource sysResource = new SysResource();
-		sysResource.setParentId(0);
+		//sysResource.setParentId(0);
 		sysResource.setName("运维管理");
 		sysResource.setType(0);
 		sysResource.setPermission("");
-		sysResource.setDescription("");
+		//sysResource.setDescription("");
 		sysResource.setUrl("");
 		sysResource.setIcon("");
 		sysResource.setStatus(1);
@@ -58,7 +58,7 @@ public class TestSysResourceService extends BaseTest {
 		sysResource.setName("运营管理");
 		sysResource.setType(0);
 		sysResource.setPermission("");
-		sysResource.setDescription("");
+		//sysResource.setDescription("");
 		sysResource.setUrl("");
 		sysResource.setIcon("");
 		sysResource.setStatus(0);

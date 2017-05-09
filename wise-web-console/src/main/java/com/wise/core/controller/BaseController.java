@@ -41,6 +41,18 @@ public abstract class BaseController {
 	protected String storageServer;
 	
 	/**
+	 * 头像后缀
+	 */
+	@Value("${pic.suffix}")
+	protected String picSuffix;
+	
+	/**
+	 * 临时文件目录
+	 */
+	@Value("${temp.file.directory}")
+	protected String tempFileDirectory;
+	
+	/**
 	 * 转换验证错误信息
 	 * @param fieldErrorList
 	 * @return

@@ -31,7 +31,7 @@ public class TestSysManagerService extends BaseTest {
 		sysManager.setStatus(Global.NORMAL);
 		sysManager.setEmail("testor@qq.com");
 		sysManager.setPwd("123456");
-		sysManager.setCreator(1);
+		//sysManager.setCreator(1);
 		sysManager.setCreatedAt(new Date());
 		sysManager.setRegistIp("127.0.0.1");
 		List<SysRole> sysRoleList = new ArrayList<SysRole>();
@@ -81,7 +81,7 @@ public class TestSysManagerService extends BaseTest {
 		sysManager.setStatus(Global.NORMAL);
 		sysManager.setEmail("testor@qq.com");
 		sysManager.setPwd("123456");
-		sysManager.setCreator(1);
+		//sysManager.setCreator(1);
 		sysManager.setCreatedAt(new Date());
 		sysManager.setRegistIp("127.0.0.1");
 		try {

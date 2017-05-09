@@ -7,17 +7,12 @@
 		<result column="managerId" property="managerId" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		<if test="fields == null">
-			id, roleId, managerId
-		</if>
-		<if test="fields != null">
-			${fields}
-		</if>
+		id, roleId, managerId
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
-		id,roleId,managerId
+		<include refid="Base_Column_List"/>
 		from t_sys_role_manager
 		where id = #{id,jdbcType=INTEGER}
 	</select>

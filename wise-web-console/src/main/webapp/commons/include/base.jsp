@@ -20,6 +20,7 @@
 <link href="${ctx }/res/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <link href="${ctx }/res/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 <link href="${ctx}/res/css/style.min.css?v=4.0.0" rel="stylesheet">
+<link href="${ctx}/res/css/tooltip-on.css" rel="stylesheet">
 
 <!-- js -->
 <script src="${ctx}/res/js/jquery.min.js?v=2.1.4"></script>

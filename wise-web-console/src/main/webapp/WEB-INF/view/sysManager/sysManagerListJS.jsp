@@ -57,6 +57,12 @@ $(document).ready(function () {
 	        field: 'checked',
 	        checkbox: true
 	    }, {
+	        field: 'company.name',
+	        title: '归属公司',
+	    }, {
+	        field: 'dept.name',
+	        title: '归属部门',
+	    }, {
 	        field: 'userName',
 	        title: '用户名',
 	        sortable: true
@@ -103,7 +109,7 @@ $(document).ready(function () {
 	        field: 'registIp',
 	        title: '注册IP',
 	    }, {
-	        field: 'creatorName',
+	        field: 'creator.name',
 	        title: '创建人',
 	    }, {
 	        field: 'createdAt',

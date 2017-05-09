@@ -148,8 +148,8 @@ $(document).ready(function(){
 	        field: 'permission',
 	        title: '权限标识'
 	    }, {
-	        field: 'description',
-	        title: '描述',
+	        field: 'remarks',
+	        title: '备注',
 	    }, {
 	        field: 'url',
 	        title: 'URL',

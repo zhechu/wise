@@ -4,28 +4,28 @@
 
 <script>
 $(document).ready(function() {
-	// 头像清除事件
-	$("#picClear").on("click", function(){
-		$("#picImg").attr("src", "${ctx }/res/img/default_user_image.png");
-	});
-	
 	var e = "<i class='fa fa-times-circle'></i> ";
 	$("#sysManagerForm").validate({
 		//debug : true, // 调试模式
 		rules : {
+			"companyName" : "required",
+			"deptName" : "required",
 			"userName" : {
 				required: true,
-                minlength: 2
+                minlength: 2,
+                maxlength: 50
 			},
 			"pwd" : {
-                minlength: 6
+                minlength: 6,
+                maxlength: 50
 			},
 			"confirmPwd" : {
                 equalTo:"#pwd"
             },
 			"name" : {
 				required: true,
-                minlength: 2
+                minlength: 2,
+                maxlength: 50
 			},
 			"phone" : {
 				required: true,
@@ -34,23 +34,27 @@ $(document).ready(function() {
             "email" : {
                 required: true,
                 email: true
-            },
-			"status" : "required"
+            }
 		},
 		messages : {
+			"companyName" : e+"请选择归属公司",
+			"deptName" : e+"请选择归属部门",
 			"userName" : {
 				required: e+"请输入用户名",
-				minlength: e+"用户名至少2个字符"
+				minlength: e+"用户名不能小于2个字符",
+				maxlength: e+"用户名不能大于50个字符"
 			},
 			"pwd" : {
-				minlength: e+"密码至少6位字符"
+				minlength: e+"密码不能小于6位字符",
+				maxlength: e+"密码不能大于50位字符"
 			},
 			"confirmPwd" : {
 				equalTo: e+"两次输入的密码不一致"
 			},
 			"name" : {
 				required: e+"请输入姓名",
-				minlength: e+"姓名必须2个字符以上"
+				minlength: e+"姓名不能小于2个字符",
+				maxlength: e+"姓名不能大于50个字符"
 			},
 			"phone" : {
 				required: e+"请输入电话",
@@ -59,16 +63,21 @@ $(document).ready(function() {
 			"email" : {
                 required: e+"请输入邮箱",
                 email: e+"邮箱格式有误"
-            },
-			"status" : e+"请选择状态"
+            }
 		},
-		submitHandler : function(form) {
+		submitHandler : function() {
 			// 若密码不为空，密码 base64 加密
 			var pwd = $.trim($("#pwd").val());
 			if (pwd && pwd!='') {
 				$("#pwd").val($.base64.encode(pwd));
 			}
 			var form = new FormData($("#sysManagerForm")[0]);
+			// 头像 base64 data
+			var picImg = $("#picImg").attr("src");
+			// 检查是否需提交头像
+			if (picImg.indexOf("data:image") == 0) { // 表明是 base64 data 图像格式
+				form.append("picImg", picImg);
+			}
 			$.ajax({
 				url : '${ctx }/sysManager/save',
 				dataType : 'json',

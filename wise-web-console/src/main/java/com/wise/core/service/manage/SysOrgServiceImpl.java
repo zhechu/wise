@@ -9,6 +9,7 @@ import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
 import com.wise.common.exception.service.ValueConflictException;
 import com.wise.core.bean.manage.SysOrg;
+import com.wise.core.config.Global;
 import com.wise.core.dao.manage.SysOrgDao;
 import com.wise.core.service.TreeServiceImpl;
 
@@ -43,6 +44,11 @@ public class SysOrgServiceImpl extends TreeServiceImpl<SysOrgDao, SysOrg> implem
 	@Override
 	public List<SysOrg> find() {
 		return dao.select();
+	}
+
+	@Override
+	public List<SysOrg> findValid() {
+		return dao.selectByStatus(Global.NORMAL);
 	}
 
 }

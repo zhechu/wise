@@ -1,0 +1,2 @@
+<link href="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet">
+<script type="text/javascript" src="${ctx }/res/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>

@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.wise.core.bean.manage.SysResource;
-import com.wise.core.dao.BaseDao;
+import com.wise.core.dao.TreeDao;
 
-public interface SysResourceDao extends BaseDao<SysResource> {
+public interface SysResourceDao extends TreeDao<SysResource> {
     
 	/**
 	 * 获取资源

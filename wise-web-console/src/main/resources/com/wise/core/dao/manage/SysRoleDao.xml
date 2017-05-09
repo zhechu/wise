@@ -136,15 +136,6 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	
-	<!-- 根据系统用户主键查询（可用）-->
-	<select id="selectByManagerId" resultMap="BaseResultMap">
-		select
-		a.id, a.name, a.remarks, a.status, a.creator, a.createAt, a.modifier, a.modifiedAt
-		from
-		t_sys_role a right join t_sys_role_manager b on a.id = b.roleId
-		where a.status = 1 and b.managerId = #{id,jdbcType=INTEGER}
-	</select>
-	
 	<!-- 查询-->
 	<select id="select" resultMap="BaseResultMap">
 		select

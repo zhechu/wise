@@ -21,6 +21,7 @@ import com.wise.core.bean.manage.SysResource;
 import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.service.manage.SysResourceService;
+import com.wise.core.web.dto.ZTree;
 
 /**
  * 资源管理
@@ -118,8 +119,9 @@ public class SysResourceController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:resource:view"})
 	@RequestMapping(value = "/data", method = {RequestMethod.POST})
-	public @ResponseBody List<SysResource> data(){
-		return sysResourceService.find();
+	public @ResponseBody List<ZTree> data(){
+		List<SysResource> sysResourceList = sysResourceService.find();
+		return convertToZTree(sysResourceList);
 	}
 	
 	/**
@@ -128,8 +130,9 @@ public class SysResourceController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:resource:view"})
 	@RequestMapping(value = "/validData", method = {RequestMethod.POST})
-	public @ResponseBody List<SysResource> validData(){
-		return sysResourceService.findValid();
+	public @ResponseBody List<ZTree> validData(){
+		List<SysResource> sysResourceList = sysResourceService.findValid();
+		return convertToZTree(sysResourceList);
 	}
 
 	/**
