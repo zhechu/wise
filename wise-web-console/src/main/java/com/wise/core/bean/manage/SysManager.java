@@ -11,6 +11,11 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wise.common.utils.excel.annotation.ExcelField;
+import com.wise.common.utils.excel.fieldtype.RoleListType;
+import com.wise.common.utils.excel.fieldtype.SysManagerType;
+import com.wise.common.utils.excel.fieldtype.SysOrgType;
 import com.wise.core.bean.BaseBean;
 import com.wise.core.config.DictMeta;
 import com.wise.core.config.Global;
@@ -26,12 +31,14 @@ public class SysManager extends BaseBean<SysManager> {
      * 用户名
      */
     @Length(min=2, max=50, message="{sys.manager.userName.length}")
+	@ExcelField(title="用户名", align=Global.ALIGN_LEFT, sort=30)
     private String userName;
 
     /**
      * 姓名
      */
     @Length(min=2, max=50, message="{sys.manager.name.length}")
+	@ExcelField(title="姓名", align=Global.ALIGN_LEFT, sort=40)
     private String name;
 
     /**
@@ -44,16 +51,19 @@ public class SysManager extends BaseBean<SysManager> {
      * 电话
      */
     @Pattern(regexp="^((\\+\\d+)?1[3458]\\d{9})|((\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8})$", message="{sys.manager.phone.pattern}")
+	@ExcelField(title="电话", align=Global.ALIGN_LEFT, sort=60)
     private String phone;
 
     /**
      * 加密盐
      */
+    @JsonIgnore
     private String salt;
 
     /**
      * 用户密码
      */
+    @JsonIgnore
     private String pwd;
 
     /**
@@ -66,11 +76,13 @@ public class SysManager extends BaseBean<SysManager> {
      * 账号邮箱
      */
     @Email(message="{sys.manager.email.email}")
+	@ExcelField(title="邮箱", align=Global.ALIGN_LEFT, sort=70)
     private String email;
 
     /**
      * 注册ip
      */
+    @ExcelField(title="注册IP", align=Global.ALIGN_CENTER, sort=100)
     private String registIp;
 
     /**
@@ -81,11 +93,13 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 创建者
      */
+    @ExcelField(title="创建人", align=Global.ALIGN_LEFT, sort=110, fieldType=SysManagerType.class)
     private SysManager creator;
 
     /**
      * 创建时间
      */
+    @ExcelField(title="创建时间", type=0, align=Global.ALIGN_CENTER, sort=120)
     private Date createdAt;
 
     /**
@@ -102,17 +116,20 @@ public class SysManager extends BaseBean<SysManager> {
      * 公司
      */
     @NotNull(message="{sys.manager.company.notnull}")
+    @ExcelField(title="归属公司", align=Global.ALIGN_LEFT, sort=10, fieldType=SysOrgType.class)
     private SysOrg company;
 
     /**
      * 部门
      */
     @NotNull(message="{sys.manager.dept.notnull}")
+	@ExcelField(title="归属部门", align=Global.ALIGN_LEFT, sort=20, fieldType=SysOrgType.class)
     private SysOrg dept;
 
     /**
      * 角色列表（附加属性）
      */
+    @ExcelField(title="角色", align=Global.ALIGN_LEFT, sort=80, fieldType=RoleListType.class)
     private List<SysRole> sysRoleList = new ArrayList<SysRole>(0);
     
     public String getUserName() {
@@ -255,6 +272,7 @@ public class SysManager extends BaseBean<SysManager> {
      * 性别字符串（附加属性）
      * @return
      */
+	@ExcelField(title="性别", align=Global.ALIGN_CENTER, sort=50)
     public String getSexName() {
         return DictUtils.getDictLabel(String.valueOf(sex), DictMeta.SEX, String.valueOf(Global.NORMAL));
     }
@@ -263,8 +281,14 @@ public class SysManager extends BaseBean<SysManager> {
      * 状态字符串（附加属性）
      * @return
      */
+	@ExcelField(title="状态", align=Global.ALIGN_CENTER, sort=90)
     public String getStatusName() {
     	return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_MANAGER_STATUS, String.valueOf(Global.NORMAL));
     }
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }

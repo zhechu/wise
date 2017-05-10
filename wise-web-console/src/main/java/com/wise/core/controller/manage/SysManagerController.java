@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,7 @@ import com.wise.common.utils.FileUtils;
 import com.wise.common.utils.IdUtils;
 import com.wise.common.utils.ImgUtils;
 import com.wise.common.utils.SecureUtil;
+import com.wise.common.utils.excel.ExportExcel;
 import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.config.Global;
@@ -104,7 +107,7 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:add", "sys:manager:update"})
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@Valid SysManager sysManager, BindingResult br, Integer[] roleIds, String picImg){
+	public @ResponseBody ResponseModel save(@Valid SysManager sysManager, BindingResult br, Integer[] roleIds, String picImg, HttpServletRequest request){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));
@@ -225,6 +228,26 @@ public class SysManagerController extends BaseController {
 	}
 	
 	/**
+	 * 导出用户列表数据
+	 * @param sortName 排序字段
+	 * @param sortOrder 排序方式
+	 * @param sysManagerParam
+	 * @return
+	 */
+	@RequestMapping(value = "/export", method = {RequestMethod.POST})
+	public String export(String sortName, String sortOrder, SysManagerParam sysManagerParam, HttpServletResponse response){
+		try {
+			String fileName = IdUtils.uuid()+".xlsx";
+			List<SysManager> sysManagerList = sysManagerService.find(sortName, sortOrder, sysManagerParam);
+			new ExportExcel("用户数据", SysManager.class).setDataList(sysManagerList).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "redirect:/sysManager/list";
+	}
+	
+	/**
 	 * 进入修改密码页
 	 * @return
 	 */
@@ -288,7 +311,7 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"user"})
 	@RequestMapping(value = "/info", method = {RequestMethod.POST})
-	public @ResponseBody ResponseModel save(@Valid UserInfo userInfo, BindingResult br, String picImg){
+	public @ResponseBody ResponseModel save(@Valid UserInfo userInfo, BindingResult br, String picImg, HttpServletRequest request){
 		ResponseModel rm = new ResponseModel();
 		if(br.hasErrors()){ // 后台验证
 			rm.msgFailed(convertToMessage(br.getFieldErrors()));

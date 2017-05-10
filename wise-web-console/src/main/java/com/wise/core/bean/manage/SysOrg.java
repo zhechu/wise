@@ -165,5 +165,8 @@ public class SysOrg extends TreeBean<SysOrg> {
     public String getGradeName() {
     	return DictUtils.getDictLabel(String.valueOf(grade), DictMeta.SYS_ORG_GRADE, String.valueOf(Global.NORMAL));
     }
-
+    
+    public String toString() {
+		return name;
+	}
 }

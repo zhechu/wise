@@ -45,4 +45,12 @@ public class Global {
 	 * 默认表的别名
 	 */
 	public static final String DEFAULT_TABLE_ALIAS = "a" + ".";
+	
+	/**
+	 * Excel 单元格水平对齐方式
+	 */
+	public final static short ALIGN_GENERAL = 0;
+    public final static short ALIGN_LEFT = 1;
+    public final static short ALIGN_CENTER = 2;
+    public final static short ALIGN_RIGHT = 3;
 }

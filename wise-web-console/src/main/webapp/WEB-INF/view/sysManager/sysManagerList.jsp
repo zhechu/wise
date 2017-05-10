@@ -180,6 +180,8 @@
 										        <shiro:hasPermission name="sys:manager:delete">
 										        	<a id="delBtn" href="javascript:;" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</a>
 										        </shiro:hasPermission>
+									        	<a id="exportBtn" href="javascript:;" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-export"></i>&nbsp;&nbsp;导出</a>
+									        	<a id="importBtn" href="javascript:;" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-import"></i>&nbsp;&nbsp;导入</a>
 										    </div>
 										    <table id="managerTable" class="table table-hover">
 										

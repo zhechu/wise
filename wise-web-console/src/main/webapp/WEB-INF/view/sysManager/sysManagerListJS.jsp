@@ -116,12 +116,16 @@ $(document).ready(function () {
 	
     
 	// 请求参数
+	var sortName = null;
+	var sortOrder = null;
 	function queryParams(params) {
+		sortName = params.sortName;
+		sortOrder = params.sortOrder;
 		return {
 			pageSize: params.pageSize,   //页面大小
 			pageNum: params.pageNumber,  //页码
-			sortName: params.sortName,
-			sortOrder: params.sortOrder,
+			sortName: sortName,
+			sortOrder: sortOrder,
 			orgId: orgId, // 组织机构主键
 			userName: $.trim($("#userName").val()),
 			name: $.trim($("#name").val()),
@@ -309,6 +313,89 @@ $(document).ready(function () {
 	    			}
 	    		}
 	    	});
+    		top.layer.close(index);
+    	});
+    });
+    
+    // 动态创建表单
+    function makeForm(options) {
+    	if (!options) {
+    		return null;
+    	}
+    	// 创建一个 form  
+	    var form = document.createElement("form");  
+	    form.id = options.id;  
+	    form.name = options.name;  
+	    form.method = options.method;
+	    form.action = options.action;
+	    // 添加到 body 中  
+	    document.body.appendChild(form);  
+	  
+	    // 创建输入 框
+	    $.each(options.inputs, function(i, n){
+	    	var input = document.createElement("input");  
+		    input.type = n.type;  
+		    input.name = n.name;  
+		    input.value = n.value;  
+		    form.appendChild(input);
+		});
+	    return form;
+    }
+    
+    // 导出
+    $("#exportBtn").on("click", function() {
+    	top.layer.confirm('确定要导出吗', {icon: 3, title:'提示'}, function(index){
+    		var form = makeForm({
+        		id: "exportForm",
+        		name: "exportForm",
+        		method: "POST",
+        		action: "${ctx}/sysManager/export",
+        		inputs: [{
+        			type: "text",
+        			name: "sortName",
+        			value: sortName
+        		},{
+        			type: "text",
+        			name: "sortOrder",
+        			value: sortOrder
+        		},{
+        			type: "text",
+        			name: "orgId",
+        			value: orgId
+        		},{
+        			type: "text",
+        			name: "userName",
+        			value: $.trim($("#userName").val())
+        		},{
+        			type: "text",
+        			name: "name",
+        			value: $.trim($("#name").val())
+        		},{
+        			type: "text",
+        			name: "email",
+        			value: $.trim($("#email").val())
+        		},{
+        			type: "text",
+        			name: "sysRoleId",
+        			value: $("#sysRoleId").val()
+        		},{
+        			type: "text",
+        			name: "status",
+        			value: $("#status").val()
+        		},{
+        			type: "text",
+        			name: "createdAtStart",
+        			value: $("#createdAtStart").val()
+        		},{
+        			type: "text",
+        			name: "createdAtEnd",
+        			value: $("#createdAtEnd").val()
+        		}]
+        	});
+    	    // 提交  
+    	    form.submit();  
+    	    // 删除
+    	    document.body.removeChild(form);
     		top.layer.close(index);
     	});
     });

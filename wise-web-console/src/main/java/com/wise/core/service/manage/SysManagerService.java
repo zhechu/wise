@@ -1,5 +1,7 @@
 package com.wise.core.service.manage;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.wise.common.exception.service.DataNotAllowUpdateException;
 import com.wise.common.exception.service.DataNotExistedException;
@@ -25,6 +27,15 @@ public interface SysManagerService extends BaseService<SysManager> {
 	 * @return
 	 */
 	PageInfo<SysManager> findPage(PageParam pageParam, SysManagerParam sysManagerParam);
+	
+	/**
+	 * 模糊查询
+	 * @param sortName 排序字段
+	 * @param sortOrder 排序方式
+	 * @param sysManagerParam 用户参数
+	 * @return
+	 */
+	List<SysManager> find(String sortName, String sortOrder, SysManagerParam sysManagerParam);
 
 	/**
 	 * 用户登录

@@ -69,6 +69,8 @@
 		<javax.servlet-jsp.version>2.0</javax.servlet-jsp.version>
 		<cglib.version>2.2.2</cglib.version>
 		<slf4j-api.version>1.6.6</slf4j-api.version>
+		<poi.version>3.9</poi.version>
+		<guava.version>17.0</guava.version>
 		<project.build.sourceEncoding>UIF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -375,6 +377,27 @@
 				<version>7.0.47</version>
 				<scope>provided</scope>
 			</dependency>
+			
+			<!-- poi begin -->
+			<dependency>
+			    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi</artifactId>
+			    <version>${poi.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi-ooxml</artifactId>
+			    <version>${poi.version}</version>
+			</dependency>
+			<!-- poi end -->
+			
+			<!-- guava begin -->
+			<dependency>
+			    <groupId>com.google.guava</groupId>
+			    <artifactId>guava</artifactId>
+			    <version>${guava.version}</version>
+			</dependency>
+			<!-- guava end -->
 		</dependencies>
 	</dependencyManagement>
 

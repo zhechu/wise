@@ -171,4 +171,14 @@ public class SysManagerServiceImpl extends BaseServiceImpl<SysManagerDao, SysMan
 		dao.updateByPrimaryKeySelective(sysManager);
 	}
 
+	@Override
+	public List<SysManager> find(String sortName, String sortOrder, SysManagerParam sysManagerParam) {
+		PageParam pageParam = new PageParam();
+		pageParam.setSortName(sortName);
+		pageParam.setSortOrder(sortOrder);
+		PageHelper.startPage(pageParam.getPageNum(), 0); // 去掉分页
+		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
+        return dao.select(sysManagerParam);
+	}
+
 }

@@ -7,14 +7,13 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.pagehelper.PageInfo;
 import com.wise.BaseTest;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.core.bean.manage.SysManager;
-import com.wise.core.bean.manage.SysOrg;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.config.Global;
 import com.wise.core.dto.PageParam;
+import com.wise.core.dto.SysManagerParam;
 
 public class TestSysManagerService extends BaseTest {
 
@@ -98,6 +97,17 @@ public class TestSysManagerService extends BaseTest {
 	}
 	
 	@Test
+	public void find() {
+		SysManagerParam sysManagerParam = new SysManagerParam();
+		sysManagerParam.setOrgId(38);
+		List<SysManager> sysManagerList = sysManagerService.find(null, null, sysManagerParam);
+		for (SysManager sysManager : sysManagerList) {
+			System.out.println(sysManager);
+		}
+		System.out.println("size: "+sysManagerList.size());
+	}
+	
+	@Test
 	public void findPage() {
 		String userName = null;
 		Integer status = null;
@@ -107,12 +117,12 @@ public class TestSysManagerService extends BaseTest {
 		Date createdAtStart = null;
 		Date createdAtEnd = null;
 		PageParam pageParam = new PageParam();
-		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, 0, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
+		/*PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, 0, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
 		for (SysManager sysManager : pageInfo.getList()) {
 			System.out.println(sysManager);
 		}
 		System.out.println("size: "+pageInfo.getList().size());
-		System.out.println("total: "+pageInfo.getTotal());
+		System.out.println("total: "+pageInfo.getTotal());*/
 	}
 	
 }
