@@ -290,6 +290,7 @@
 		left join t_sys_role_manager f on a.id = f.managerId
 		left join t_sys_role g on f.roleId = g.id
 		<where>
+			(a.companyId = #{orgId,jdbcType=INTEGER} or a.deptId = #{orgId,jdbcType=INTEGER})
 			<if test="userName != null and userName != ''">
 				and a.userName like CONCAT(CONCAT('%', #{userName,jdbcType=VARCHAR}), '%')
 			</if>

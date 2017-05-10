@@ -107,7 +107,7 @@ public class TestSysManagerService extends BaseTest {
 		Date createdAtStart = null;
 		Date createdAtEnd = null;
 		PageParam pageParam = new PageParam();
-		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
+		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, 0, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
 		for (SysManager sysManager : pageInfo.getList()) {
 			System.out.println(sysManager);
 		}

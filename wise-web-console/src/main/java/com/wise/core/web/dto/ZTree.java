@@ -1,17 +1,24 @@
 package com.wise.core.web.dto;
 
+import java.io.Serializable;
+
 /**
  * 树结构 传输对象
  * @author lingyuwang
  *
  */
-public class ZTree {
+public class ZTree implements Serializable {
 
-	private Integer parentId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3013603528949047982L;
+
+	protected Integer parentId;
 	
-	private Integer id;
+	protected Integer id;
 	
-	private String name;
+	protected String name;
 
 	public ZTree(Integer parentId, Integer id, String name) {
 		super();

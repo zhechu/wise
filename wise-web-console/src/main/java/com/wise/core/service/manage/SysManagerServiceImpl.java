@@ -1,6 +1,5 @@
 package com.wise.core.service.manage;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import com.wise.core.bean.manage.SysRoleManager;
 import com.wise.core.dao.manage.SysManagerDao;
 import com.wise.core.dao.manage.SysRoleManagerDao;
 import com.wise.core.dto.PageParam;
+import com.wise.core.dto.SysManagerParam;
 import com.wise.core.service.BaseServiceImpl;
 
 import tk.mybatis.orderbyhelper.OrderByHelper;
@@ -112,11 +112,10 @@ public class SysManagerServiceImpl extends BaseServiceImpl<SysManagerDao, SysMan
 	}
 
 	@Override
-	public PageInfo<SysManager> findPage(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name,
-			Date createdAtStart, Date createdAtEnd) {
+	public PageInfo<SysManager> findPage(PageParam pageParam, SysManagerParam sysManagerParam) {
 		PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
 		OrderByHelper.orderBy(pageParam.getOrderBy("createdAt", "desc"));
-        List<SysManager> list = dao.select(userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
+        List<SysManager> list = dao.select(sysManagerParam);
 		return new PageInfo<SysManager>(list);
 	}
 

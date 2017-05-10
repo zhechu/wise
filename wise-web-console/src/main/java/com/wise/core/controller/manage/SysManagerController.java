@@ -33,6 +33,7 @@ import com.wise.core.bean.manage.SysRole;
 import com.wise.core.config.Global;
 import com.wise.core.controller.BaseController;
 import com.wise.core.dto.PageParam;
+import com.wise.core.dto.SysManagerParam;
 import com.wise.core.service.UploadService;
 import com.wise.core.service.manage.SysManagerService;
 import com.wise.core.service.manage.SysRoleService;
@@ -213,14 +214,13 @@ public class SysManagerController extends BaseController {
 	/**
 	 * 返回用户列表数据
 	 * @param pageParam 分页参数
-	 * @param type 字典类型
-	 * @param status 状态
+	 * @param sysManagerParam 用户参数
 	 * @return
 	 */
 	@RequiresPermissions({"sys:manager:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.POST})
-	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, String userName, Integer status, String email, Integer sysRoleId, String name, Date createdAtStart, Date createdAtEnd){
-		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, userName, status, email, sysRoleId, name, createdAtStart, createdAtEnd);
+	public @ResponseBody BootstrapTableResponse list(PageParam pageParam, SysManagerParam sysManagerParam){
+		PageInfo<SysManager> pageInfo = sysManagerService.findPage(pageParam, sysManagerParam);
 		return new BootstrapTableResponse(pageInfo.getList(), pageInfo.getTotal());
 	}
 	

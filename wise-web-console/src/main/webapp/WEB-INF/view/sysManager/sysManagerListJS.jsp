@@ -3,6 +3,118 @@
 
 <script>
 $(document).ready(function () {
+	// 组织机构主键
+	var orgId = 0;
+	
+	// 组织机构树
+	var setting = {
+        view: {
+            dblClickExpand: false,
+            showLine: true,
+            selectedMulti: false
+        },
+        data: {
+        	key: {
+            	url: ""
+            },
+        	simpleData: {
+                enable:true,
+                idKey: "id",
+                pIdKey: "parentId",
+                rootPId: ""
+            }
+        },
+        callback: {
+        	beforeClick: function(treeId, treeNode) {
+        		// 清除所有节点选中样式
+        		var treeObj = $.fn.zTree.getZTreeObj("tree");
+        		var nodes = treeObj.transformToArray(treeObj.getNodes());
+        		$.each(nodes, function(i, n){
+        			$("#"+n.tId+"_a").removeClass("curSelectedNode");
+      			});
+        	},
+        	onClick: function(event, treeId, treeNode) {
+        		orgId = treeNode.id;
+        		// 刷新用户表
+        		$('#managerTable').bootstrapTable('refresh');
+            }
+        }
+    };
+	// 刷新树
+	function initTree(callback) {
+		$.post("${ctx }/sysOrg/validData", {}, function(data){
+			$.fn.zTree.init($('#tree'), setting, data);
+			var treeObj = $.fn.zTree.getZTreeObj("tree");
+			// 展开所有节点
+	        //treeObj.expandAll(true);
+			// 展开根节点
+			var nodes = treeObj.getNodes();
+			$.each(nodes, function(i, node){
+				treeObj.expandNode(node, true);
+	    	});
+			// 执行回调函数
+			if (callback) {
+				callback();
+			}
+		});
+	}
+	function initTreeCallback() {
+		// 默认选中第一个根节点
+		var treeObj = $.fn.zTree.getZTreeObj("tree");
+		var nodes = treeObj.getNodes();
+		if (nodes != null && nodes.length > 0) {
+			// 模拟点击第一个根节点
+			$("#"+nodes[0].tId+"_a").trigger("click");
+		}
+	}
+	initTree(initTreeCallback);
+	
+	// 刷新树和表格
+	function initTreeAndTable(nodeId){
+		initTree();
+		// 选中某个节点
+		if (!nodeId || nodeId==0) {
+			orgId = 0;
+			$('#managerTable').bootstrapTable('refresh');
+		} else {
+			// 模拟点击树节点
+			var treeObj = $.fn.zTree.getZTreeObj("tree");
+			var parentNode = treeObj.getNodeByParam("id", nodeId);
+	        $("#"+parentNode.tId+"_a").click();
+	        // 当前节点样式
+	        window.setTimeout(function () {
+		        $("#"+parentNode.tId+"_a").addClass("curSelectedNode");
+	        }, 200);
+		}
+	}
+	
+	// 刷新按钮事件
+	$("#refreshBtn").on("click", function() {
+		initTreeAndTable(orgId);
+	});
+	
+	// 初始化高度
+    var doc_height = $(document.body).height();
+	var panel_height = doc_height - 20;
+	$("#left").height(panel_height);
+	$("#left .ibox-content").height($("#left").height()-80);
+	$("#right").height(panel_height);
+    
+    var toggle_count = 0;
+    $(".one").hide();
+    $(".press").on("click", function(){
+        $("#left").toggleClass("collapse");
+        if (++toggle_count % 2 == 1) { // 折叠
+        	$(".one").show();
+            $(".two").hide();
+        } else { // 展开
+        	$(".one").hide();
+            $(".two").show();
+        }
+        $("#right").toggleClass("col-sm-12 col-sm-10");
+    });
+	
+    
 	// 请求参数
 	function queryParams(params) {
 		return {
@@ -10,6 +122,7 @@ $(document).ready(function () {
 			pageNum: params.pageNumber,  //页码
 			sortName: params.sortName,
 			sortOrder: params.sortOrder,
+			orgId: orgId, // 组织机构主键
 			userName: $.trim($("#userName").val()),
 			name: $.trim($("#name").val()),
 			email: $.trim($("#email").val()),
