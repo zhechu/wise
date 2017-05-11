@@ -181,4 +181,32 @@ public class SysManagerServiceImpl extends BaseServiceImpl<SysManagerDao, SysMan
         return dao.select(sysManagerParam);
 	}
 
+	@Transactional
+	@Override
+	public void createBatch(List<SysManager> sysManagerList) throws ValueConflictException, DataNotExistedException {
+		for (SysManager sysManager : sysManagerList) {
+			SysManager sysManagerSource = dao.selectByUserName(sysManager.getUserName());
+			if (sysManagerSource != null) {
+				// 手动回滚
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				throw new ValueConflictException("用户已存在，用户名不能重复");
+			}
+			// 密码加盐
+			String salt = SecureUtil.generateSalt();
+			String pwd = SecureUtil.encryptByMd5(sysManager.getPwd(), salt);
+			sysManager.setSalt(salt);
+			sysManager.setPwd(pwd);
+			dao.insertSelective(sysManager);
+			
+			// 添加用户角色
+			List<SysRole> sysRoleList = sysManager.getSysRoleList();
+			for (SysRole sysRole : sysRoleList) {
+				SysRoleManager sysRoleManager = new SysRoleManager();
+				sysRoleManager.setManagerId(sysManager.getId());
+				sysRoleManager.setRoleId(sysRole.getId());
+				sysRoleManagerDao.insertSelective(sysRoleManager);
+			}
+		}
+	}
+
 }

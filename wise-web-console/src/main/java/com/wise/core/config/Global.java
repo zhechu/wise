@@ -53,4 +53,16 @@ public class Global {
     public final static short ALIGN_LEFT = 1;
     public final static short ALIGN_CENTER = 2;
     public final static short ALIGN_RIGHT = 3;
+    
+    /**
+     * Excel 扩展名
+     */
+    public final static String EXCEL_EXT = ".xlsx";
+    
+    /**
+     * Excel 操作类型（0：导出导入；1：仅导出；2：仅导入）
+     */
+    public final static short EXCEL_EXPORT_IMPORT = 0;
+    public final static short EXCEL_EXPORT = 1;
+    public final static short EXCEL_IMPORT = 2;
 }

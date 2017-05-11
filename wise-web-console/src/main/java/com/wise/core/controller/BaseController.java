@@ -45,6 +45,12 @@ public abstract class BaseController {
 	protected String tempFileDirectory;
 	
 	/**
+	 * 文件大小上限
+	 */
+	@Value("${file.max.sise}")
+	protected Integer fileMaxSize;
+	
+	/**
 	 * 转换验证错误信息
 	 * @param fieldErrorList
 	 * @return

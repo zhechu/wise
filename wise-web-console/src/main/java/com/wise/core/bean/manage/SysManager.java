@@ -45,6 +45,7 @@ public class SysManager extends BaseBean<SysManager> {
      * 性别（0-女，1-男）
      */
     @Min(value=0, message="{sys.manager.sex.min}")
+	@ExcelField(title="性别", align=Global.ALIGN_CENTER, sort=50, dictType=DictMeta.SEX)
     private Integer sex;
 
     /**
@@ -70,6 +71,7 @@ public class SysManager extends BaseBean<SysManager> {
      * 账号状态（0-禁用，1-启用）
      */
     @Min(value=0, message="{sys.manager.status.min}")
+	@ExcelField(title="状态", align=Global.ALIGN_CENTER, sort=90, dictType=DictMeta.SYS_MANAGER_STATUS)
     private Integer status;
 
     /**
@@ -82,7 +84,7 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 注册ip
      */
-    @ExcelField(title="注册IP", align=Global.ALIGN_CENTER, sort=100)
+    @ExcelField(title="注册IP", align=Global.ALIGN_CENTER, sort=100, type=Global.EXCEL_EXPORT)
     private String registIp;
 
     /**
@@ -93,13 +95,13 @@ public class SysManager extends BaseBean<SysManager> {
     /**
      * 创建者
      */
-    @ExcelField(title="创建人", align=Global.ALIGN_LEFT, sort=110, fieldType=SysManagerType.class)
+    @ExcelField(title="创建人", align=Global.ALIGN_LEFT, sort=110, fieldType=SysManagerType.class, type=Global.EXCEL_EXPORT)
     private SysManager creator;
 
     /**
      * 创建时间
      */
-    @ExcelField(title="创建时间", type=0, align=Global.ALIGN_CENTER, sort=120)
+    @ExcelField(title="创建时间", align=Global.ALIGN_CENTER, sort=120, type=Global.EXCEL_EXPORT)
     private Date createdAt;
 
     /**
@@ -272,7 +274,6 @@ public class SysManager extends BaseBean<SysManager> {
      * 性别字符串（附加属性）
      * @return
      */
-	@ExcelField(title="性别", align=Global.ALIGN_CENTER, sort=50)
     public String getSexName() {
         return DictUtils.getDictLabel(String.valueOf(sex), DictMeta.SEX, String.valueOf(Global.NORMAL));
     }
@@ -281,7 +282,6 @@ public class SysManager extends BaseBean<SysManager> {
      * 状态字符串（附加属性）
      * @return
      */
-	@ExcelField(title="状态", align=Global.ALIGN_CENTER, sort=90)
     public String getStatusName() {
     	return DictUtils.getDictLabel(String.valueOf(status), DictMeta.SYS_MANAGER_STATUS, String.valueOf(Global.NORMAL));
     }

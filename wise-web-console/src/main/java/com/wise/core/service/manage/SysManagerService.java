@@ -14,6 +14,14 @@ import com.wise.core.service.BaseService;
 public interface SysManagerService extends BaseService<SysManager> {
 
 	/**
+	 * 批量添加
+	 * @param sysManagerList 用户列表
+	 * @throws ValueConflictException
+	 * @throws DataNotExistedException
+	 */
+	void createBatch(List<SysManager> sysManagerList) throws ValueConflictException, DataNotExistedException;
+	
+	/**
 	 * 获取用户
 	 * @param userName 用户名
 	 * @return

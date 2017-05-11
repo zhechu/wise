@@ -4,7 +4,10 @@
 <%@ attribute name="defaultValue" type="java.lang.String" required="true" description="隐藏域默认值"%>
 <%@ attribute name="panelTitle" type="java.lang.String" required="true" description="面板title"%>
 
-<img id="${id }" class="img-circle" src="${defaultValue }" alt="" style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="点击选择"/>
+<div id="${id }Div" style="width:64px; height:64px; position:relative; cursor: pointer;">
+	<img id="${id }Shadow" src="${ctx }/res/img/pic_shadow.png" height="64" width="64" class="shadow" style="display: none; position:absolute;">
+	<img id="${id }" class="img-circle" src="${defaultValue }" alt=""/>
+</div>
 
 <!-- 选择器面板
 <div id="${id }Content" style="display:none;">
@@ -54,6 +57,8 @@ $(document).ready(function() {
 		var $sourceImg = $("#${id }SourceImg"); // 源图
 		var $picImg = $("#${id }"); // 裁剪后的图
 		var $upload = $("#${id }Upload"); // 上传按钮
+		var $picImgDiv = $("#${id }Div"); // 图片 div
+		var $picImgShadow = $("#${id }Shadow"); // 图片 shadow
 		
 		// 裁剪参数设置
 		var croppable = false;
@@ -76,14 +81,19 @@ $(document).ready(function() {
 				if (!$sourceImg.data('cropper')) return;
 				if (files && files.length) {
 					file = files[0];
-					if (/^image\/\w+$/.test(file.type)) {
-						var blobURL = URL.createObjectURL(file);
-						$sourceImg.one('built.cropper', function () {
-							URL.revokeObjectURL(blobURL);
-						}).cropper('reset').cropper('replace', blobURL);
-						$upload.val('');
+					// 验证图片大小，不能超过 5M（5242880KB）
+					if (file.size > 5242880) {
+						layer.alert('文件大小不能超过 5M');
 					} else {
-						layer.alert('请选择图片')
+						if (/^image\/\w+$/.test(file.type)) {
+							var blobURL = URL.createObjectURL(file);
+							$sourceImg.one('built.cropper', function () {
+								URL.revokeObjectURL(blobURL);
+							}).cropper('reset').cropper('replace', blobURL);
+							$upload.val('');
+						} else {
+							layer.alert('请选择图片');
+						}
 					}
 				}
 			});
@@ -91,9 +101,17 @@ $(document).ready(function() {
 			$upload.prop('disabled', true);
 		}
 		
+		// 鼠标悬停事件
+		$picImgDiv.on("mouseenter", function() {
+			$picImgShadow.show();
+		});
+		$picImgDiv.on("mouseleave", function() {
+			$picImgShadow.hide();
+		});
+		
 		// 鼠标选中头像事件
 		var panelLayer = null;
-		$picImg.on("click" , function() {
+		$picImgDiv.on("click", function() {
 			panelLayer = layer.open({
 				title: '头像',  
 				type: 1, 

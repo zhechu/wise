@@ -399,5 +399,60 @@ $(document).ready(function () {
     		top.layer.close(index);
     	});
     });
+    
+    // 导入表单验证
+    var importFileValidate = false;
+    var e = "<i class='fa fa-times-circle'></i> ";
+	$("#importForm").validate({
+		//debug : true, // 调试模式
+		rules : {
+			"importFile" : {
+				required: true,
+				filemaxsize: 5 * 1024 * 1024, // 5M
+			}
+		},
+		messages : {
+			"importFile" : {
+				required: e+"请选择上传文件",
+				filemaxsize: e+"文件大小不能超过 5M", // 5M
+			}
+		},
+		submitHandler : function(form) {
+			importFileValidate = true;
+			form.submit();
+			return false;
+		}
+	});
+    
+    // 导入
+    var panelLayer = null;
+    $("#importBtn").on("click", function() {
+    	panelLayer = layer.open({
+			title: '导入数据',  
+			type: 1, 
+			shade: 0,
+			content: $("#importContent"),
+			btn: ['确定', '下载模板', '取消'],
+			yes: function(index, layero){
+				// form 提交
+				$("#importForm").submit();
+				if (importFileValidate) { // 验证通过
+					// 清空表单
+					$("#importForm")[0].reset();
+					layer.close(panelLayer);
+				}
+			},
+			btn2: function(index, layero){
+				// 下载模板
+				window.location.href = "${ctx}/sysManager/import/template";
+				return false; // 不关闭
+			},
+			btn3: function(index, layero){
+				// 清空表单
+				$("#importForm")[0].reset();
+				layer.close(panelLayer);
+			}
+		});
+    });
 });
 </script>

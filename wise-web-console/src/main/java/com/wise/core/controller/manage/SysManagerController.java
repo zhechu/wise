@@ -9,19 +9,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.wise.common.exception.controller.ControllerException;
+import com.wise.common.exception.controller.FileOutOfSizeException;
 import com.wise.common.exception.controller.UploadFileException;
 import com.wise.common.exception.service.ServiceException;
 import com.wise.common.response.BootstrapTableResponse;
@@ -30,7 +34,9 @@ import com.wise.common.utils.FileUtils;
 import com.wise.common.utils.IdUtils;
 import com.wise.common.utils.ImgUtils;
 import com.wise.common.utils.SecureUtil;
+import com.wise.common.utils.StringUtils;
 import com.wise.common.utils.excel.ExportExcel;
+import com.wise.common.utils.excel.ImportExcel;
 import com.wise.core.bean.manage.SysManager;
 import com.wise.core.bean.manage.SysRole;
 import com.wise.core.config.Global;
@@ -69,7 +75,7 @@ public class SysManagerController extends BaseController {
 	 */
 	@RequiresPermissions({"sys:manager:view"})
 	@RequestMapping(value = "/list", method = {RequestMethod.GET})
-	public String list(Model model){
+	public String list(Model model, @ModelAttribute("rm") ResponseModel rm){
 		// 可用角色列表
 		List<SysRole> sysRoleList = sysRoleService.findValid();
 		model.addAttribute("sysRoleList", sysRoleList);
@@ -127,6 +133,11 @@ public class SysManagerController extends BaseController {
 				File file = ImgUtils.base64DataToImg(imgPart[1], tempFilePath);
 				if (file == null || !file.exists()) {
 					throw new UploadFileException("上传头像失败");
+				}
+				// 验证文件大小
+	    		if (file.length() > fileMaxSize) {
+	    			FileUtils.deleteFile(file);
+	    			throw new FileOutOfSizeException("文件大小不能超过 5M");
 				}
 				String picPath = uploadService.uploadPic(file, tempFileName);
 				portraitPic = storageServer + picPath;
@@ -237,7 +248,7 @@ public class SysManagerController extends BaseController {
 	@RequestMapping(value = "/export", method = {RequestMethod.POST})
 	public String export(String sortName, String sortOrder, SysManagerParam sysManagerParam, HttpServletResponse response){
 		try {
-			String fileName = IdUtils.uuid()+".xlsx";
+			String fileName = IdUtils.uuid() + Global.EXCEL_EXT;
 			List<SysManager> sysManagerList = sysManagerService.find(sortName, sortOrder, sysManagerParam);
 			new ExportExcel("用户数据", SysManager.class).setDataList(sysManagerList).write(response, fileName).dispose();
 			return null;
@@ -246,7 +257,66 @@ public class SysManagerController extends BaseController {
 		}
 		return "redirect:/sysManager/list";
 	}
-	
+
+	/**
+	 * 下载导入用户数据模板
+	 * @param response
+	 * @return
+	 */
+    @RequestMapping(value = "/import/template", method = {RequestMethod.GET})
+    public String importTemplate(HttpServletResponse response) {
+		try {
+            String fileName = IdUtils.uuid() + Global.EXCEL_EXT;;
+    		List<SysManager> list = Lists.newArrayList(); 
+    		list.add(sysManagerService.findById(UserUtils.getLoginUser().getId()));
+    		new ExportExcel("用户数据", SysManager.class, Global.EXCEL_IMPORT).setDataList(list).write(response, fileName).dispose();
+    		return null;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "redirect:/sysManager/list";
+    }
+
+    /**
+     * 导入数据
+     * @param file
+     * @return
+     */
+    @RequestMapping(value = "/import", method=RequestMethod.POST)
+    public String importFile(@RequestParam(value = "importFile", required = true) MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    	ResponseModel rm = new ResponseModel(); // 返回提示信息
+    	try {
+			// 验证文件大小
+    		if (file.getSize() > fileMaxSize) {
+				throw new FileOutOfSizeException("文件大小不能超过 5M");
+			}
+			ImportExcel ei = new ImportExcel(file, 1, 0);
+			List<SysManager> list = ei.getDataList(SysManager.class);
+			// 加上 创建人、创建时间、注册IP、默认密码 数据
+			SysManager operator = new SysManager();
+			operator.setId(UserUtils.getLoginUser().getId());
+			for (SysManager sysManager : list) {
+				sysManager.setPwd(Global.DEFAULT_PWD);
+				sysManager.setRegistIp(getClientIP(request)); // ip
+				sysManager.setCreator(operator);
+				sysManager.setCreatedAt(new Date()); // 创建时间
+			}
+			sysManagerService.createBatch(list);
+			rm.msgSuccess("导入数据成功");
+		} catch (ServiceException e) {
+			rm.msgFailed(e.getMessage());
+			logger.error(e.getMessage(), e);
+		} catch (ControllerException e) {
+			rm.msgFailed(e.getMessage());
+			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			rm.msgFailed(e.getMessage());
+			logger.error(e.getMessage(), e);
+		}
+    	redirectAttributes.addFlashAttribute("rm", rm);
+		return "redirect:/sysManager/list";
+    }
+    
 	/**
 	 * 进入修改密码页
 	 * @return

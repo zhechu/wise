@@ -196,7 +196,34 @@
 	        </div>
 	    </div>
 	</div>
-
+<!-- 回显提示信息 -->
+<c:if test="${ ! empty rm and rm.msg != null and rm.msg != '' }">
+	<c:choose>
+		<c:when test="${rm.success }">
+			<script type="text/javascript">
+				$("#msg-box").addMsgBox('success', "${rm.msg}");
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script type="text/javascript">
+				$("#msg-box").addMsgBox('warning', "${rm.msg}");
+			</script>
+		</c:otherwise>
+	</c:choose>
+</c:if>	
+<!-- 导入面板 -->
+<div id="importContent" style="display:none;">
+	<div class="ibox float-e-margins">
+        <div class="ibox-content" style="width:260px; height:120px; overflow:auto;">
+        	<form id="importForm" role="form" class="form-horizontal" style="padding:5px;" action="${ctx}/sysManager/import" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<input type="file" class="form-control" name="importFile" id="importFile" accept=".XLS,.xlsx">
+					<span class="help-block m-b-none"><spring:message code="sys.manager.export.hint" /></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="${ctx }/res/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="${ctx }/res/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="${ctx }/res/js/content.min.js?v=1.0.0"></script>
