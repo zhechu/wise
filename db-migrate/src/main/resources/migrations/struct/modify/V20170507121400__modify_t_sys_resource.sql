@@ -1,0 +1,1 @@
+alter table `t_sys_resource` add column `parentIds` varchar(1000) NOT NULL COMMENT '所有父级编号';

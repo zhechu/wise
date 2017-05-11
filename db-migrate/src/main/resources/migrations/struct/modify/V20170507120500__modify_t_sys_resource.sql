@@ -1,0 +1,1 @@
+alter table `t_sys_resource` change `description` `remarks` varchar(255) DEFAULT '' COMMENT '备注';

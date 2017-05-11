@@ -1,0 +1,1 @@
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('机构级别', 'sys_org_grade');

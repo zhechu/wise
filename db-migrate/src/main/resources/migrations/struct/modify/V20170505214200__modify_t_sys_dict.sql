@@ -1,0 +1,1 @@
+alter table `t_sys_dict` drop column `parentId`;

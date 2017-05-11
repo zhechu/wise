@@ -1,0 +1,9 @@
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('区域类型', 'sys_area_type');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('字典状态', 'sys_dict_status');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('机构类型', 'sys_org_type');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('机构状态', 'sys_org_status');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('资源类型', 'sys_resource_type');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('资源状态', 'sys_resource_status');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('角色状态', 'sys_role_type');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('用户状态', 'sys_manager_status');
+INSERT INTO `t_sys_dict_meta` (`name`, `code`) VALUES ('性别', 'sex');

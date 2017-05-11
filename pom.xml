@@ -403,5 +403,7 @@
 
   <modules>
     <module>wise-web-console</module>
+    <module>db-migrate</module>
+    <module>generator-sqlmap</module>
   </modules>
 </project>
